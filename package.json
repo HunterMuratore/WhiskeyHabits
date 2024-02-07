@@ -1,0 +1,22 @@
+{
+  "name": "whiskeyhunt",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/HunterMuratore/WhiskeyHunt.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/HunterMuratore/WhiskeyHunt/issues"
+  },
+  "homepage": "https://github.com/HunterMuratore/WhiskeyHunt#readme",
+  "dependencies": {
+    "concurrently": "^8.2.2"
+  }
+}
