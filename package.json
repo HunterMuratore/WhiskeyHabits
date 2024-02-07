@@ -4,14 +4,22 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev:client": "cd ./client && npm run dev",
+    "dev:server": "cd ./server && npm run start:dev",
+    "dev": "concurrently \"npm run dev:client\" \"npm run dev:server\"",
+    "build": "cd ./client && NODE_ENV=development npm install --only=dev && npm run build",
+    "install:client": "cd ./client && npm i",
+    "install:server": "cd ./server && npm i",
+    "install": "npm run install:client && npm run install:server",
+    "seed": "cd server && npm run seed",
+    "start": "cd ./server && npm start"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/HunterMuratore/WhiskeyHunt.git"
   },
   "author": "",
-  "license": "ISC",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/HunterMuratore/WhiskeyHunt/issues"
   },
