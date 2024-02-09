@@ -9,7 +9,7 @@ const { expressMiddleware } = require('@apollo/server/express4');
 const app = express();
 
 // Set up environment variables and constants
-const PORT = process.env.PORT || 3333;
+const PORT = process.env.PORT || 3001;
 const is_prod = process.env.NODE_ENV === 'production';
 
 require('dotenv').config();

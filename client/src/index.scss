@@ -1,0 +1,115 @@
+@import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
+
+/* VARIABLES */
+$theme-dark: #b6752b;
+$theme-light: #e49c49;
+$theme-accent: #5b4832;
+$theme-text: #000000;
+$main-padding: 0 5%;
+
+/* RESETS */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    line-height: 1.4;
+    font-family: sans-serif;
+}
+
+html,
+body,
+#root {
+    height: 100vh;
+}
+
+/* GLOBAL CLASSES */
+#root {
+    display: flex;
+    flex-direction: column;
+    color: $theme-text;
+}
+
+main {
+    flex: 1;
+    padding: 0 2%;
+}
+
+section {
+    padding: $main-padding;
+}
+
+a {
+    text-decoration: none;
+    color: $theme-text;
+}
+
+.my-btn,
+.my-btn:active,
+.my-btn:focus,
+.my-btn.focus {
+  background-color: darken($theme-light, 10%) !important;
+  transition: background-color 0.2s ease-in-out;
+  border: none;
+  border-radius: 6px;
+  padding: 5px;
+  color: $theme-text;
+
+  &:hover,
+  &.open {
+    background-color: darken($theme-light, 15%) !important;
+    color: $theme-text;
+  }
+
+  +.dropdown-menu a:hover {
+    background-color: darken($theme-light, 10%) !important;
+    color: $theme-text;
+  }
+}
+
+/* CUSTOM CLASSES */
+header {
+    background-color: $theme-dark;
+
+    .logo {
+        height: 30px;
+    }
+
+    nav {
+        a {
+            text-decoration: none;
+
+            &.active,
+            &.hover {
+                text-decoration: underline;
+            }
+
+            &:not(:last-child) {
+                margin-right: 10px;
+            }
+        }
+
+        .username {
+            color: $theme-text;
+        }
+
+        .username,
+        .slash {
+            margin-right: 10px;
+        }
+
+        p {
+            margin: 0 15px 0 0;
+
+            span {
+                color: $theme-accent;
+            }
+        }
+    }
+}
+
+form {
+    max-width: 450px;
+    margin: 0 auto;
+}
