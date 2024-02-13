@@ -1,9 +1,14 @@
-import {useNavigate} from 'react-router-dom'
+import { useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
 
-function Protect ({user, children}) {
+function Protect ({ user, children }) {
     const navigate = useNavigate()
 
-    if (!user) return navigate('/login')
+    useEffect(() => {
+        if (!user) {
+            navigate('/login')
+        }
+    }, [user, navigate])
 
     return children
 }

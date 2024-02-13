@@ -1,4 +1,5 @@
 import { useStore } from "../store"
+import { useEffect } from 'react'
 import { useQuery } from '@apollo/client'
 import { AUTHENTICATE } from '../utils/queries'
 import { useNavigate } from "react-router-dom"
@@ -8,25 +9,21 @@ function Profile() {
     const { loading, error, data } = useQuery(AUTHENTICATE)
     const navigate = useNavigate()
 
-    useEffect(() => {
-        if (data) {
-            // Update the global state with user data
-            setState({ user: data.authenticate })
-        }
-    }, [data, setState])
+    console.log(user)
 
-    function toLogin() {
-        navigate('/login')
-    }
+    useEffect(() => {
+        // Redirect to login page if user is not logged in
+        if (!user) {
+            navigate('/login')
+        }
+    }, [user, navigate])
 
     return (
-        <>
-            {!user ? toLogin() : (
-                <section className="profile mt-10">
-                    <h1 className="font-bold mt-4 mb-4 text-center">{user.username}'s Profile</h1>
-                </section>
+        <section className="profile mt-10">
+            {user && (
+                <h1 className="font-bold mt-4 mb-4 text-center">{user.username}'s Profile</h1>
             )}
-        </>
+        </section>
     )
 }
 

@@ -14,12 +14,7 @@ const initialFormData = {
 
 function Auth({ isLogin }) {
     const { setState } = useStore()
-    const [formData, setFormData] = useState({
-        email: '',
-        username: '',
-        identifier: '',
-        password: '',
-    })
+    const [formData, setFormData] = useState(initialFormData)
     const [errorMessage, setErrorMessage] = useState('')
     const navigate = useNavigate()
     const [authenticateUser] = useMutation(isLogin ? LOGIN : REGISTER, {
@@ -34,12 +29,12 @@ function Auth({ isLogin }) {
 
             const { data: userData } = await authenticateUser()
 
-            setFormData({ ...initialFormData })
-
             setState((oldState) => ({
                 ...oldState,
                 user: userData[resolverName],
             }))
+
+            setFormData(initialFormData)
             setErrorMessage('')
 
             navigate('/')

@@ -16,10 +16,6 @@ export const LOGIN = gql`
       _id
       email
       username
-      highscores {
-        score
-        languageName
-      }
     }
   }
 `
