@@ -9,8 +9,6 @@ function Profile() {
     const { loading, error, data } = useQuery(AUTHENTICATE)
     const navigate = useNavigate()
 
-    console.log(user)
-
     useEffect(() => {
         // Redirect to login page if user is not logged in
         if (!user) {
