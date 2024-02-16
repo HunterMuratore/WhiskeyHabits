@@ -1,4 +1,5 @@
 const { sign, verify } = require('jsonwebtoken');
+const { User } = require('../models');
 
 // Function to create a JWT token for a user
 async function createToken(user_id) {
@@ -33,6 +34,7 @@ async function authenticate({ req, res }) {
         return { user, res };
 
     } catch (err) {
+        console.log("Error verifying token:", err.message);
         return { res };
     }
 }
