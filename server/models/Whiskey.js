@@ -6,34 +6,39 @@ const whiskeySchema = new Schema({
         unique: true,
         required: true,
     },
-    img: {
-        type: String,
-    },
     type: {
-        type: String, // Make into own model and reference here?
-    },
-    distiller: {
-        type: String, // Make into own model and reference here?
-    },
-    country: {
         type: String,
     },
-    region: {
-        type: String
-    },
-    bottler: {
+    rating: {
         type: String,
     },
-    abv: {
-        type: Number,
-    },
-    age: {
+    link: {
         type: String,
     },
-    price: {
-        type: Number,
+    image: {
+        type: String,
     },
-    notes: [{
+    stats: {
+        distiller: {
+            type: String,
+        },
+        bottler: {
+            type: String,
+        },
+        abv: {
+            type: String,
+        },
+        age: {
+            type: String,
+        },
+        price: {
+            type: String,
+        },
+    },
+    houseReviews: {
+        intro: {
+            type: String,
+        },
         nose: [{
             type: String,
         }],
@@ -43,10 +48,14 @@ const whiskeySchema = new Schema({
         finish: [{
             type: String,
         }],
-    }],
-    score: {
-        type: Number,
+        overall: {
+            type: String,
+        },
+        score: {
+            type: String,
+        },
     },
+
 });
 
 const Whiskey = model('Whiskey', whiskeySchema);
