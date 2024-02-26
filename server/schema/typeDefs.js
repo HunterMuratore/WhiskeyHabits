@@ -9,9 +9,32 @@ const typeDefs = gql`
         updatedAt: String
     }
 
+    type Whiskey {
+        _id: ID
+        name: String
+        img: String
+        type: String
+        distiller: String
+        country: String
+        region: String
+        bottler: String
+        abv: Float
+        age: String
+        price: Float
+        notes: WhiskeyNotes
+        score: Float
+    }
+
+    type WhiskeyNotes {
+        nose: String
+        taste: String
+        finish: String
+    }
+
     type Query {
         authenticate: User
         getUserById(userId: ID!): User
+        whiskeys(search: String): [Whiskey]
     }
 
     type Mutation {

@@ -10,10 +10,10 @@ const whiskeySchema = new Schema({
         type: String,
     },
     type: {
-        type: String, // Make into own model and reference here?
+        type: String,
     },
     distiller: {
-        type: String, // Make into own model and reference here?
+        type: String,
     },
     country: {
         type: String,
