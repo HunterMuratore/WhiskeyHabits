@@ -25,6 +25,14 @@ const typeDefs = gql`
         score: Float
     }
 
+    type UserCollection {
+        _id: ID
+        userId: ID
+        whiskeyId: ID
+        rating: Float
+        notes: WhiskeyNotes
+    }
+
     type WhiskeyNotes {
         nose: String
         taste: String
@@ -35,12 +43,22 @@ const typeDefs = gql`
         authenticate: User
         getUserById(userId: ID!): User
         whiskeys(search: String): [Whiskey]
+        getUserCollection(userId: ID!): [UserCollection]
     }
 
     type Mutation {
         register(email: String!, username: String!, password: String!): User
         login(identifier: String!, password: String!): User
         logout: String
+        addToCollection(userId: ID!, whiskeyId: ID!, rating: Float, notes: WhiskeyNotesInput): UserCollection
+        updateReview(userId: ID!, whiskeyId: ID!, rating: Float, notes: WhiskeyNotesInput): UserCollection
+        removeFromCollection(userId: ID!, whiskeyId: ID!): UserCollection
+    }
+
+    input WhiskeyNotesInput {
+        nose: String
+        taste: String
+        finish: String
     }
 `
 module.exports = typeDefs;
