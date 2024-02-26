@@ -1,4 +1,4 @@
-const { Whiskey } = require("../../models/index")
+const { Whiskey } = require("../../models")
 
 const whiskey_resolvers = {
     Query: {
