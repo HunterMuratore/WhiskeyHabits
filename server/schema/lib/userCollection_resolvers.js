@@ -2,15 +2,7 @@ const { UserCollection } = require('../../models');
 
 const userCollectionResolvers = {
     Query: {
-        // Get a user's whiskey collection
-        getUserCollection: async (_, { userId }) => {
-            try {
-                const userCollection = await UserCollection.find({ userId });
-                return userCollection;
-            } catch (err) {
-                throw new Error('Failed to fetch user collection');
-            }
-        },
+
     },
 
     Mutation: {

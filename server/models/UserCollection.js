@@ -16,7 +16,7 @@ const UserCollectionSchema = new Schema({
         min: 0,
         max: 10,
       },
-      notes: {
+      userNotes: {
         nose: String,
         taste: String,
         finish: String,

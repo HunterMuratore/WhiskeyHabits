@@ -16,6 +16,28 @@ export const GET_USER_BY_ID = gql`
       _id
       email
       username
+      userCollections {
+        _id
+        userId
+        whiskeyId {
+          _id
+          name
+          img
+          type
+          distiller
+          country
+          region
+          bottler
+          abv
+          age
+        }
+        rating
+        userNotes {
+          nose
+          taste
+          finish
+        }
+      }
     }
   }
 `
@@ -41,23 +63,6 @@ export const GET_WHISKEYS = gql`
         finish
       }
       score
-    }
-  }
-`
-
-// Get a specific user's whiskey collection
-export const GET_USER_COLLECTION = gql`
-  query GetUserCollection($userId: ID!) {
-    getUserCollection(userId: $userId) {
-      _id
-      userId
-      whiskeyId
-      rating
-      notes {
-        nose
-        taste
-        finish
-      }
     }
   }
 `

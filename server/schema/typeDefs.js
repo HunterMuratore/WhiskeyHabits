@@ -7,6 +7,7 @@ const typeDefs = gql`
         username: String
         createdAt: String
         updatedAt: String
+        userCollection: [UserCollection]
     }
 
     type Whiskey {
@@ -28,9 +29,9 @@ const typeDefs = gql`
     type UserCollection {
         _id: ID
         userId: ID
-        whiskeyId: ID
+        whiskeyId: Whiskey
         rating: Float
-        notes: WhiskeyNotes
+        userNotes: WhiskeyNotes
     }
 
     type WhiskeyNotes {
@@ -43,15 +44,14 @@ const typeDefs = gql`
         authenticate: User
         getUserById(userId: ID!): User
         whiskeys(search: String): [Whiskey]
-        getUserCollection(userId: ID!): [UserCollection]
     }
 
     type Mutation {
         register(email: String!, username: String!, password: String!): User
         login(identifier: String!, password: String!): User
         logout: String
-        addToCollection(userId: ID!, whiskeyId: ID!, rating: Float, notes: WhiskeyNotesInput): UserCollection
-        updateReview(userId: ID!, whiskeyId: ID!, rating: Float, notes: WhiskeyNotesInput): UserCollection
+        addToCollection(userId: ID!, whiskeyId: ID!, rating: Float, userNotes: WhiskeyNotesInput): UserCollection
+        updateReview(userId: ID!, whiskeyId: ID!, rating: Float, userNotes: WhiskeyNotesInput): UserCollection
         removeFromCollection(userId: ID!, whiskeyId: ID!): UserCollection
     }
 

@@ -22,13 +22,13 @@ export const LOGIN = gql`
 
 // Add a whiskey to a user's collection
 export const ADD_TO_COLLECTION = gql`
-mutation AddToCollection($userId: ID!, $whiskeyId: ID!, $rating: Float, $notes: WhiskeyNotesInput) {
-  addToCollection(userId: $userId, whiskeyId: $whiskeyId, rating: $rating, notes: $notes) {
+mutation AddToCollection($userId: ID!, $whiskeyId: ID!, $rating: Float, $userNotes: WhiskeyNotesInput) {
+  addToCollection(userId: $userId, whiskeyId: $whiskeyId, rating: $rating, userNotes: $userNotes) {
     _id
     userId
     whiskeyId
     rating
-    notes {
+    userNotes {
       nose
       taste
       finish
@@ -39,13 +39,13 @@ mutation AddToCollection($userId: ID!, $whiskeyId: ID!, $rating: Float, $notes: 
 
 // Update a whiskey in a user's collection
 export const UPDATE_REVIEW = gql`
-mutation UpdateReview($userId: ID!, $whiskeyId: ID!, $rating: Float, $notes: WhiskeyNotesInput) {
-  updateReview(userId: $userId, whiskeyId: $whiskeyId, rating: $rating, notes: $notes) {
+mutation UpdateReview($userId: ID!, $whiskeyId: ID!, $rating: Float, $userNotes: WhiskeyNotesInput) {
+  updateReview(userId: $userId, whiskeyId: $whiskeyId, rating: $rating, userNotes: $userNotes) {
     _id
     userId
     whiskeyId
     rating
-    notes {
+    userNotes {
       nose
       taste
       finish
@@ -62,7 +62,7 @@ mutation RemoveFromCollection($userId: ID!, $whiskeyId: ID!) {
     userId
     whiskeyId
     rating
-    notes {
+    userNotes {
       nose
       taste
       finish
