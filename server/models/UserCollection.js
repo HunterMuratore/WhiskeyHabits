@@ -23,6 +23,12 @@ const UserCollectionSchema = new Schema({
       },
 });
 
+// Populate the userId and whiskeyId fields when querying
+UserCollectionSchema.pre(/^find/, function (next) {
+  this.populate('userId').populate('whiskeyId');
+  next();
+});
+
 const UserCollection = model('UserCollection', UserCollectionSchema);
 
 module.exports = UserCollection;

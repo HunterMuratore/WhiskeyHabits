@@ -13,7 +13,7 @@ const user_resolvers = {
         // Resolver to get user information by user ID
         async getUserById(_, { userId }) {
             try {
-                const user = User.findById(userId);
+                const user = await User.findById(userId).populate('userCollections');
                 return user;
 
             } catch (err) {

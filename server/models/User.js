@@ -5,6 +5,7 @@ const userSchema = new Schema({
     email: {
         type: String,
         unique: true,
+        required: true,
         // Validate email format using a regular expression
         validate: {
             validator(val) {
@@ -18,13 +19,19 @@ const userSchema = new Schema({
     username: {
         type: String,
         unique: true,
+        required: true,
         minLength: [3, 'Username must be at least 3 characters long'],
         maxLength: [16, 'Username must be under 16 characters long']
     },
     password: {
         type: String,
+        required: true,
         minLength: [6, 'Password must be at least 6 characters long']
     },
+    userCollection: [{
+        type: Schema.Types.ObjectId,
+        ref: 'UserCollection',
+    }],
 }, {
     timestamps: true,
     methods: {

@@ -5,7 +5,7 @@ const userCollectionResolvers = {
         // Get a user's whiskey collection
         getUserCollection: async (_, { userId }) => {
             try {
-                const userCollection = await UserCollection.find({ userId }).populate('whiskeyId');
+                const userCollection = await UserCollection.find({ userId });
                 return userCollection;
             } catch (err) {
                 throw new Error('Failed to fetch user collection');
