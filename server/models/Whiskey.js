@@ -9,6 +9,12 @@ const whiskeySchema = new Schema({
     type: {
         type: String,
     },
+    distiller: {
+        type: String,
+    },
+    country: {
+        type: String,
+    },
     rating: {
         type: String,
     },

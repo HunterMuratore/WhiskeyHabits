@@ -19,3 +19,54 @@ export const LOGIN = gql`
     }
   }
 `
+
+// Add a whiskey to a user's collection
+export const ADD_TO_COLLECTION = gql`
+mutation AddToCollection($userId: ID!, $whiskeyId: ID!, $rating: Float, $userNotes: WhiskeyNotesInput) {
+  addToCollection(userId: $userId, whiskeyId: $whiskeyId, rating: $rating, userNotes: $userNotes) {
+    _id
+    userId
+    whiskeyId
+    rating
+    userNotes {
+      nose
+      taste
+      finish
+    }
+  }
+}
+`
+
+// Update a whiskey in a user's collection
+export const UPDATE_REVIEW = gql`
+mutation UpdateReview($userId: ID!, $whiskeyId: ID!, $rating: Float, $userNotes: WhiskeyNotesInput) {
+  updateReview(userId: $userId, whiskeyId: $whiskeyId, rating: $rating, userNotes: $userNotes) {
+    _id
+    userId
+    whiskeyId
+    rating
+    userNotes {
+      nose
+      taste
+      finish
+    }
+  }
+}
+`
+
+// Remove a whiskey from a user's collection
+export const REMOVE_FROM_COLLECTION = gql`
+mutation RemoveFromCollection($userId: ID!, $whiskeyId: ID!) {
+  removeFromCollection(userId: $userId, whiskeyId: $whiskeyId) {
+    _id
+    userId
+    whiskeyId
+    rating
+    userNotes {
+      nose
+      taste
+      finish
+    }
+  }
+}
+`

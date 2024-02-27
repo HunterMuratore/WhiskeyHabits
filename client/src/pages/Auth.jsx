@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { NavLink, useNavigate } from 'react-router-dom'
 import { useStore } from '../store'
 import { useMutation } from '@apollo/client'
@@ -13,13 +13,20 @@ const initialFormData = {
 }
 
 function Auth({ isLogin }) {
-    const { setState } = useStore()
+    const { user, setState } = useStore()
     const [formData, setFormData] = useState(initialFormData)
     const [errorMessage, setErrorMessage] = useState('')
     const navigate = useNavigate()
     const [authenticateUser] = useMutation(isLogin ? LOGIN : REGISTER, {
         variables: formData,
     })
+
+    useEffect(() => {
+        // If user is already logged in, redirect to profile page
+        if (user) {
+            navigate('/profile')
+        }
+    }, [user, navigate])
 
     const handleSubmit = async (e) => {
         e.preventDefault()
