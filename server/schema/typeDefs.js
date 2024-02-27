@@ -40,10 +40,16 @@ const typeDefs = gql`
         finish: String
     }
 
+    type WhiskeysResult {
+        whiskeys: [Whiskey]
+        count: Int
+    }
+
     type Query {
         authenticate: User
         getUserById(userId: ID!): User
-        whiskeys(search: String): [Whiskey]
+        whiskeys(search: String, page: Int!, perPage: Int!): WhiskeysResult
+        getWhiskeyById(whiskeyId: ID!): Whiskey
     }
 
     type Mutation {

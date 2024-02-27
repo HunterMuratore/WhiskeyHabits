@@ -1,18 +1,14 @@
 import { useStore } from "../store"
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 
 import { useNavigate } from "react-router-dom"
+
+import LoadingSpinner from "../components/LoadingSpinner"
 
 function Profile() {
     const { user } = useStore()
     const navigate = useNavigate()
-
-    useEffect(() => {
-        // Redirect to login page if user is not logged in
-        if (!user) {
-            navigate('/login')
-        }
-    }, [user, navigate])
+    const [loading, setLoading] = useState(true)
 
     return (
         <section className="profile mt-10">
