@@ -13,17 +13,29 @@ const typeDefs = gql`
     type Whiskey {
         _id: ID
         name: String
-        img: String
+        image: String
         type: String
+        rating: String
+        link: String
+        stats: WhiskeyStats
+        houseReviews: WhiskeyHouseReviews
+    }
+
+    type WhiskeyStats {
         distiller: String
-        country: String
-        region: String
         bottler: String
-        abv: Float
+        abv: String
         age: String
-        price: Float
-        notes: WhiskeyNotes
-        score: Float
+        price: String
+    }
+
+    type WhiskeyHouseReviews {
+        intro: String
+        nose: [String]
+        taste: [String]
+        finish: [String]
+        overall: String
+        score: String
     }
 
     type UserCollection {

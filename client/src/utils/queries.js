@@ -17,20 +17,22 @@ export const GET_USER_BY_ID = gql`
       _id
       email
       username
-      userCollections {
+      userCollection {
         _id
         userId
         whiskeyId {
           _id
           name
-          img
+          image
+          rating
           type
-          distiller
-          country
-          region
-          bottler
-          abv
-          age
+          stats {
+            distiller
+            bottler
+            abv
+            age
+            price
+          }
         }
         rating
         userNotes {
@@ -50,21 +52,24 @@ export const GET_WHISKEYS = gql`
       whiskeys {
         _id
         name
-        img
+        image
         type
-        distiller
-        country
-        region
-        bottler
-        abv
-        age
-        price
-        notes {
+        rating
+        stats {
+          distiller
+          bottler
+          abv
+          age
+          price
+        }
+        houseReviews {
+          intro
           nose
           taste
           finish
+          overall
+          score
         }
-        score
       }
       count
     }
@@ -77,21 +82,24 @@ export const GET_SINGLE_WHISKEY = gql`
     getWhiskeyById(whiskeyId: $whiskeyId) {
       _id
       name
-      img
+      image
       type
-      distiller
-      country
-      region
-      bottler
-      abv
-      age
-      price
-      notes {
+      rating
+      stats {
+        distiller
+        bottler
+        abv
+        age
+        price
+      }
+      houseReviews {
+        intro
         nose
         taste
         finish
+        overall
+        score
       }
-      score
     }
   }
 `

@@ -91,24 +91,24 @@ function Whiskeys() {
                 <tbody className="bg-white divide-y divide-gray-200">
                     {data.whiskeys.whiskeys.slice(0, perPage).map((whiskey, index) => (
                         <tr key={whiskey._id}>
-                            {index === 0 && console.log(whiskey)}
+                            {/* {index === 0 && console.log(whiskey)} */}
                             <td className="px-6 py-4 whitespace-no-wrap">
                                 {whiskey.name}
                             </td>
                             <td className="px-6 py-4 whitespace-no-wrap">
-                                <img src={whiskey.img} alt={whiskey.name} className="h-10" />
+                                <img src={whiskey.image} alt={whiskey.name} className="h-10" />
                             </td>
                             <td className="px-6 py-4 whitespace-no-wrap">
                                 {whiskey.type}
                             </td>
                             <td className="px-6 py-4 whitespace-no-wrap">
-                                {whiskey.distiller}
+                                {whiskey.stats.distiller}
                             </td>
                             <td className="px-6 py-4 whitespace-no-wrap">
-                                {whiskey.abv}%
+                                {whiskey.stats.abv}
                             </td>
                             <td className="px-6 py-4 whitespace-no-wrap">
-                                {whiskey.score}
+                                {whiskey.rating}
                             </td>
                         </tr>
                     ))}
