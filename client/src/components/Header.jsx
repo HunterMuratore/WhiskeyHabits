@@ -36,7 +36,7 @@ function Header() {
     return (
         <header className="">
             <nav className="flex items-center justify-between pl-3 pr-3">
-                <NavLink to="/">WhiskeyHunt</NavLink>
+                <NavLink to="/" className='inactive'>WhiskeyHunt</NavLink>
 
                 {/* Hamburger menu icon for medium screens and below */}
                 <div className="lg:hidden py-3">
@@ -82,7 +82,7 @@ function Header() {
                             <NavLink to="/">Home</NavLink>
                             <NavLink to="/whiskey">Whiskeys</NavLink>
                             <NavLink to="/profile">Profile</NavLink>
-                            <a href="/" onClick={logout}>Logout</a>
+                            <NavLink to="/" onClick={logout} className="inactive">Logout</NavLink>
                         </>
                     ) : (
                         <>
@@ -102,7 +102,7 @@ function Header() {
                         <NavLink to="/" className="py-1">Home</NavLink>
                         <NavLink to="/whiskey">Whiskeys</NavLink>
                         <NavLink to="/profile" className="py-1">Profile</NavLink>
-                        <a href="/" className="py-1" onClick={logout}>Logout</a>
+                        <NavLink to="/" onClick={logout} className="inactive">Logout</NavLink>
                     </>
                 ) : (
                     <>

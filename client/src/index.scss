@@ -80,36 +80,34 @@ header {
         a {
             text-decoration: none;
 
-            &.active,
-            &.hover {
-                text-decoration: underline;
-            }
+            &:not(.inactive) {
+                &.active {
+                    text-decoration: underline;
+                }
+            }    
 
             &:not(:last-child) {
                 margin-right: 10px;
             }
         }
-
-        .username {
-            color: $theme-text;
-        }
-
-        .username,
-        .slash {
-            margin-right: 10px;
-        }
-
-        p {
-            margin: 0 15px 0 0;
-
-            span {
-                color: $theme-accent;
-            }
-        }
     }
 }
 
-form {
-    max-width: 450px;
-    margin: 0 auto;
+.auth {
+    form {
+        max-width: 450px;
+        margin: 0 auto;
+    }
+}
+
+.whiskeys {
+    .whiskey-link:hover {
+        text-decoration: underline;
+    }
+}
+
+.whiskey-details {
+    .whiskey-raiders:hover {
+        text-decoration: underline;
+    }
 }

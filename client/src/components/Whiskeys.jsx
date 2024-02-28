@@ -94,8 +94,7 @@ function Whiskeys() {
                 <tbody className="bg-white divide-y divide-gray-200">
                     {data.whiskeys.whiskeys.slice(0, perPage).map((whiskey, index) => (
                         <tr key={whiskey._id}>
-                            {/* {index === 0 && console.log(whiskey)} */}
-                            <td className="px-6 py-4 whitespace-no-wrap">
+                            <td className="whiskey-link px-6 py-4 whitespace-no-wrap">
                                 <NavLink to={`/whiskey/${whiskey._id}`}>{whiskey.name}</NavLink>
                             </td>
                             <td className="px-6 py-4 whitespace-no-wrap">
