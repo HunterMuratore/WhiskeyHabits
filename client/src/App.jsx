@@ -10,6 +10,8 @@ import Protect from './components/Protect'
 import Home from './pages/Home'
 import Auth from './pages/Auth'
 import Profile from './pages/Profile'
+import Whiskey from './pages/Whiskey'
+import WhiskeyDetails from './pages/WhiskeyDetails'
 
 import { AUTHENTICATE } from './utils/queries'
 
@@ -31,14 +33,16 @@ function App() {
       <Header />
 
       <main>
-      <Routes>
-              <Route path='/' element={<Home />}></Route>
-              <Route path='/login' element={<Auth isLogin={true} />}></Route>
-              <Route path='/register' element={<Auth isLogin={false} />}></Route>
-              <Route path='/profile' element={<Protect user={userData}>
-                <Profile userData={userData} />
-              </Protect>}></Route>
-            </Routes>
+        <Routes>
+          <Route path='/' element={<Home />}></Route>
+          <Route path='/login' element={<Auth isLogin={true} />}></Route>
+          <Route path='/register' element={<Auth isLogin={false} />}></Route>
+          <Route path='/profile' element={<Protect user={userData}>
+            <Profile userData={userData} />
+          </Protect>}></Route>
+          <Route path='/whiskey' element={<Whiskey />}></Route>
+          <Route path='/whiskey/:whiskeyId' element={<WhiskeyDetails />} />
+        </Routes>
       </main>
 
       <Footer />

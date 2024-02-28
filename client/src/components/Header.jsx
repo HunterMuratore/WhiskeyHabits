@@ -80,12 +80,14 @@ function Header() {
                     {user ? (
                         <>
                             <NavLink to="/">Home</NavLink>
+                            <NavLink to="/whiskey">Whiskeys</NavLink>
                             <NavLink to="/profile">Profile</NavLink>
                             <a href="/" onClick={logout}>Logout</a>
                         </>
                     ) : (
                         <>
                             <NavLink to="/">Home</NavLink>
+                            <NavLink to="/whiskey">Whiskeys</NavLink>
                             <NavLink to="/register">Register</NavLink>
                             <NavLink to="/login">Login</NavLink>
                         </>
@@ -98,12 +100,14 @@ function Header() {
                 {user ? (
                     <>
                         <NavLink to="/" className="py-1">Home</NavLink>
+                        <NavLink to="/whiskey">Whiskeys</NavLink>
                         <NavLink to="/profile" className="py-1">Profile</NavLink>
                         <a href="/" className="py-1" onClick={logout}>Logout</a>
                     </>
                 ) : (
                     <>
                         <NavLink to="/" className="py-1">Home</NavLink>
+                        <NavLink to="/whiskey">Whiskeys</NavLink>
                         <NavLink to="/register" className="py-1">Register</NavLink>
                         <NavLink to="/login" className="py-1">Login</NavLink>
                     </>

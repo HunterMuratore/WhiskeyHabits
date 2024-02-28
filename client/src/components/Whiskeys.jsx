@@ -1,6 +1,9 @@
 import { useState } from 'react'
 import { useQuery } from '@apollo/client'
+import { NavLink } from 'react-router-dom'
+
 import { GET_WHISKEYS } from '../utils/queries'
+
 import LoadingSpinner from './LoadingSpinner'
 // import Error from './Error' // Create error component
 
@@ -93,7 +96,7 @@ function Whiskeys() {
                         <tr key={whiskey._id}>
                             {/* {index === 0 && console.log(whiskey)} */}
                             <td className="px-6 py-4 whitespace-no-wrap">
-                                {whiskey.name}
+                                <NavLink to={`/whiskey/${whiskey._id}`}>{whiskey.name}</NavLink>
                             </td>
                             <td className="px-6 py-4 whitespace-no-wrap">
                                 <img src={whiskey.image} alt={whiskey.name} className="h-10" />
