@@ -15,7 +15,7 @@ const typeDefs = gql`
         name: String
         image: String
         type: String
-        rating: String
+        rating: Int
         link: String
         stats: WhiskeyStats
         houseReviews: WhiskeyHouseReviews
@@ -60,7 +60,7 @@ const typeDefs = gql`
     type Query {
         authenticate: User
         getUserById(userId: ID!): User
-        whiskeys(search: String, page: Int!, perPage: Int!): WhiskeysResult
+        whiskeys(search: String, page: Int!, perPage: Int!, sortByName: String, sortByScore: String): WhiskeysResult
         getWhiskeyById(whiskeyId: ID!): Whiskey
     }
 

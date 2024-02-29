@@ -1,29 +1,30 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useQuery } from '@apollo/client'
 import { NavLink } from 'react-router-dom'
 
 import { GET_WHISKEYS } from '../utils/queries'
 
 import LoadingSpinner from './LoadingSpinner'
-// import Error from './Error' // Create error component
+
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faCaretDown, faCaretUp } from '@fortawesome/free-solid-svg-icons'
 
 function Whiskeys() {
     const [perPage, setPerPage] = useState(20)
-    const [currentPage, setCurrentPage] = useState(1) // Track current page
-    const { loading, error, data, fetchMore } = useQuery(GET_WHISKEYS, {
-        variables: { search: '', page: 1, perPage: 20 },
+    const [currentPage, setCurrentPage] = useState(1)
+    const [sortByName, setSortByName] = useState("asc")
+    const [sortByScore, setSortByScore] = useState(null)
+
+    const { loading, error, data, fetchMore, refetch } = useQuery(GET_WHISKEYS, {
+        variables: { search: '', page: currentPage, perPage, sortByName, sortByScore },
     })
 
     const totalPages = Math.ceil(data?.whiskeys?.count / perPage)
 
-    if (loading) return <LoadingSpinner />
-    // if (error) return <Error message={error.message} />
-
-    const handlePageChange = (newPage) => {
-        setCurrentPage(newPage)
+    useEffect(() => {
         fetchMore({
             variables: {
-                page: newPage,
+                page: currentPage,
                 perPage: perPage,
             },
             updateQuery: (prev, { fetchMoreResult }) => {
@@ -31,22 +32,36 @@ function Whiskeys() {
                 return { ...prev, whiskeys: fetchMoreResult.whiskeys }
             },
         })
+    }, [currentPage, perPage])
+
+    useEffect(() => {
+        refetch({ search: '', page: currentPage, perPage, sortByName, sortByScore })
+    }, [sortByName, sortByScore])
+    
+    if (loading) return <LoadingSpinner />
+
+    const handlePageChange = (newPage) => {
+        setCurrentPage(newPage)
     }
 
     const handlePerPageChange = (e) => {
         const newPerPage = parseInt(e.target.value)
         setPerPage(newPerPage)
         setCurrentPage(1)
-        fetchMore({
-            variables: {
-                page: 1,
-                perPage: newPerPage,
-            },
-            updateQuery: (prev, { fetchMoreResult }) => {
-                if (!fetchMoreResult) return prev
-                return { ...prev, whiskeys: fetchMoreResult.whiskeys }
-            },
-        })
+    }      
+
+    const handleSortByName = () => {
+        const newSortByName = sortByName === 'asc' ? 'desc' : 'asc'
+        setSortByName(newSortByName)
+        setSortByScore(null)
+        setCurrentPage(1)
+    }
+
+    const handleSortByScore = () => {
+        const newSortByScore = sortByScore === 'highToLow' ? 'lowToHigh' : 'highToLow'
+        setSortByScore(newSortByScore)
+        setSortByName(null)
+        setCurrentPage(1)
     }
 
     return (
@@ -73,6 +88,11 @@ function Whiskeys() {
                     <tr>
                         <th className="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
                             Name
+                            <FontAwesomeIcon
+                                icon={sortByName === 'asc' ? faCaretUp : faCaretDown}
+                                onClick={handleSortByName}
+                                className="ml-1 cursor-pointer"
+                            />
                         </th>
                         <th className="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
                             Image
@@ -88,6 +108,11 @@ function Whiskeys() {
                         </th>
                         <th className="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
                             Score
+                            <FontAwesomeIcon
+                                icon={sortByScore === 'highToLow' ? faCaretUp : faCaretDown}
+                                onClick={handleSortByScore}
+                                className="ml-1 cursor-pointer"
+                            />
                         </th>
                     </tr>
                 </thead>
