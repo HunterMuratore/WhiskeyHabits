@@ -1,5 +1,5 @@
 {
-  "name": "whiskeyhunt",
+  "name": "whiskeyhabits",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -16,14 +16,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/HunterMuratore/WhiskeyHunt.git"
+    "url": "git+https://github.com/HunterMuratore/WhiskeyHabits.git"
   },
   "author": "",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/HunterMuratore/WhiskeyHunt/issues"
+    "url": "https://github.com/HunterMuratore/WhiskeyHabits/issues"
   },
-  "homepage": "https://github.com/HunterMuratore/WhiskeyHunt#readme",
+  "homepage": "https://github.com/HunterMuratore/WhiskeyHabits#readme",
   "dependencies": {
     "concurrently": "^8.2.2"
   }
