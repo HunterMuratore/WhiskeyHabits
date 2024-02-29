@@ -36,7 +36,7 @@ function Header() {
     return (
         <header className="">
             <nav className="flex items-center justify-between pl-3 pr-3">
-                <NavLink to="/" className='inactive'>WhiskeyHunt</NavLink>
+                <NavLink to="/" className='inactive'>WhiskeyHabits</NavLink>
 
                 {/* Hamburger menu icon for medium screens and below */}
                 <div className="lg:hidden py-3">
