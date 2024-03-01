@@ -10,7 +10,7 @@ const whiskeySchema = new Schema({
         type: String,
     },
     rating: {
-        type: String,
+        type: Number,
     },
     link: {
         type: String,

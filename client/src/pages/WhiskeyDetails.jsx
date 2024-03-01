@@ -14,6 +14,8 @@ function WhiskeyDetails() {
 
     const { getWhiskeyById: whiskey } = data
 
+    console.log(whiskey)
+
     return (
         <section className="whiskey-details">
             <h2 className="text-center font-bold text-xl sm:text-3xl my-6">{whiskey.name}</h2>
@@ -49,7 +51,7 @@ function WhiskeyDetails() {
                 </div>
             </div>
 
-            <h3 className="text-xl sm:text-3xl font-bold"><a href="https://whiskeyraiders.com/" target="_blank" className="whiskey-raiders">WhiskeyRaiders</a> House Review:</h3>
+            <h3 className="text-xl sm:text-3xl font-bold"><a href={whiskey.link} target="_blank" className="whiskey-raiders">WhiskeyRaiders</a> House Review:</h3>
             <div className="my-4 text-sm sm:text-xl">
                 <p className="font-semibold">Intro:</p>
                 <p>{whiskey.houseReviews.intro}</p>

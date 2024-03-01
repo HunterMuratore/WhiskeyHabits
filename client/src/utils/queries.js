@@ -47,28 +47,18 @@ export const GET_USER_BY_ID = gql`
 
 // Get whiskey based off search or get all whiskeys if no search
 export const GET_WHISKEYS = gql`
-  query GetWhiskeys($search: String, $page: Int!, $perPage:Int!) {
-    whiskeys(search: $search, page: $page, perPage: $perPage) {
+  query GetWhiskeys($search: String, $page: Int!, $perPage: Int!, $sortByName: String, $sortByScore: String) {
+    whiskeys(search: $search, page: $page, perPage: $perPage, sortByName: $sortByName, sortByScore: $sortByScore) {
       whiskeys {
         _id
         name
         image
         type
         rating
+        link
         stats {
           distiller
-          bottler
           abv
-          age
-          price
-        }
-        houseReviews {
-          intro
-          nose
-          taste
-          finish
-          overall
-          score
         }
       }
       count
@@ -85,6 +75,7 @@ export const GET_SINGLE_WHISKEY = gql`
       image
       type
       rating
+      link
       stats {
         distiller
         bottler
