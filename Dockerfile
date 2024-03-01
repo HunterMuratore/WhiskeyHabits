@@ -2,7 +2,7 @@
 FROM node:21-alpine AS client
 
 # Set the working directory for the client
-WORKDIR /app/client
+WORKDIR /client
 
 # Copy client package.json and package-lock.json to the working directory
 COPY client/package*.json ./
@@ -20,7 +20,7 @@ RUN npm run build
 FROM node:21-alpine AS server
 
 # Set the working directory for the server
-WORKDIR /app/server
+WORKDIR /server
 
 # Copy server package.json and package-lock.json to the working directory
 COPY server/package*.json ./
@@ -31,8 +31,10 @@ RUN npm install
 # Copy the rest of the server application code
 COPY server/ .
 
+COPY --from=client /client/dist /client/dist
+
 # Expose the port for the server
-EXPOSE 3000
+EXPOSE 3001
 
 # Command to run the server
 CMD ["npm", "start"]

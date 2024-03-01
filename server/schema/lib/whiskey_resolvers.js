@@ -19,22 +19,22 @@ const whiskey_resolvers = {
                     });
                 }
 
-                // Apply sorting options
+                // Apply sorting options with case insensitivity
                 if (sortByName === 'asc') {
-                    query = query.sort({ name: 1 }); // Sort names alphabetically ascending
+                    query = query.collation({ locale: 'en', strength: 2 }).sort({ name: 1 }); // Sort names alphabetically ascending 
                 } else if (sortByName === 'desc') {
-                    query = query.sort({ name: -1 }); // Sort names alphabetically descending
+                    query = query.collation({ locale: 'en', strength: 2 }).sort({ name: -1 }); // Sort names alphabetically descending
                 } else if (!sortByName && !sortByScore) {
-                    query = query.sort({ name: 1 }); // Sort names alphabetically ascending by default
+                    query = query.collation({ locale: 'en', strength: 2 }).sort({ name: 1 }); // Sort names alphabetically ascending by default
                 }
 
                 if (sortByScore === 'highToLow') {
-                    query = query.sort({ 
+                    query = query.sort({
                         rating: -1, // Sort scores from high to low
                         _id: -1 // Add secondary sort by _id to ensure consistent sorting
                     });
                 } else if (sortByScore === 'lowToHigh') {
-                    query = query.sort({ 
+                    query = query.sort({
                         rating: 1, // Sort scores from low to high
                         _id: -1 // Add secondary sort by _id to ensure consistent sorting
                     });
