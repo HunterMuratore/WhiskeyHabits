@@ -1,25 +1,29 @@
-import { useState, useEffect } from 'react'
-import { useQuery } from '@apollo/client'
-import { NavLink } from 'react-router-dom'
+import { useState, useEffect, useRef } from 'react'
 
+import { useQuery } from '@apollo/client'
 import { GET_WHISKEYS } from '../utils/queries'
 
 import LoadingSpinner from './LoadingSpinner'
+import Pagination from './Pagination'
+import WhiskeyTable from './WhiskeyTable'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faCaretDown, faCaretUp } from '@fortawesome/free-solid-svg-icons'
+import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons'
 
 function Whiskeys() {
+    const [searchTerm, setSearchTerm] = useState('')
     const [perPage, setPerPage] = useState(20)
     const [currentPage, setCurrentPage] = useState(1)
     const [sortByName, setSortByName] = useState("asc")
     const [sortByScore, setSortByScore] = useState(null)
+    const inputRef = useRef(null)
 
+    // Normal query for fetching data
     const { loading, error, data, fetchMore, refetch } = useQuery(GET_WHISKEYS, {
-        variables: { search: '', page: currentPage, perPage, sortByName, sortByScore },
+        variables: { search: searchTerm, page: currentPage, perPage, sortByName, sortByScore },
     })
 
-    const totalPages = Math.ceil(data?.whiskeys?.count / perPage)
+    const totalPages = Math.ceil(data?.whiskeys?.count / perPage) || 0
 
     useEffect(() => {
         fetchMore({
@@ -35,10 +39,8 @@ function Whiskeys() {
     }, [currentPage, perPage])
 
     useEffect(() => {
-        refetch({ search: '', page: currentPage, perPage, sortByName, sortByScore })
-    }, [sortByName, sortByScore])
-    
-    if (loading) return <LoadingSpinner />
+        refetch({ search: searchTerm, page: currentPage, perPage, sortByName, sortByScore })
+    }, [searchTerm, sortByName, sortByScore])
 
     const handlePageChange = (newPage) => {
         setCurrentPage(newPage)
@@ -48,7 +50,7 @@ function Whiskeys() {
         const newPerPage = parseInt(e.target.value)
         setPerPage(newPerPage)
         setCurrentPage(1)
-    }      
+    }
 
     const handleSortByName = () => {
         const newSortByName = sortByName === 'asc' ? 'desc' : 'asc'
@@ -64,106 +66,61 @@ function Whiskeys() {
         setCurrentPage(1)
     }
 
+    const handleSearch = () => {
+        const value = inputRef.current.value
+        setSearchTerm(value)
+    }
+
+    if (loading) return <LoadingSpinner />
+
     return (
         <section className="whiskeys">
-            <div className="flex justify-end mb-4">
-                {/* Dropdown to select whiskeys per page */}
-                <label htmlFor="perPage" className="mr-2">
-                    Whiskeys per page:
-                </label>
-                <select
-                    id="perPage"
-                    className="p-1 border border-gray-300 rounded"
-                    value={perPage}
-                    onChange={handlePerPageChange}
-                >
-                    <option value={20}>20</option>
-                    <option value={50}>50</option>
-                    <option value={100}>100</option>
-                </select>
+            <div className="flex justify-between mb-4">
+                {/* Search input */}
+                <div>
+                    <input
+                        type="text"
+                        placeholder="Search by name..."
+                        ref={inputRef}
+                        className="p-1 border border-gray-300 rounded"
+                    />
+                    <button className="ml-2" onClick={handleSearch}>
+                        <FontAwesomeIcon icon={faMagnifyingGlass} />
+                    </button>
+                </div>
+                <div>
+                    {/* Dropdown to select whiskeys per page */}
+                    <label htmlFor="perPage" className="mr-2">
+                        Whiskeys per page:
+                    </label>
+                    <select
+                        id="perPage"
+                        className="p-1 border border-gray-300 rounded"
+                        value={perPage}
+                        onChange={handlePerPageChange}
+                    >
+                        <option value={20}>20</option>
+                        <option value={50}>50</option>
+                        <option value={100}>100</option>
+                    </select>
+                </div>
             </div>
             {/* Table to display whiskeys */}
-            <table className="min-w-full divide-y divide-gray-200">
-                <thead>
-                    <tr>
-                        <th className="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
-                            Name
-                            <FontAwesomeIcon
-                                icon={sortByName === 'asc' ? faCaretUp : faCaretDown}
-                                onClick={handleSortByName}
-                                className="ml-1 cursor-pointer"
-                            />
-                        </th>
-                        <th className="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
-                            Image
-                        </th>
-                        <th className="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
-                            Type
-                        </th>
-                        <th className="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
-                            Distiller
-                        </th>
-                        <th className="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
-                            ABV
-                        </th>
-                        <th className="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
-                            Score
-                            <FontAwesomeIcon
-                                icon={sortByScore === 'highToLow' ? faCaretUp : faCaretDown}
-                                onClick={handleSortByScore}
-                                className="ml-1 cursor-pointer"
-                            />
-                        </th>
-                    </tr>
-                </thead>
-                <tbody className="bg-white divide-y divide-gray-200">
-                    {data.whiskeys.whiskeys.slice(0, perPage).map((whiskey, index) => (
-                        <tr key={whiskey._id}>
-                            <td className="whiskey-link px-6 py-4 whitespace-no-wrap">
-                                <NavLink to={`/whiskey/${whiskey._id}`}>{whiskey.name}</NavLink>
-                            </td>
-                            <td className="px-6 py-4 whitespace-no-wrap">
-                                <img src={whiskey.image} alt={whiskey.name} className="h-10" />
-                            </td>
-                            <td className="px-6 py-4 whitespace-no-wrap">
-                                {whiskey.type}
-                            </td>
-                            <td className="px-6 py-4 whitespace-no-wrap">
-                                {whiskey.stats.distiller}
-                            </td>
-                            <td className="px-6 py-4 whitespace-no-wrap">
-                                {whiskey.stats.abv}
-                            </td>
-                            <td className="px-6 py-4 whitespace-no-wrap">
-                                {whiskey.rating}
-                            </td>
-                        </tr>
-                    ))}
-                </tbody>
-            </table>
+            <WhiskeyTable
+                data={data}
+                sortByName={sortByName}
+                sortByScore={sortByScore}
+                handleSortByName={handleSortByName}
+                handleSortByScore={handleSortByScore}
+                perPage={perPage}
+                currentPage={currentPage}
+            />
             {/* Pagination controls */}
-            <div className="flex justify-center mt-4">
-                {/* Previous page button */}
-                <button
-                    className="mr-2 px-4 py-2 bg-gray-200 text-gray-800 rounded-md"
-                    onClick={() => handlePageChange(currentPage - 1)}
-                    disabled={currentPage === 1}
-                >
-                    Previous
-                </button>
-                {/* Current page number */}
-                <span className="px-4 py-2 bg-gray-200 text-gray-800 rounded-md">
-                    Page {currentPage} of {totalPages}
-                </span>
-                {/* Next page button */}
-                <button
-                    className="ml-2 px-4 py-2 bg-gray-200 text-gray-800 rounded-md"
-                    onClick={() => handlePageChange(currentPage + 1)}
-                    disabled={currentPage === totalPages}
-                >
-                    Next
-                </button>
-            </div>
+            <Pagination
+                currentPage={currentPage}
+                totalPages={totalPages}
+                onPageChange={handlePageChange}
+            />
         </section>
     )
 }
