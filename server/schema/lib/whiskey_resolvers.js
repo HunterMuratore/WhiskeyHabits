@@ -11,10 +11,8 @@ const whiskey_resolvers = {
                 if (search) {
                     query = query.find({
                         $or: [
-                            // Case-insensitive searches
+                            // Case-insensitive search
                             { name: { $regex: new RegExp(search, 'i') } },
-                            { distiller: { $regex: new RegExp(search, 'i') } },
-                            { type: { $regex: new RegExp(search, 'i') } },
                         ],
                     });
                 }

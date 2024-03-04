@@ -1,10 +1,10 @@
-import WhiskeyTable from '../components/WhiskeyTable'
+import Whiskeys from '../components/Whiskeys'
 
 function Whiskey() {
     return (
-        <>
-            <WhiskeyTable />
-        </>
+        <section className='whiskey mt-6'>
+            <Whiskeys />
+        </section>
     )
 }
 
