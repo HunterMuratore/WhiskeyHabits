@@ -58,7 +58,7 @@ function Auth({ isLogin }) {
     }
 
     return (
-        <main className="auth flex items-center justify-center">
+        <main className="auth flex items-center justify-center mt-20">
             <form className=" w-full p-8 border mt-36" onSubmit={handleSubmit}>
                 <h2 className="text-center text-2xl font-bold mb-6">{isLogin ? 'Log In' : 'Register'}</h2>
 

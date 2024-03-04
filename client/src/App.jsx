@@ -10,6 +10,7 @@ import Protect from './components/Protect'
 import Home from './pages/Home'
 import Auth from './pages/Auth'
 import Profile from './pages/Profile'
+import Contact from './pages/Contact'  
 import Whiskey from './pages/Whiskey'
 import WhiskeyDetails from './pages/WhiskeyDetails'
 
@@ -35,6 +36,7 @@ function App() {
       <main>
         <Routes>
           <Route path='/' element={<Home />}></Route>
+          <Route path='/contact' element={<Contact />}></Route>
           <Route path='/login' element={<Auth isLogin={true} />}></Route>
           <Route path='/register' element={<Auth isLogin={false} />}></Route>
           <Route path='/profile' element={<Protect user={userData}>

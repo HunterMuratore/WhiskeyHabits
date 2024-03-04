@@ -1,14 +1,10 @@
 import { useStore } from "../store"
-import { useEffect, useState } from 'react'
 
 import { useNavigate } from "react-router-dom"
 
-import LoadingSpinner from "../components/LoadingSpinner"
 
 function Profile() {
     const { user } = useStore()
-    const navigate = useNavigate()
-    const [loading, setLoading] = useState(true)
 
     return (
         <section className="profile mt-10">

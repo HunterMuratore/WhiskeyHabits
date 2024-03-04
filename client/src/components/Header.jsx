@@ -34,7 +34,7 @@ function Header() {
     }
 
     return (
-        <header className="">
+        <header>
             <nav className="flex items-center justify-between pl-3 pr-3">
                 <NavLink to="/" className='inactive'>WhiskeyHabits</NavLink>
 
@@ -96,20 +96,20 @@ function Header() {
             </nav>
 
             {/* Navigation links dropdown menu for medium screens and below */}
-            <nav className={`${isOpen ? 'flex flex-col' : 'hidden'} dropdown lg:hidden p-3`}>
+            <nav className={`${isOpen ? 'flex flex-col' : 'hidden'} font-semibold dropdown lg:hidden p-3`}>
                 {user ? (
                     <>
-                        <NavLink to="/" className="py-1">Home</NavLink>
+                        <NavLink to="/">Home</NavLink>
                         <NavLink to="/whiskey">Whiskeys</NavLink>
-                        <NavLink to="/profile" className="py-1">Profile</NavLink>
+                        <NavLink to="/profile">Profile</NavLink>
                         <NavLink to="/" onClick={logout} className="inactive">Logout</NavLink>
                     </>
                 ) : (
                     <>
-                        <NavLink to="/" className="py-1">Home</NavLink>
+                        <NavLink to="/">Home</NavLink>
                         <NavLink to="/whiskey">Whiskeys</NavLink>
-                        <NavLink to="/register" className="py-1">Register</NavLink>
-                        <NavLink to="/login" className="py-1">Login</NavLink>
+                        <NavLink to="/register">Register</NavLink>
+                        <NavLink to="/login">Login</NavLink>
                     </>
                 )}
             </nav>
