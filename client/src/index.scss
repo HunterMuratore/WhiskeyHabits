@@ -5,7 +5,7 @@
 /* VARIABLES */
 $theme-dark: #b6752b;
 $theme-light: #e49c49;
-$theme-accent: #5b4832;
+$theme-accent: #b76507;
 $theme-text: #000000;
 $main-padding: 0 5%;
 
@@ -53,17 +53,12 @@ a {
   transition: background-color 0.2s ease-in-out;
   border: none;
   border-radius: 6px;
-  padding: 5px;
+  padding: 7px;
   color: $theme-text;
 
   &:hover,
   &.open {
     background-color: darken($theme-light, 15%) !important;
-    color: $theme-text;
-  }
-
-  +.dropdown-menu a:hover {
-    background-color: darken($theme-light, 10%) !important;
     color: $theme-text;
   }
 }
@@ -90,6 +85,14 @@ header {
                 margin-right: 10px;
             }
         }
+    }
+}
+
+.home {
+    padding: 0 7%;
+
+    .link {
+        color: $theme-accent;
     }
 }
 

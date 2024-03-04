@@ -51,7 +51,7 @@ function WhiskeyDetails() {
                 </div>
             </div>
 
-            <h3 className="text-xl sm:text-3xl font-bold"><a href={whiskey.link} target="_blank" className="whiskey-raiders">WhiskeyRaiders</a> House Review:</h3>
+            <h3 className="text-xl sm:text-3xl font-bold"><a href={whiskey.link} target="_blank" rel="noopener noreferrer" className="whiskey-raiders">WhiskeyRaiders</a> House Review:</h3>
             <div className="my-4 text-sm sm:text-xl">
                 <p className="font-semibold">Intro:</p>
                 <p>{whiskey.houseReviews.intro}</p>
