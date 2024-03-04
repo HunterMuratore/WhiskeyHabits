@@ -1,9 +1,9 @@
-import Whiskeys from '../components/Whiskeys'
+import WhiskeyTable from '../components/WhiskeyTable'
 
 function Whiskey() {
     return (
         <>
-            <Whiskeys />
+            <WhiskeyTable />
         </>
     )
 }
