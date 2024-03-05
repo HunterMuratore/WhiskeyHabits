@@ -3,7 +3,7 @@ const { Whiskey } = require("../../models")
 const whiskey_resolvers = {
     Query: {
         // Get all whiskeys or filter by search query
-        async whiskeys(_, { search, page, perPage, sortByName, sortByScore }) {
+        async whiskeys(_, { search, page, perPage, sortByName, sortByScore, selectedType, selectedDistiller }) {
             try {
                 let query = Whiskey.find();
 
@@ -15,6 +15,16 @@ const whiskey_resolvers = {
                             { name: { $regex: new RegExp(search, 'i') } },
                         ],
                     });
+                }
+
+                // Apply type filter
+                if (selectedType) {
+                    query = query.where('type', new RegExp(selectedType, 'i'));
+                }
+
+                // Apply distiller filter
+                if (selectedDistiller) {
+                    query = query.where('stats.distiller', new RegExp(selectedDistiller, 'i'));
                 }
 
                 // Apply sorting options with case insensitivity
@@ -46,7 +56,7 @@ const whiskey_resolvers = {
                 query = query.skip(skip).limit(limit);
 
                 // Count the total number of whiskeys
-                const count = search ? await Whiskey.countDocuments(query._conditions) : await Whiskey.countDocuments();
+                const count = (search || selectedDistiller || selectedType) ? await Whiskey.countDocuments(query._conditions) : await Whiskey.countDocuments();
 
                 const whiskeys = await query.exec();
 

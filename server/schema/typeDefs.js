@@ -60,7 +60,7 @@ const typeDefs = gql`
     type Query {
         authenticate: User
         getUserById(userId: ID!): User
-        whiskeys(search: String, page: Int!, perPage: Int!, sortByName: String, sortByScore: String): WhiskeysResult
+        whiskeys(search: String, page: Int!, perPage: Int!, sortByName: String, sortByScore: String, selectedType: String, selectedDistiller: String): WhiskeysResult
         getWhiskeyById(whiskeyId: ID!): Whiskey
     }
 

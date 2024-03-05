@@ -107,6 +107,19 @@ header {
     .whiskey-link:hover {
         text-decoration: underline;
     }
+
+    .reset {
+        &:hover {
+            cursor: pointer;
+            text-decoration: underline;
+        }
+    }
+
+    .pagination {
+        .inactive:hover {
+            cursor: default;
+        }
+    }
 }
 
 .whiskey-details {

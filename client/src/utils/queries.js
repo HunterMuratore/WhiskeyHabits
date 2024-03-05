@@ -45,10 +45,10 @@ export const GET_USER_BY_ID = gql`
   }
 `
 
-// Get whiskey based off search or get all whiskeys if no search
+// Get whiskey based off search/filter criteria
 export const GET_WHISKEYS = gql`
-  query GetWhiskeys($search: String, $page: Int!, $perPage: Int!, $sortByName: String, $sortByScore: String) {
-    whiskeys(search: $search, page: $page, perPage: $perPage, sortByName: $sortByName, sortByScore: $sortByScore) {
+  query GetWhiskeys($search: String, $page: Int!, $perPage: Int!, $sortByName: String, $sortByScore: String, $selectedType: String, $selectedDistiller: String ) {
+    whiskeys(search: $search, page: $page, perPage: $perPage, sortByName: $sortByName, sortByScore: $sortByScore, selectedType: $selectedType, selectedDistiller: $selectedDistiller) {
       whiskeys {
         _id
         name
