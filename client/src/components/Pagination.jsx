@@ -1,11 +1,8 @@
-import React from 'react';
-
 const Pagination = ({ currentPage, totalPages, onPageChange }) => {
-    const pageNumbers = [];
+    const pageNumbers = []
 
-    // Generate page numbers
     for (let i = 1; i <= totalPages; i++) {
-        pageNumbers.push(i);
+        pageNumbers.push(i)
     }
 
     return (
@@ -35,7 +32,7 @@ const Pagination = ({ currentPage, totalPages, onPageChange }) => {
                     {pageNumber}
                 </button>
             ))}
-            {currentPage + 2 < totalPages && <span className="mx-2">...</span>}
+            {currentPage + 2 < totalPages && <button className="mx-2 inactive">...</button>}
             {currentPage + 2 < totalPages && (
                 <button
                     className="mx-2"
@@ -52,7 +49,7 @@ const Pagination = ({ currentPage, totalPages, onPageChange }) => {
                 Next
             </button>
         </div>
-    );
-};
+    )
+}
 
-export default Pagination;
+export default Pagination
