@@ -8,7 +8,7 @@ import Pagination from './Pagination'
 import WhiskeyTable from './WhiskeyTable'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons'
+import { faMagnifyingGlass, faX } from '@fortawesome/free-solid-svg-icons'
 
 function Whiskeys() {
     const [searchTerm, setSearchTerm] = useState('')
@@ -16,9 +16,9 @@ function Whiskeys() {
     const [currentPage, setCurrentPage] = useState(1)
     const [sortByName, setSortByName] = useState("asc")
     const [sortByScore, setSortByScore] = useState(null)
+    const [searchActive, setSearchActive] = useState(false)
     const inputRef = useRef(null)
 
-    // Normal query for fetching data
     const { loading, error, data, fetchMore, refetch } = useQuery(GET_WHISKEYS, {
         variables: { search: searchTerm, page: currentPage, perPage, sortByName, sortByScore },
     })
@@ -69,6 +69,12 @@ function Whiskeys() {
     const handleSearch = () => {
         const value = inputRef.current.value
         setSearchTerm(value)
+        setSearchActive(true)
+    }
+
+    const handleClearSearch = () => {
+        setSearchTerm('')
+        setSearchActive(false)
     }
 
     if (loading) return <LoadingSpinner />
@@ -87,6 +93,14 @@ function Whiskeys() {
                     <button className="ml-2" onClick={handleSearch}>
                         <FontAwesomeIcon icon={faMagnifyingGlass} />
                     </button>
+                    <button className="ml-2" onClick={handleClearSearch}>
+                        <FontAwesomeIcon icon={faX} />
+                    </button>
+                    {searchActive && (
+                        <div>
+                            <p>Currently searching for: <span className='font-semibold'>{searchTerm}</span></p>
+                        </div>
+                    )}
                 </div>
                 <div>
                     {/* Dropdown to select whiskeys per page */}
