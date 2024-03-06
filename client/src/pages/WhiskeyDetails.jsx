@@ -1,24 +1,56 @@
+import { useState, useEffect } from "react"
 import { useParams } from "react-router-dom"
-import { useQuery } from "@apollo/client"
+import { useQuery, useMutation } from "@apollo/client"
+import { useStore } from '../store'
+import { useNavigate } from "react-router-dom"
+
 import { GET_SINGLE_WHISKEY } from "../utils/queries"
+import { ADD_TO_COLLECTION } from "../utils/mutations"
+
 import LoadingSpinner from "../components/LoadingSpinner"
+import SuccessMessage from "../components/SuccessMessage"
+import ErrorMessage from "../components/ErrorMessage"
+import WhiskeyEntry from "../components/WhiskeyEntry"
 
 function WhiskeyDetails() {
     const { whiskeyId } = useParams()
+    const { user } = useStore()
     const { loading, error, data } = useQuery(GET_SINGLE_WHISKEY, {
         variables: { whiskeyId },
     })
+    const [addToCollection] = useMutation(ADD_TO_COLLECTION)
+    const navigate = useNavigate()
+    const [showSuccess, setShowSuccess] = useState(false)
+    const [errorMessage, setErrorMessage] = useState(null)
+    const [showWhiskeyEntry, setShowWhiskeyEntry] = useState(false)
 
     if (loading) return <LoadingSpinner />
-    if (error) return <p>Error: {error.message}</p>
 
     const { getWhiskeyById: whiskey } = data
 
-    console.log(whiskey)
+    const handleShowWhiskeyEntry = () => {
+        // Check if there is an active user
+        // if (!user) {
+        //     navigate("/login")
+        //     return
+        // }
+
+        setShowWhiskeyEntry(true)
+    }
+
+    const handleCloseWhiskeyEntry = () => {
+        setShowWhiskeyEntry(false);
+    }
 
     return (
-        <section className="whiskey-details">
-            <h2 className="text-center font-bold text-xl sm:text-3xl my-6">{whiskey.name}</h2>
+        <section className="flex flex-col whiskey-details">
+            <h2 className="text-center font-bold text-xl sm:text-3xl mt-6 mb-4">{whiskey.name}</h2>
+            <div className="mx-auto text-center mb-4">
+                <button className="my-btn mb-1" onClick={handleShowWhiskeyEntry}>Add to Collection</button>
+                <WhiskeyEntry showModal={showWhiskeyEntry} onClose={handleCloseWhiskeyEntry} onAddToCollection={addToCollection} />
+                {showSuccess && <SuccessMessage message="Whiskey successfully added to collection" show={showSuccess} setShow={setShowSuccess} />}
+                {errorMessage && <ErrorMessage message={errorMessage} />}
+            </div>
             <div className="flex justify-center">
                 <img src={whiskey.image} alt={whiskey.name} />
             </div>

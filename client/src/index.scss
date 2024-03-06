@@ -53,7 +53,7 @@ a {
   transition: background-color 0.2s ease-in-out;
   border: none;
   border-radius: 6px;
-  padding: 7px;
+  padding: 6px;
   color: $theme-text;
 
   &:hover,
@@ -101,6 +101,10 @@ header {
         max-width: 450px;
         margin: 0 auto;
     }
+}
+
+.error-message {
+    color: rgb(208, 7, 7);
 }
 
 .whiskeys {
