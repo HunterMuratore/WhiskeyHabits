@@ -80,3 +80,32 @@ export const GET_SINGLE_WHISKEY = gql`
     }
   }
 `
+
+// Get user collection whiskeys
+export const GET_USER_COLLECTION_WHISKEYS = gql`
+  query GetUserCollectionWhiskeys($userId: ID!) {
+    getUserCollectionWhiskeys(userId: $userId) {
+      _id
+      name
+      image
+      type
+      rating
+      link
+      stats {
+        distiller
+        bottler
+        abv
+        age
+        price
+      }
+      houseReviews {
+        intro
+        nose
+        taste
+        finish
+        overall
+        score
+      }
+    }
+  }
+`

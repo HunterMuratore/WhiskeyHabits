@@ -62,6 +62,7 @@ const typeDefs = gql`
         getUserById(userId: ID!): User
         whiskeys(search: String, page: Int!, perPage: Int!, sortByName: String, sortByScore: String, selectedType: String, selectedDistiller: String): WhiskeysResult
         getWhiskeyById(whiskeyId: ID!): Whiskey
+        getUserCollectionWhiskeys(userId: ID!): [Whiskey]
     }
 
     type Mutation {
