@@ -29,8 +29,21 @@ const userSchema = new Schema({
         minLength: [6, 'Password must be at least 6 characters long']
     },
     userCollection: [{
-        type: Schema.Types.ObjectId,
-        ref: 'UserCollection',
+        whiskeyId: {
+            type: Schema.Types.ObjectId,
+            required: true,
+        },
+        userRating: {
+            type: Number,
+            min: 0,
+            max: 10,
+        },
+        userNotes: {
+            nose: String,
+            taste: String,
+            finish: String,
+            overall: String,
+        }
     }],
 }, {
     timestamps: true,

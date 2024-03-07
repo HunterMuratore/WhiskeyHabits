@@ -12,7 +12,8 @@
     "install:server": "cd ./server && npm i",
     "install": "npm run install:client && npm run install:server",
     "seed": "cd server && npm run seed",
-    "start": "cd ./server && npm start"
+    "start": "cd ./server && npm start",
+    "docker": "docker compose build && docker compose push"
   },
   "repository": {
     "type": "git",

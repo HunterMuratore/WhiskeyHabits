@@ -62,7 +62,7 @@ const whiskey_resolvers = {
 
                 return { whiskeys, count };
             } catch (err) {
-                throw new Error('Failed to get whiskeys');
+                throw new Error(err.message);
             }
         },
 
@@ -75,7 +75,7 @@ const whiskey_resolvers = {
                 }
                 return whiskey;
             } catch (err) {
-                throw new Error('Failed to get whiskey');
+                throw new Error(err.message);
             }
         },
     },
