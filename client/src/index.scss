@@ -107,6 +107,16 @@ header {
     color: rgb(208, 7, 7);
 }
 
+.success-message {
+    color: rgb(37, 157, 18);
+}
+
+.modal-content {
+    textarea, input {
+        font-size: 14px;
+    }
+}
+
 .whiskeys {
     .whiskey-link:hover {
         text-decoration: underline;

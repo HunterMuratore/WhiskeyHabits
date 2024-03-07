@@ -8,7 +8,7 @@ const ErrorMessage = ({ message }) => {
             setVisible(true)
             const timer = setTimeout(() => {
                 setVisible(false)
-            }, 4000)
+            }, 5000)
 
             return () => clearTimeout(timer)
         }
@@ -17,7 +17,7 @@ const ErrorMessage = ({ message }) => {
     return (
         <div>
             {visible && (
-                <div className="error-message text-red font-bold py-2">
+                <div className="error-message text-center mx-auto font-bold py-2">
                     <p>{message}</p>
                 </div>
             )}

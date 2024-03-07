@@ -30,16 +30,24 @@ function WhiskeyDetails() {
 
     const handleShowWhiskeyEntry = () => {
         // Check if there is an active user
-        // if (!user) {
-        //     navigate("/login")
-        //     return
-        // }
+        if (!user) {
+            navigate("/login")
+            return
+        }
 
         setShowWhiskeyEntry(true)
     }
 
     const handleCloseWhiskeyEntry = () => {
-        setShowWhiskeyEntry(false);
+        setShowWhiskeyEntry(false)
+    }
+
+    const handleSuccess = () => {
+        setShowSuccess(true)
+    }
+
+    const handleError = (error) => {
+        setErrorMessage(error)
     }
 
     return (
@@ -47,8 +55,20 @@ function WhiskeyDetails() {
             <h2 className="text-center font-bold text-xl sm:text-3xl mt-6 mb-4">{whiskey.name}</h2>
             <div className="mx-auto text-center mb-4">
                 <button className="my-btn mb-1" onClick={handleShowWhiskeyEntry}>Add to Collection</button>
-                <WhiskeyEntry showModal={showWhiskeyEntry} onClose={handleCloseWhiskeyEntry} onAddToCollection={addToCollection} />
-                {showSuccess && <SuccessMessage message="Whiskey successfully added to collection" show={showSuccess} setShow={setShowSuccess} />}
+                <WhiskeyEntry
+                    showModal={showWhiskeyEntry}
+                    onClose={handleCloseWhiskeyEntry}
+                    onAddToCollection={addToCollection}
+                    onSuccess={handleSuccess}
+                    onError={handleError}
+                    user={user}
+                    whiskey={whiskey}
+                />
+                {showSuccess && <SuccessMessage
+                    message="Whiskey successfully added to collection"
+                    showSuccess={showSuccess}
+                    setShowSuccess={setShowSuccess}
+                />}
                 {errorMessage && <ErrorMessage message={errorMessage} />}
             </div>
             <div className="flex justify-center">

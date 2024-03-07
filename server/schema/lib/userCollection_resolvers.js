@@ -1,4 +1,6 @@
-const { UserCollection } = require('../../models');
+const { User } = require('../../models');
+
+const mongoose = require('mongoose');
 
 const userCollectionResolvers = {
     Query: {
@@ -7,65 +9,100 @@ const userCollectionResolvers = {
 
     Mutation: {
         // Add a whiskey to a user's collection
-        async addToCollection(_, { userId, whiskeyId, rating, notes }) {
+        async addToCollection(_, { userId, whiskeyId, userRating, userNotes }) {
             try {
-                const existingEntry = await UserCollection.findOne({ userId, whiskeyId });
+                // Find the user by userId
+                const user = await User.findById(userId);
+
+                if (!user) {
+                    throw new Error('User not found');
+                }
+
+                // Check if the whiskey is already in the user's collection
+                const existingEntry = user.userCollection.find(entry => entry.whiskeyId.toString() === whiskeyId);
 
                 if (existingEntry) {
                     throw new Error('Whiskey already exists in your collection');
                 }
 
-                const collectionEntry = new UserCollection({
-                    userId,
+                // Create a new userCollection object
+                const collectionEntry = {
                     whiskeyId,
-                    rating,
-                    notes,
-                });
+                    userRating,
+                    userNotes
+                };
 
-                await collectionEntry.save();
+                // Push the new collectionEntry to the user's userCollection array
+                user.userCollection.push(collectionEntry);
+
+                // Save the user document
+                await user.save();
 
                 return collectionEntry;
             } catch (err) {
-                throw new Error('Failed to add whiskey to collection');
+                throw new Error(err.message);
             }
         },
         // Update a whiskey in a user's collection
-        async updateReview(_, { userId, whiskeyId, rating, notes }) {
+        async updateReview(_, { userId, whiskeyId, userRating, userNotes }) {
             try {
-                let collectionEntry = await UserCollection.findOne({ userId, whiskeyId });
+                // Find the user by userId
+                const user = await User.findById(userId);
+
+                if (!user) {
+                    throw new Error('User not found');
+                }
+
+                // Find the userCollection object within the user's userCollection array by whiskeyId
+                const collectionEntry = user.userCollection.find(entry => entry.whiskeyId === whiskeyId);
 
                 if (!collectionEntry) {
                     throw new Error('Whiskey not found in collection');
                 }
 
                 // Update rating and notes if provided
-                if (rating !== undefined) {
-                    collectionEntry.rating = rating;
+                if (userRating !== undefined) {
+                    collectionEntry.userRating = userRating;
                 }
 
-                if (notes !== undefined) {
-                    collectionEntry.notes = notes;
+                if (userNotes !== undefined) {
+                    collectionEntry.userNotes = userNotes;
                 }
 
-                await collectionEntry.save();
+                // Save the user document
+                await user.save();
 
                 return collectionEntry;
             } catch (err) {
-                throw new Error('Failed to update review');
+                throw new Error(err.message);
             }
         },
         // Remove a whiskey from a user's collection
         async removeFromCollection(_, { userId, whiskeyId }) {
             try {
-                const collectionEntry = await UserCollection.findOneAndDelete({ userId, whiskeyId });
+                // Find the user by userId
+                const user = await User.findById(userId);
 
-                if (!collectionEntry) {
+                if (!user) {
+                    throw new Error('User not found');
+                }
+
+                // Find the index of the userCollection object within the user's userCollection array by whiskeyId
+                const index = user.userCollection.findIndex(entry => entry.whiskeyId === whiskeyId);
+
+                if (index === -1) {
                     throw new Error('Whiskey not found in collection');
                 }
-                
-                return collectionEntry;
+
+                // Remove the userCollection object from the user's userCollection array
+                const removedEntry = user.userCollection.splice(index, 1)[0];
+
+                // Save the user document
+                await user.save();
+
+                return removedEntry;
             } catch (err) {
-                throw new Error('Failed to remove whiskey from collection');
+                throw new Error(err.message);
             }
         },
     },

@@ -18,27 +18,13 @@ export const GET_USER_BY_ID = gql`
       email
       username
       userCollection {
-        _id
-        userId
-        whiskeyId {
-          _id
-          name
-          image
-          rating
-          type
-          stats {
-            distiller
-            bottler
-            abv
-            age
-            price
-          }
-        }
-        rating
+        whiskeyId
+        userRating
         userNotes {
           nose
           taste
           finish
+          overall
         }
       }
     }

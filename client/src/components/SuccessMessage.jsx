@@ -8,7 +8,7 @@ const SuccessMessage = ({ message }) => {
             setVisible(true)
             const timer = setTimeout(() => {
                 setVisible(false)
-            }, 4000)
+            }, 5000)
 
             return () => clearTimeout(timer)
         }
@@ -17,7 +17,7 @@ const SuccessMessage = ({ message }) => {
     return (
         <div>
             {visible && (
-                <div className="success-message">
+                <div className="success-message text-center mx-auto font-bold py-2">
                     <p>{message}</p>
                 </div>
             )}

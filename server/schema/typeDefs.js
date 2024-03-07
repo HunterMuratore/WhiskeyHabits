@@ -39,10 +39,9 @@ const typeDefs = gql`
     }
 
     type UserCollection {
-        _id: ID
         userId: ID
-        whiskeyId: Whiskey
-        rating: Float
+        whiskeyId: ID
+        userRating: Float
         userNotes: WhiskeyNotes
     }
 
@@ -50,6 +49,7 @@ const typeDefs = gql`
         nose: String
         taste: String
         finish: String
+        overall: String
     }
 
     type WhiskeysResult {
@@ -68,8 +68,8 @@ const typeDefs = gql`
         register(email: String!, username: String!, password: String!): User
         login(identifier: String!, password: String!): User
         logout: String
-        addToCollection(userId: ID!, whiskeyId: ID!, rating: Float, userNotes: WhiskeyNotesInput): UserCollection
-        updateReview(userId: ID!, whiskeyId: ID!, rating: Float, userNotes: WhiskeyNotesInput): UserCollection
+        addToCollection(userId: ID!, whiskeyId: ID!, userRating: Float, userNotes: WhiskeyNotesInput): UserCollection
+        updateReview(userId: ID!, whiskeyId: ID!, userRating: Float, userNotes: WhiskeyNotesInput): UserCollection
         removeFromCollection(userId: ID!, whiskeyId: ID!): UserCollection
     }
 
@@ -77,6 +77,8 @@ const typeDefs = gql`
         nose: String
         taste: String
         finish: String
+        overall: String
     }
-`
+`;
+
 module.exports = typeDefs;
