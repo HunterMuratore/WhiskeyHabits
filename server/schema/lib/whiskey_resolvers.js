@@ -1,4 +1,4 @@
-const { Whiskey } = require("../../models")
+const { Whiskey, User } = require("../../models");
 
 const whiskey_resolvers = {
     Query: {
@@ -74,6 +74,27 @@ const whiskey_resolvers = {
                     throw new Error('Whiskey not found');
                 }
                 return whiskey;
+            } catch (err) {
+                throw new Error(err.message);
+            }
+        },
+
+        async getUserCollectionWhiskeys(_, { userId }) {
+            try {
+                // Find the user by userId
+                const user = await User.findById(userId);
+
+                if (!user) {
+                    throw new Error('User not found');
+                }
+                
+                // Retrieve user's whiskey collection
+                const userWhiskeyIds = user.userCollection.map(item => item.whiskeyId);
+
+                // Fetch whiskeys from the database using the IDs
+                const userWhiskeys = await Whiskey.find({ _id: { $in: userWhiskeyIds } });
+                
+                return userWhiskeys;
             } catch (err) {
                 throw new Error(err.message);
             }

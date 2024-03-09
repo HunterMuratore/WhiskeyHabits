@@ -1,7 +1,5 @@
 const { User } = require('../../models');
 
-const mongoose = require('mongoose');
-
 const userCollectionResolvers = {
     Query: {
 
@@ -19,9 +17,9 @@ const userCollectionResolvers = {
                 }
 
                 // Check if the whiskey is already in the user's collection
-                const existingEntry = user.userCollection.find(entry => entry.whiskeyId.toString() === whiskeyId);
+                const existingEntry = user.userCollection.findIndex(entry => entry.whiskeyId.equals(whiskeyId));
 
-                if (existingEntry) {
+                if (existingEntry !== -1) {
                     throw new Error('Whiskey already exists in your collection');
                 }
 

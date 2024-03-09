@@ -17,7 +17,7 @@ import WhiskeyDetails from './pages/WhiskeyDetails'
 import { AUTHENTICATE } from './utils/queries'
 
 function App() {
-  const { data: userData } = useQuery(AUTHENTICATE);
+  const { data: userData } = useQuery(AUTHENTICATE)
   const { setState } = useStore()
 
   useEffect(() => {
