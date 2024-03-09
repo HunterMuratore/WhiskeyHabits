@@ -19,9 +19,9 @@ function Profile() {
 
     return (
         <section className="profile mt-10">
-            <h1 className="font-bold mt-4 mb-4 text-center">{userProfile.username}'s Profile</h1>
+            <h1 className="font-bold my-4 text-center">{userProfile.username}'s Profile</h1>
 
-            <h2 className="font-bold text-lg mt-4 mb-4 text-center">{userProfile.username}'s Whiskey Collection</h2>
+            <h2 className="font-bold text-lg my-4 text-center">{userProfile.username}'s Whiskey Collection</h2>
 
             <UserCollection 
                 userProfile={userProfile}

@@ -89,7 +89,6 @@ export const GET_USER_COLLECTION_WHISKEYS = gql`
       name
       image
       type
-      rating
       link
       stats {
         distiller
@@ -97,14 +96,6 @@ export const GET_USER_COLLECTION_WHISKEYS = gql`
         abv
         age
         price
-      }
-      houseReviews {
-        intro
-        nose
-        taste
-        finish
-        overall
-        score
       }
     }
   }

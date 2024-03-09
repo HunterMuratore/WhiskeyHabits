@@ -5,6 +5,8 @@ import { useMutation } from '@apollo/client'
 
 import { REGISTER, LOGIN } from '../utils/mutations'
 
+import ErrorMessage from '../components/ErrorMessage'
+
 const initialFormData = {
     email: '',
     username: '',
@@ -60,12 +62,12 @@ function Auth({ isLogin }) {
     return (
         <main className="auth flex items-center justify-center mt-20">
             <form className=" w-full p-8 border mt-36" onSubmit={handleSubmit}>
-                <h2 className="text-center text-2xl font-bold mb-6">{isLogin ? 'Log In' : 'Register'}</h2>
+                <h2 className="text-center text-2xl font-bold mb-3">{isLogin ? 'Log In' : 'Register'}</h2>
 
-                {errorMessage && <p className="text-center text-red-500 mb-4">{errorMessage}</p>}
+                <ErrorMessage message={errorMessage} />
 
                 {isLogin ? (
-                    <div className="mb-4">
+                    <div className="mt-3 mb-4">
                         <label htmlFor="identifier" className="text-sm font-medium">
                             Username or Email:
                         </label>
