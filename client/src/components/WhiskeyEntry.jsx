@@ -70,11 +70,11 @@ function WhiskeyEntry({ showModal, onClose, onAddToCollection, onSuccess, onErro
 
   return (
     <>
-      <Modal dismissible show={openModal} onClose={handleCloseModal}>
+      <Modal className='modal' dismissible show={openModal} onClose={handleCloseModal}>
         <Modal.Header>Add Whiskey to Collection</Modal.Header>
         <Modal.Body>
-          <div className="modal-content flex flex-wrap justify-around my-4">
-            <div className='flex gap-2 align-center mb-2'>
+          <div className="modal-content my-4">
+            <div className='flex gap-2 justify-around align-center mb-2'>
               <label>
                 Nose:
                 <textarea className="rounded" value={nose} onChange={(e) => setNose(e.target.value)} />
@@ -88,31 +88,33 @@ function WhiskeyEntry({ showModal, onClose, onAddToCollection, onSuccess, onErro
                 <textarea className="rounded" value={finish} onChange={(e) => setFinish(e.target.value)} />
               </label>
             </div>
-            <div className='flex flex-col gap-2 justify-center align-center'>
+            <div className='flex flex-col gap-2 justify-center align-center mt-5'>
               <label>
                 Overall:
               </label>
-              <textarea className="rounded" value={overall} onChange={(e) => setOverall(e.target.value)} />
-              <label>
-                Rating &#40;0-10&#41;:
-                <input
-                  className="rounded ml-2"
-                  type="number"
-                  value={rating}
-                  onChange={(e) => {
-                    // Limit the input value to be between 0 and 10
-                    const inputValue = Math.min(Math.max(e.target.value, 0), 10);
-                    setRating(inputValue);
-                  }}
-                  min="0"
-                  max="10"
-                />
-              </label>
+              <textarea className="rounded w-full" value={overall} onChange={(e) => setOverall(e.target.value)} />
+              <div className='mt-5'>
+                <label>
+                  Rating &#40;0-10&#41;:
+                  <input
+                    className="rounded ml-2"
+                    type="number"
+                    value={rating}
+                    onChange={(e) => {
+                      // Limit the input value to be between 0 and 10
+                      const inputValue = Math.min(Math.max(e.target.value, 0), 10);
+                      setRating(inputValue);
+                    }}
+                    min="0"
+                    max="10"
+                  />
+                </label>
+              </div>
             </div>
           </div>
           {errorMessage && <ErrorMessage message={errorMessage} />}
         </Modal.Body>
-        <Modal.Footer>
+        <Modal.Footer className='justify-end'>
           <Button className="my-btn" onClick={handleAddToCollection}>Add to Collection</Button>
           <Button color="gray" onClick={handleCloseModal}>Cancel</Button>
         </Modal.Footer>

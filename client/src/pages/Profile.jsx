@@ -1,3 +1,4 @@
+import { useEffect } from 'react'
 import { useQuery } from "@apollo/client"
 import { useStore } from "../store"
 
@@ -9,9 +10,14 @@ import { GET_USER_BY_ID } from "../utils/queries"
 function Profile() {
     const { user } = useStore()
 
-    const { loading, error, data } = useQuery(GET_USER_BY_ID, {
+    const { loading, error, data, refetch } = useQuery(GET_USER_BY_ID, {
         variables: { userId: user._id }, 
     })
+
+    useEffect(() => {
+        // Refetch user profile data when the component mounts
+        refetch()
+    }, [refetch])
 
     if (loading) return <LoadingSpinner />
 

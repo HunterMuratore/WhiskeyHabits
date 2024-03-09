@@ -49,18 +49,18 @@ a {
 .my-btn:active,
 .my-btn:focus,
 .my-btn.focus {
-  background-color: darken($theme-light, 10%) !important;
-  transition: background-color 0.2s ease-in-out;
-  border: none;
-  border-radius: 6px;
-  padding: 6px;
-  color: $theme-text;
-
-  &:hover,
-  &.open {
-    background-color: darken($theme-light, 15%) !important;
+    background-color: darken($theme-light, 10%) !important;
+    transition: background-color 0.2s ease-in-out;
+    border: none;
+    border-radius: 6px;
+    padding: 6px;
     color: $theme-text;
-  }
+
+    &:hover,
+    &.open {
+        background-color: darken($theme-light, 15%) !important;
+        color: $theme-text;
+    }
 }
 
 /* CUSTOM CLASSES */
@@ -79,7 +79,7 @@ header {
                 &.active {
                     text-decoration: underline;
                 }
-            }    
+            }
 
             &:not(:last-child) {
                 margin-right: 10px;
@@ -111,9 +111,24 @@ header {
     color: rgb(37, 157, 18);
 }
 
-.modal-content {
-    textarea, input {
-        font-size: 14px;
+.loading-spinner circle {
+    stroke: $theme-dark;
+}
+
+.loading-spinner path {
+    fill: $theme-light;
+}
+
+
+.modal {
+    overflow: hidden !important;
+
+    .modal-content {
+
+        textarea,
+        input {
+            font-size: 14px;
+        }
     }
 }
 
