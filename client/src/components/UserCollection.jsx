@@ -16,6 +16,10 @@ function UserCollection({ userProfile }) {
         variables: { userId: userProfile._id },
     })
 
+    useEffect(() => {
+        refetch()
+    }, [userProfile, refetch])
+
     if (loading) return <LoadingSpinner />
 
     const whiskeys = data.getUserCollectionWhiskeys
