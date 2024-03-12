@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
   app:
-    image: outfortheseason/whiskeyhabits
+    image: outfortheseason/whiskeyhabits:test
     container_name: whiskeyhabits
     build: .
     ports:
