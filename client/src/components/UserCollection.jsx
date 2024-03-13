@@ -3,26 +3,31 @@ import { useQuery, useMutation } from '@apollo/client'
 import { NavLink } from "react-router-dom"
 
 import { GET_USER_COLLECTION_WHISKEYS } from '../utils/queries'
-import { REMOVE_FROM_COLLECTION } from '../utils/mutations'
+import { REMOVE_FROM_COLLECTION, UPDATE_REVIEW } from '../utils/mutations'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faCaretDown, faCaretUp, faX } from '@fortawesome/free-solid-svg-icons'
+import { faCaretDown, faCaretUp, faX, faPencil } from '@fortawesome/free-solid-svg-icons'
 
 import LoadingSpinner from './LoadingSpinner'
+import WhiskeyEntry from './WhiskeyEntry'
+import SuccessMessage from './SuccessMessage'
 
-function UserCollection({ userId }) {
+function UserCollection({ user }) {
     const [openIndex, setOpenIndex] = useState(null)
     const [whiskeys, setWhiskeys] = useState([])
+    const [showWhiskeyEntry, setShowWhiskeyEntry] = useState(false)
+    const [showSuccess, setShowSuccess] = useState(false)
 
     const { loading, error, data } = useQuery(GET_USER_COLLECTION_WHISKEYS, {
-        variables: { userId },
+        variables: { userId: user._id },
     })
 
     const [removeFromCollection] = useMutation(REMOVE_FROM_COLLECTION, {
-        onError: (error) => {
-            console.error('Error removing whiskey from collection:', error.message)
-        },
-        refetchQueries: [{ query: GET_USER_COLLECTION_WHISKEYS, variables: { userId } }],
+        refetchQueries: [{ query: GET_USER_COLLECTION_WHISKEYS, variables: { userId: user._id } }],
+    })
+
+    const [updateReview] = useMutation(UPDATE_REVIEW, {
+        refetchQueries: [{ query: GET_USER_COLLECTION_WHISKEYS, variables: { userId: user._id } }],
     })
 
     useEffect(() => {
@@ -37,9 +42,21 @@ function UserCollection({ userId }) {
         setOpenIndex(openIndex === index ? null : index)
     }
 
+    const handleShowWhiskeyEntry = () => {
+        setShowWhiskeyEntry(true)
+    }
+
+    const handleCloseWhiskeyEntry = () => {
+        setShowWhiskeyEntry(false)
+    }
+
+    const handleSuccess = () => {
+        setShowSuccess(true)
+    }
+
     const handleRemoveFromCollection = async (whiskeyId) => {
         try {
-            await removeFromCollection({ variables: { userId, whiskeyId } })
+            await removeFromCollection({ variables: { userId: user._id, whiskeyId } })
         } catch (error) {
             console.error('Error removing whiskey from collection:', error.message)
         }
@@ -61,6 +78,14 @@ function UserCollection({ userId }) {
                         </div>
                     </div>
                 )}
+
+                {/* Success message for updating a whiskey */}
+                {showSuccess && <SuccessMessage
+                    message="Whiskey successfully updated"
+                    showSuccess={showSuccess}
+                    setShowSuccess={setShowSuccess}
+                />}
+
                 {whiskeys.map((whiskey, index) => (
                     <div key={index} className="whiskey-box my-2 bg-gray-100 w-full border border-gray-300 p-4 rounded-md">
                         <div className="whiskey-header flex items-center cursor-pointer justify-between" onClick={() => toggleDropdown(index)}>
@@ -86,16 +111,32 @@ function UserCollection({ userId }) {
                                         <p className="text-sm ml-1">{whiskey.whiskey.stats.abv}</p>
                                     </div>
                                     <div>
-                                        <p className="text-sm font-semibold">Rating:</p>
+                                        <p className="text-sm font-semibold">{user.username}'s Rating:</p>
                                         <p className="text-sm text-center">{whiskey.userRating}</p>
                                     </div>
                                 </div>
                                 {/* Display user's whiskey details */}
                                 <div className='flex justify-between'>
-                                    <h4 className="text-md font-semibold mt-4 mb-2">Reviews</h4>
-                                    <button onClick={() => handleRemoveFromCollection(whiskey.whiskey._id)}>
-                                        <FontAwesomeIcon icon={faX} className="text-gray-500" />
-                                    </button>
+                                    <h4 className="text-md font-semibold mt-4 mb-2">{user.username}'s Review</h4>
+                                    <div>
+                                        <button className='mr-3' onClick={handleShowWhiskeyEntry}>
+                                            <FontAwesomeIcon icon={faPencil} className="text-gray-500" />
+                                        </button>
+                                        <button onClick={() => handleRemoveFromCollection(whiskey.whiskey._id)}>
+                                            <FontAwesomeIcon icon={faX} className="text-gray-500" />
+                                        </button>
+                                    </div>
+                                    {showWhiskeyEntry && (
+                                        <WhiskeyEntry
+                                            showModal={showWhiskeyEntry}
+                                            onClose={handleCloseWhiskeyEntry}
+                                            onSuccess={handleSuccess}
+                                            onUpdateReview={updateReview}
+                                            user={user}
+                                            whiskey={whiskey}
+                                            isUpdate={true}
+                                        />
+                                    )}
                                 </div>
                                 <div className="flex gap-3 justify-between flex-wrap">
                                     <div className="note-box flex-1">

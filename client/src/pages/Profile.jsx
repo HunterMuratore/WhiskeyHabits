@@ -13,7 +13,7 @@ function Profile() {
             <h2 className="font-bold text-lg my-4 text-center">{user.username}'s Whiskey Collection</h2>
 
             <UserCollection 
-                userId={user._id}
+                user={user}
             />
         </section>
     )
