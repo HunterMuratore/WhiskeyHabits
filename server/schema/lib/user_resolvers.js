@@ -15,7 +15,6 @@ const user_resolvers = {
             try {
                 const user = await User.findById(userId);
                 return user;
-
             } catch (err) {
                 throw new Error(err.message);
             }
