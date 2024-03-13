@@ -86,16 +86,26 @@ export const GET_USER_COLLECTION_WHISKEYS = gql`
   query GetUserCollectionWhiskeys($userId: ID!) {
     getUserCollectionWhiskeys(userId: $userId) {
       _id
-      name
-      image
-      type
-      link
-      stats {
-        distiller
-        bottler
-        abv
-        age
-        price
+      userRating
+      userNotes {
+        nose
+        taste
+        finish
+        overall
+      }
+      whiskey {
+        _id
+        name
+        image
+        type
+        link
+        stats {
+          distiller
+          bottler
+          abv
+          age
+          price
+        }
       }
     }
   }

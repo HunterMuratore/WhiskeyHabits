@@ -87,14 +87,23 @@ const whiskey_resolvers = {
                 if (!user) {
                     throw new Error('User not found');
                 }
-                
+
                 // Retrieve user's whiskey collection
                 const userWhiskeyIds = user.userCollection.map(item => item.whiskeyId);
 
                 // Fetch whiskeys from the database using the IDs
                 const userWhiskeys = await Whiskey.find({ _id: { $in: userWhiskeyIds } });
-                
-                return userWhiskeys;
+
+                // Combine user collection and whiskey data into a new array
+                const combinedData = user.userCollection.map(collectionItem => {
+                    const whiskey = userWhiskeys.find(whiskey => whiskey._id.equals(collectionItem.whiskeyId));
+                    return {
+                        ...collectionItem.toObject(),
+                        whiskey: whiskey.toObject()
+                    }
+                });
+
+                return combinedData;
             } catch (err) {
                 throw new Error(err.message);
             }

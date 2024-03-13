@@ -54,13 +54,13 @@ mutation UpdateReview($userId: ID!, $whiskeyId: ID!, $userRating: Float, $userNo
 export const REMOVE_FROM_COLLECTION = gql`
 mutation RemoveFromCollection($userId: ID!, $whiskeyId: ID!) {
   removeFromCollection(userId: $userId, whiskeyId: $whiskeyId) {
-    whiskeyId
-    userRating
-    userNotes {
-      nose
-      taste
-      finish
-      overall
+      whiskeyId
+      userRating
+      userNotes {
+        nose
+        taste
+        finish
+        overall
     }
   }
 }

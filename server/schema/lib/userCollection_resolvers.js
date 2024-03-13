@@ -1,4 +1,5 @@
 const { User } = require('../../models');
+const { authenticate } = require('../../auth')
 
 const userCollectionResolvers = {
     Query: {
@@ -7,19 +8,31 @@ const userCollectionResolvers = {
 
     Mutation: {
         // Add a whiskey to a user's collection
-        async addToCollection(_, { userId, whiskeyId, userRating, userNotes }) {
+        async addToCollection(_, { userId, whiskeyId, userRating, userNotes }, context) {
             try {
-                // Find the user by userId
-                const user = await User.findById(userId);
+                // Extract user information from the context
+                const user = context.user;
 
                 if (!user) {
+                    throw new Error('User not authenticated');
+                }
+
+                // Check if the authenticated user's ID matches the provided userId
+                if (user._id.toString() !== userId) {
+                    throw new Error('Unauthorized');
+                }
+
+                // Find the user by userId
+                const targetUser = await User.findById(userId);
+
+                if (!targetUser) {
                     throw new Error('User not found');
                 }
 
                 // Check if the whiskey is already in the user's collection
-                const existingEntry = user.userCollection.findIndex(entry => entry.whiskeyId.equals(whiskeyId));
+                const existingEntry = targetUser.userCollection.find(entry => entry.whiskeyId.equals(whiskeyId));
 
-                if (existingEntry !== -1) {
+                if (existingEntry) {
                     throw new Error('Whiskey already exists in your collection');
                 }
 
@@ -31,10 +44,10 @@ const userCollectionResolvers = {
                 };
 
                 // Push the new collectionEntry to the user's userCollection array
-                user.userCollection.push(collectionEntry);
+                targetUser.userCollection.push(collectionEntry);
 
                 // Save the user document
-                await user.save();
+                await targetUser.save();
 
                 return collectionEntry;
             } catch (err) {
@@ -42,17 +55,29 @@ const userCollectionResolvers = {
             }
         },
         // Update a whiskey in a user's collection
-        async updateReview(_, { userId, whiskeyId, userRating, userNotes }) {
+        async updateReview(_, { userId, whiskeyId, userRating, userNotes }, context) {
             try {
-                // Find the user by userId
-                const user = await User.findById(userId);
+                // Extract user information from the context
+                const user = context.user;
 
                 if (!user) {
+                    throw new Error('User not authenticated');
+                }
+
+                // Check if the authenticated user's ID matches the provided userId
+                if (user._id.toString() !== userId) {
+                    throw new Error('Unauthorized');
+                }
+
+                // Find the user by userId
+                const targetUser = await User.findById(userId);
+
+                if (!targetUser) {
                     throw new Error('User not found');
                 }
 
                 // Find the userCollection object within the user's userCollection array by whiskeyId
-                const collectionEntry = user.userCollection.find(entry => entry.whiskeyId === whiskeyId);
+                const collectionEntry = targetUser.userCollection.find(entry => entry.whiskeyId.equals(whiskeyId));
 
                 if (!collectionEntry) {
                     throw new Error('Whiskey not found in collection');
@@ -68,7 +93,7 @@ const userCollectionResolvers = {
                 }
 
                 // Save the user document
-                await user.save();
+                await targetUser.save();
 
                 return collectionEntry;
             } catch (err) {
@@ -76,27 +101,39 @@ const userCollectionResolvers = {
             }
         },
         // Remove a whiskey from a user's collection
-        async removeFromCollection(_, { userId, whiskeyId }) {
+        async removeFromCollection(_, { userId, whiskeyId }, context) {
             try {
-                // Find the user by userId
-                const user = await User.findById(userId);
+                // Extract user information from the context
+                const user = context.user;
 
                 if (!user) {
+                    throw new Error('User not authenticated');
+                }
+
+                // Check if the authenticated user's ID matches the provided userId
+                if (user._id.toString() !== userId) {
+                    throw new Error('Unauthorized');
+                }
+
+                // Find the user by userId
+                const targetUser = await User.findById(userId);
+
+                if (!targetUser) {
                     throw new Error('User not found');
                 }
 
                 // Find the index of the userCollection object within the user's userCollection array by whiskeyId
-                const index = user.userCollection.findIndex(entry => entry.whiskeyId === whiskeyId);
+                const index = targetUser.userCollection.findIndex(entry => entry.whiskeyId.equals(whiskeyId));
 
                 if (index === -1) {
                     throw new Error('Whiskey not found in collection');
                 }
 
                 // Remove the userCollection object from the user's userCollection array
-                const removedEntry = user.userCollection.splice(index, 1)[0];
+                const removedEntry = targetUser.userCollection.splice(index, 1)[0];
 
                 // Save the user document
-                await user.save();
+                await targetUser.save();
 
                 return removedEntry;
             } catch (err) {
