@@ -1,9 +1,8 @@
 import { Button, Modal } from 'flowbite-react'
 import { useState, useEffect } from 'react'
-
 import ErrorMessage from './ErrorMessage'
 
-function WhiskeyEntry({ showModal, onClose, onAddToCollection, onSuccess, onError, user, whiskey }) {
+function WhiskeyEntry({ showModal, onClose, onAddToCollection, onUpdateReview, onSuccess, onError, user, whiskey, isUpdate }) {
   const [openModal, setOpenModal] = useState(false)
   const [errorMessage, setErrorMessage] = useState(null)
   const [rating, setRating] = useState('')
@@ -17,7 +16,18 @@ function WhiskeyEntry({ showModal, onClose, onAddToCollection, onSuccess, onErro
     setOpenModal(showModal)
   }, [showModal])
 
-  const handleAddToCollection = async () => {
+  // Populate the input fields with existing review data when updating
+  useEffect(() => {
+    if (isUpdate && whiskey) {
+      setRating(whiskey.userRating)
+      setNose(whiskey.userNotes.nose)
+      setTaste(whiskey.userNotes.taste)
+      setFinish(whiskey.userNotes.finish)
+      setOverall(whiskey.userNotes.overall)
+    }
+  }, [isUpdate, whiskey.whiskey])
+
+  const handleCollectionMutation = async () => {
     try {
       // Convert the rating from string to float
       const ratingFloat = parseFloat(rating)
@@ -28,23 +38,37 @@ function WhiskeyEntry({ showModal, onClose, onAddToCollection, onSuccess, onErro
         return
       }
 
-      // Execute the mutation to add the whiskey to the user's collection
-      const response = await onAddToCollection({
-        variables: {
-          userId: user._id,
-          whiskeyId: whiskey._id,
-          userRating: ratingFloat,
-          userNotes: {
-            nose: nose,
-            taste: taste,
-            finish: finish,
-            overall: overall
-          }
-        },
-      })
+      // Execute the appropriate mutation based on whether it's an update or add
+      const response = isUpdate
+        ? await onUpdateReview({
+            variables: {
+              userId: user._id,
+              whiskeyId: whiskey.whiskey._id,
+              userRating: ratingFloat,
+              userNotes: {
+                nose: nose,
+                taste: taste,
+                finish: finish,
+                overall: overall
+              }
+            }
+          })
+        : await onAddToCollection({
+            variables: {
+              userId: user._id,
+              whiskeyId: whiskey._id,
+              userRating: ratingFloat,
+              userNotes: {
+                nose: nose,
+                taste: taste,
+                finish: finish,
+                overall: overall
+              }
+            }
+          })
 
       // Check if the request was successful
-      if (response && response.data && response.data.addToCollection) {
+      if (response && response.data) {
         onSuccess()
         handleCloseModal()
       } else {
@@ -71,10 +95,10 @@ function WhiskeyEntry({ showModal, onClose, onAddToCollection, onSuccess, onErro
   return (
     <>
       <Modal className='modal' dismissible show={openModal} onClose={handleCloseModal}>
-        <Modal.Header>Add Whiskey to Collection</Modal.Header>
+        <Modal.Header>{isUpdate ? "Update Review" : "Add Whiskey to Collection"}</Modal.Header>
         <Modal.Body>
           <div className="modal-content my-4">
-            <div className='flex gap-2 justify-around align-center mb-2'>
+            <div className='flex gap-2 justify-around'>
               <label>
                 Nose:
                 <textarea className="rounded" value={nose} onChange={(e) => setNose(e.target.value)} />
@@ -115,7 +139,7 @@ function WhiskeyEntry({ showModal, onClose, onAddToCollection, onSuccess, onErro
           {errorMessage && <ErrorMessage message={errorMessage} />}
         </Modal.Body>
         <Modal.Footer className='justify-end'>
-          <Button className="my-btn" onClick={handleAddToCollection}>Add to Collection</Button>
+          <Button className="my-btn" onClick={handleCollectionMutation}>{isUpdate ? "Update Review" : "Add to Collection"}</Button>
           <Button color="gray" onClick={handleCloseModal}>Cancel</Button>
         </Modal.Footer>
       </Modal>

@@ -63,6 +63,7 @@ function WhiskeyDetails() {
                     onError={handleError}
                     user={user}
                     whiskey={whiskey}
+                    isUpdate={false}
                 />
                 {showSuccess && <SuccessMessage
                     message="Whiskey successfully added to collection"
