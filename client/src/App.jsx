@@ -18,11 +18,14 @@ import { AUTHENTICATE } from './utils/queries'
 
 function App() {
   const { data: userData } = useQuery(AUTHENTICATE)
-  const { updateUser } = useStore()
-  
+  const { setState } = useStore()
+
   useEffect(() => {
     if (userData) {
-      updateUser(userData.authenticate)
+      setState(oldState => ({
+        ...oldState,
+        user: userData.authenticate
+      }))
     }
   }, [userData])
 

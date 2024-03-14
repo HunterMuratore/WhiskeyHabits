@@ -15,7 +15,7 @@ const initialFormData = {
 }
 
 function Auth({ isLogin }) {
-    const { user, updateUser } = useStore()
+    const { user, setState } = useStore()
     const [formData, setFormData] = useState(initialFormData)
     const [errorMessage, setErrorMessage] = useState('')
     const navigate = useNavigate()
@@ -41,7 +41,10 @@ function Auth({ isLogin }) {
             // Save user data to localStorage
             localStorage.setItem('user', JSON.stringify(userData[resolverName]))
 
-            updateUser(userData[resolverName])
+            setState((oldState) => ({
+                ...oldState,
+                user: userData[resolverName],
+            }))
 
             setFormData(initialFormData)
             setErrorMessage('')

@@ -11,7 +11,7 @@ const LOGOUT_USER = gql`
 
 function Header() {
     const [logoutUser] = useMutation(LOGOUT_USER)
-    const { user, updateUser } = useStore()
+    const { user, setState } = useStore()
     const navigate = useNavigate()
     const location = useLocation()
     const [isOpen, setIsOpen] = useState(false)
@@ -29,7 +29,10 @@ function Header() {
 
         await logoutUser()
 
-        updateUser(null)
+        setState((oldState) => ({
+            ...oldState,
+            user: null,
+        }))
 
         navigate('/')
         closeMenu()
