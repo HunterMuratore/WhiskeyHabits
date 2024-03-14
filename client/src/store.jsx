@@ -1,4 +1,4 @@
-import { createContext, useContext, useState, useEffect } from 'react'
+import { createContext, useContext, useState } from 'react'
 
 const StoreContext = createContext()
 
@@ -7,24 +7,22 @@ export function useStore() {
 }
 
 export function StoreProvider({ children }) {
-    const [state, setState] = useState(() => {
+    const [user, setUser] = useState(() => {
         const storedUser = localStorage.getItem('user')
-        return {
-            user: storedUser ? JSON.parse(storedUser) : null
-        }
+        return storedUser ? JSON.parse(storedUser) : null
     })
 
-    useEffect(() => {
-        // Update localStorage when user state changes
-        if (state.user) {
-            localStorage.setItem('user', JSON.stringify(state.user))
+    const updateUser = newUser => {
+        setUser(newUser)
+        if (newUser) {
+            localStorage.setItem('user', JSON.stringify(newUser))
         } else {
             localStorage.removeItem('user')
         }
-    }, [state.user])
+    }
 
     return (
-        <StoreContext.Provider value={{ ...state, setState }}>
+        <StoreContext.Provider value={{ user, updateUser }}>
             {children}
         </StoreContext.Provider>
     )
