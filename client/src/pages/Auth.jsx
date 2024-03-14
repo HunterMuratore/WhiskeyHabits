@@ -38,6 +38,9 @@ function Auth({ isLogin }) {
 
             const { data: userData } = await authenticateUser()
 
+            // Save user data to localStorage
+            localStorage.setItem('user', JSON.stringify(userData[resolverName]))
+
             setState((oldState) => ({
                 ...oldState,
                 user: userData[resolverName],
