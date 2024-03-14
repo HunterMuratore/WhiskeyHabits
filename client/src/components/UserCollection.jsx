@@ -70,7 +70,7 @@ function UserCollection({ user }) {
                         <p>You have no whiskeys in your collection yet!</p>
                         <div className="text-center my-8">
                             <NavLink
-                                to="/whiskey"
+                                to="/whiskeys"
                                 className="my-btn"
                             >
                                 Explore Whiskeys!
