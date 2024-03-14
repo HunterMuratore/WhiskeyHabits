@@ -1,4 +1,4 @@
-# [WhiskeyHabits](https://whiskeyhabits.com)
+# [WhiskeyHabits](https://whiskeyhabits.com/)
 
 ## Introduction
 
@@ -67,7 +67,7 @@ We welcome contributions from the community to help improve WhiskeyHabits. Wheth
 
 ## Contact
 
-If you have any questions, suggestions, or feedback regarding WhiskeyHabits, please feel free to reach out to us. You can contact the project maintainer via email at [muratoreh@gmail.com](mailto:muratoreh@gmail.com) or through the [Contact Page](whiskeyhabits.com/contact) on the WhiskeyHabits website.
+If you have any questions, suggestions, or feedback regarding WhiskeyHabits, please feel free to reach out to us. You can contact the project maintainer via email at [muratoreh@gmail.com](mailto:muratoreh@gmail.com) or through the [Contact Page](https://whiskeyhabits.com/contact) on the WhiskeyHabits website.
 
 ## License
 
