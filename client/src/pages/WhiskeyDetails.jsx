@@ -49,7 +49,6 @@ function WhiskeyDetails() {
 
     if (whiskeyLoading || userCollectionLoading) return <LoadingSpinner />
     if (whiskeyError) return <ErrorMessage message={whiskeyError.message} />
-    if (userCollectionError) return <ErrorMessage message={userCollectionError.message} />
 
     const { getWhiskeyById: whiskey } = whiskeyData
 
