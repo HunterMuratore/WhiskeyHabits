@@ -11,7 +11,7 @@ import Home from './pages/Home'
 import Auth from './pages/Auth'
 import Profile from './pages/Profile'
 import Contact from './pages/Contact'  
-import Whiskey from './pages/Whiskey'
+import Whiskeys from './pages/Whiskeys'
 import WhiskeyDetails from './pages/WhiskeyDetails'
 
 import { AUTHENTICATE } from './utils/queries'
@@ -42,8 +42,8 @@ function App() {
           <Route path='/profile' element={<Protect user={userData}>
             <Profile userData={userData} />
           </Protect>}></Route>
-          <Route path='/whiskey' element={<Whiskey />}></Route>
-          <Route path='/whiskey/:whiskeyId' element={<WhiskeyDetails />} />
+          <Route path='/whiskeys' element={<Whiskeys />}></Route>
+          <Route path='/whiskeys/:whiskeyId' element={<WhiskeyDetails />} />
         </Routes>
       </main>
 
