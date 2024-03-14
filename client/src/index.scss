@@ -63,9 +63,14 @@ a {
     }
 }
 
+.accent-text {
+    color: $theme-dark;
+}
+
 /* CUSTOM CLASSES */
 header {
     background-color: $theme-dark;
+    width: 100% !important;
 
     .logo {
         height: 30px;
@@ -133,6 +138,22 @@ header {
 }
 
 .whiskeys {
+    .whiskey-table {
+        table-layout: fixed;
+
+        td {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            word-wrap: break-word;
+        }
+    }
+
+    @media (max-width: 700px) {
+        font-size: smaller;
+        overflow-x: auto;
+        display: block;
+    }
+
     .whiskey-link:hover {
         text-decoration: underline;
     }

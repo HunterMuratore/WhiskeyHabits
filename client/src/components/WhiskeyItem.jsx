@@ -4,7 +4,7 @@ const WhiskeyItem = ({ whiskey }) => {
   return (
     <tr key={whiskey._id}>
       <td className="whiskey-link px-6 py-4 whitespace-no-wrap">
-        <NavLink to={`/whiskey/${whiskey._id}`}>{whiskey.name}</NavLink>
+        <NavLink to={`/whiskeys/${whiskey._id}`}>{whiskey.name}</NavLink>
       </td>
       <td className="px-6 py-4 whitespace-no-wrap">
         <img src={whiskey.image} alt={whiskey.name} className="h-10" />

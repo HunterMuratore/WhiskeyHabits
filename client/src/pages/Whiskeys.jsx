@@ -3,9 +3,9 @@ import { useState, useEffect, useRef } from 'react'
 import { useQuery } from '@apollo/client'
 import { GET_WHISKEYS } from '../utils/queries'
 
-import LoadingSpinner from './LoadingSpinner'
-import Pagination from './Pagination'
-import WhiskeyTable from './WhiskeyTable'
+import LoadingSpinner from '../components/LoadingSpinner'
+import Pagination from '../components/Pagination'
+import WhiskeyTable from '../components/WhiskeyTable'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faMagnifyingGlass, faX } from '@fortawesome/free-solid-svg-icons'
@@ -136,10 +136,10 @@ function Whiskeys() {
     if (loading) return <LoadingSpinner />
 
     return (
-        <section className="whiskeys">
-            <div className="flex justify-between mb-2">
+        <section className="whiskeys mt-8 mb-4">
+            <div className="whiskeys-filters flex justify-between mb-2">
                 {/* Search input */}
-                <div>
+                <div className='search-input'>
                     <input
                         type="text"
                         placeholder="Search by name..."
@@ -158,7 +158,7 @@ function Whiskeys() {
                         </div>
                     )}
                 </div>
-                <div>
+                <div className='dropdown'>
                     {/* Dropdown type filters */}
                     <select
                         className="p-1 border border-gray-300 rounded"

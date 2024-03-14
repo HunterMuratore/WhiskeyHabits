@@ -1,5 +1,4 @@
 import { useState } from 'react'
-
 import { useMutation, gql } from '@apollo/client'
 import { NavLink, useNavigate } from 'react-router-dom'
 import { useStore } from '../store'
@@ -80,14 +79,14 @@ function Header() {
                     {user ? (
                         <>
                             <NavLink to="/">Home</NavLink>
-                            <NavLink to="/whiskey">Whiskeys</NavLink>
+                            <NavLink to="/whiskeys">Whiskeys</NavLink>
                             <NavLink to="/profile">Profile</NavLink>
                             <NavLink to="/" onClick={logout} className="inactive">Logout</NavLink>
                         </>
                     ) : (
                         <>
                             <NavLink to="/">Home</NavLink>
-                            <NavLink to="/whiskey">Whiskeys</NavLink>
+                            <NavLink to="/whiskeys">Whiskeys</NavLink>
                             <NavLink to="/register">Register</NavLink>
                             <NavLink to="/login">Login</NavLink>
                         </>
@@ -100,14 +99,14 @@ function Header() {
                 {user ? (
                     <>
                         <NavLink to="/">Home</NavLink>
-                        <NavLink to="/whiskey">Whiskeys</NavLink>
+                        <NavLink to="/whiskeys">Whiskeys</NavLink>
                         <NavLink to="/profile">Profile</NavLink>
                         <NavLink to="/" onClick={logout} className="inactive">Logout</NavLink>
                     </>
                 ) : (
                     <>
                         <NavLink to="/">Home</NavLink>
-                        <NavLink to="/whiskey">Whiskeys</NavLink>
+                        <NavLink to="/whiskeys">Whiskeys</NavLink>
                         <NavLink to="/register">Register</NavLink>
                         <NavLink to="/login">Login</NavLink>
                     </>

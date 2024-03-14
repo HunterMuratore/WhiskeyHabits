@@ -5,7 +5,7 @@ import WhiskeyItem from './WhiskeyItem'
 
 const WhiskeyTable = ({ data, sortByName, sortByScore, handleSortByName, handleSortByScore, perPage }) => {
   return (
-      <table className="min-w-full divide-y divide-gray-200">
+      <table className="whiskey-table min-w-full divide-y divide-gray-200">
         <thead>
           <tr>
             <th className="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
