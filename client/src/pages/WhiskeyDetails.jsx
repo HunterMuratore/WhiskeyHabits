@@ -78,7 +78,7 @@ function WhiskeyDetails() {
     return (
         <section className="flex flex-col whiskey-details">
             <button className="mr-auto mt-6">
-                <NavLink to="/whiskeys" className="flex items-center">
+                <NavLink to="/whiskeys" className="flex text-xs sm:text-sm items-center">
                     <span className="mr-2">&larr;</span> Back to Whiskeys
                 </NavLink>
             </button>

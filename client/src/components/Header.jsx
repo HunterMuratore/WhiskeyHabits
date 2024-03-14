@@ -1,6 +1,6 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useMutation, gql } from '@apollo/client'
-import { NavLink, useNavigate } from 'react-router-dom'
+import { NavLink, useNavigate, useLocation } from 'react-router-dom'
 import { useStore } from '../store'
 
 const LOGOUT_USER = gql`
@@ -13,10 +13,15 @@ function Header() {
     const [logoutUser] = useMutation(LOGOUT_USER)
     const { user, setState } = useStore()
     const navigate = useNavigate()
+    const location = useLocation()
     const [isOpen, setIsOpen] = useState(false)
 
     const toggleMenu = () => {
         setIsOpen(!isOpen)
+    }
+
+    const closeMenu = () => {
+        setIsOpen(false)
     }
 
     const logout = async (e) => {
@@ -30,7 +35,12 @@ function Header() {
         }))
 
         navigate('/')
+        closeMenu()
     }
+
+    useEffect(() => {
+        closeMenu()
+    }, [location])
 
     return (
         <header>
