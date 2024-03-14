@@ -1,10 +1,10 @@
 import { useState, useEffect } from "react"
-import { useParams } from "react-router-dom"
+import { useParams, NavLink } from "react-router-dom"
 import { useQuery, useMutation } from "@apollo/client"
 import { useStore } from '../store'
 import { useNavigate } from "react-router-dom"
 
-import { GET_SINGLE_WHISKEY } from "../utils/queries"
+import { GET_SINGLE_WHISKEY, GET_USER_COLLECTION_WHISKEYS } from "../utils/queries"
 import { ADD_TO_COLLECTION } from "../utils/mutations"
 
 import LoadingSpinner from "../components/LoadingSpinner"
@@ -15,18 +15,43 @@ import WhiskeyEntry from "../components/WhiskeyEntry"
 function WhiskeyDetails() {
     const { whiskeyId } = useParams()
     const { user } = useStore()
-    const { loading, error, data } = useQuery(GET_SINGLE_WHISKEY, {
-        variables: { whiskeyId },
-    })
     const [addToCollection] = useMutation(ADD_TO_COLLECTION)
     const navigate = useNavigate()
     const [showSuccess, setShowSuccess] = useState(false)
     const [errorMessage, setErrorMessage] = useState(null)
     const [showWhiskeyEntry, setShowWhiskeyEntry] = useState(false)
+    const [whiskeyInCollection, setWhiskeyInCollection] = useState(false)
 
-    if (loading) return <LoadingSpinner />
+    // Query to get details of the whiskey
+    const { loading: whiskeyLoading, error: whiskeyError, data: whiskeyData } = useQuery(GET_SINGLE_WHISKEY, {
+        variables: { whiskeyId },
+    })
 
-    const { getWhiskeyById: whiskey } = data
+    // Query to get user's collection of whiskeys
+    const { loading: userCollectionLoading, error: userCollectionError, data: userCollectionData } = useQuery(GET_USER_COLLECTION_WHISKEYS, {
+        variables: { userId: user ? user._id : null },
+        skip: !user,
+    })
+
+    useEffect(() => {
+        if (!userCollectionLoading && userCollectionData) {
+            const userCollectionWhiskeys = userCollectionData.getUserCollectionWhiskeys || []
+
+            // Extract _id values from userCollectionWhiskeys array
+            const userCollectionIds = userCollectionWhiskeys.map(entry => entry.whiskey._id)
+
+            // Check if whiskeyId exists in the array of user collection _ids
+            const isInCollection = userCollectionIds.includes(whiskeyId)
+
+            setWhiskeyInCollection(isInCollection)
+        }
+    }, [userCollectionLoading, userCollectionData])
+
+    if (whiskeyLoading || userCollectionLoading) return <LoadingSpinner />
+    if (whiskeyError) return <ErrorMessage message={whiskeyError.message} />
+    if (userCollectionError) return <ErrorMessage message={userCollectionError.message} />
+
+    const { getWhiskeyById: whiskey } = whiskeyData
 
     const handleShowWhiskeyEntry = () => {
         // Check if there is an active user
@@ -52,25 +77,36 @@ function WhiskeyDetails() {
 
     return (
         <section className="flex flex-col whiskey-details">
-            <h2 className="text-center font-bold text-xl sm:text-3xl mt-6 mb-4">{whiskey.name}</h2>
+            <button className="mr-auto mt-6">
+                <NavLink to="/whiskey" className="flex items-center">
+                    <span className="mr-2">&larr;</span> Back to Whiskeys
+                </NavLink>
+            </button>
+            <h2 className="text-center font-bold text-xl sm:text-3xl mt-6 mb-6">{whiskey.name}</h2>
             <div className="mx-auto text-center mb-4">
-                <button className="my-btn mb-1" onClick={handleShowWhiskeyEntry}>Add to Collection</button>
-                <WhiskeyEntry
-                    showModal={showWhiskeyEntry}
-                    onClose={handleCloseWhiskeyEntry}
-                    onAddToCollection={addToCollection}
-                    onSuccess={handleSuccess}
-                    onError={handleError}
-                    user={user}
-                    whiskey={whiskey}
-                    isUpdate={false}
-                />
-                {showSuccess && <SuccessMessage
-                    message="Whiskey successfully added to collection"
-                    showSuccess={showSuccess}
-                    setShowSuccess={setShowSuccess}
-                />}
-                {errorMessage && <ErrorMessage message={errorMessage} />}
+                {whiskeyInCollection ? (
+                    <h2 className="accent-text text-center text-lg mb-4 mb-4">Whiskey already in collection!</h2>
+                ) : (
+                    <div className="mx-auto text-center mb-1">
+                        <button className="my-btn mb-3" onClick={handleShowWhiskeyEntry}>Add to Collection</button>
+                        <WhiskeyEntry
+                            showModal={showWhiskeyEntry}
+                            onClose={handleCloseWhiskeyEntry}
+                            onAddToCollection={addToCollection}
+                            onSuccess={handleSuccess}
+                            onError={handleError}
+                            user={user}
+                            whiskey={whiskey}
+                            isUpdate={false}
+                        />
+                        {showSuccess && <SuccessMessage
+                            message="Whiskey successfully added to collection"
+                            showSuccess={showSuccess}
+                            setShowSuccess={setShowSuccess}
+                        />}
+                        {errorMessage && <ErrorMessage message={errorMessage} />}
+                    </div>
+                )}
             </div>
             <div className="flex justify-center">
                 <img src={whiskey.image} alt={whiskey.name} />
@@ -107,23 +143,23 @@ function WhiskeyDetails() {
             <h3 className="text-xl sm:text-3xl font-bold"><a href={whiskey.link} target="_blank" rel="noopener noreferrer" className="whiskey-raiders">WhiskeyRaiders</a> House Review:</h3>
             <div className="my-4 text-sm sm:text-xl">
                 <p className="font-semibold">Intro:</p>
-                <p>{whiskey.houseReviews.intro}</p>
+                <p className="ml-2">{whiskey.houseReviews.intro}</p>
             </div>
             <div className="my-4 text-sm sm:text-xl">
                 <p className="font-semibold">Nose:</p>
-                <p>{whiskey.houseReviews.nose.map((item, index) => <span key={index}>{item} </span>)}</p>
+                <p className="ml-2">{whiskey.houseReviews.nose.map((item, index) => <span key={index}>{item} </span>)}</p>
             </div>
             <div className="my-4 text-sm sm:text-xl">
                 <p className="font-semibold">Taste:</p>
-                <p>{whiskey.houseReviews.taste.map((item, index) => <span key={index}>{item} </span>)}</p>
+                <p className="ml-2">{whiskey.houseReviews.taste.map((item, index) => <span key={index}>{item} </span>)}</p>
             </div>
             <div className="my-4 text-sm sm:text-xl">
                 <p className="font-semibold">Finish:</p>
-                <p>{whiskey.houseReviews.finish.map((item, index) => <span key={index}>{item} </span>)}</p>
+                <p className="ml-2">{whiskey.houseReviews.finish.map((item, index) => <span key={index}>{item} </span>)}</p>
             </div>
             <div className="my-4 text-sm sm:text-xl">
                 <p className="font-semibold">Overall:</p>
-                <p>{whiskey.houseReviews.overall}</p>
+                <p className="ml-2">{whiskey.houseReviews.overall}</p>
             </div>
             <div className="my-4 text-sm sm:text-xl">
                 <p className="font-semibold">Score: <span className="font-normal">{whiskey.houseReviews.score}</span></p>
