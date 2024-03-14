@@ -18,7 +18,7 @@ function Home() {
             </h3>
             <div className="text-center my-10">
                 <NavLink
-                    to="/whiskey"
+                    to="/whiskeys"
                     className="my-btn"
                 >
                     Explore Whiskeys!
