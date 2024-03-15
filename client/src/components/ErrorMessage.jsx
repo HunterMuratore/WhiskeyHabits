@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react"
 
-const ErrorMessage = ({ message }) => {
+const ErrorMessage = ({ message, setErrorMessage }) => {
     const [visible, setVisible] = useState(false)
 
     useEffect(() => {
@@ -8,11 +8,12 @@ const ErrorMessage = ({ message }) => {
             setVisible(true)
             const timer = setTimeout(() => {
                 setVisible(false)
+                setErrorMessage(false)
             }, 5000)
 
             return () => clearTimeout(timer)
         }
-    }, [message])
+    }, [message, setErrorMessage])
 
     return (
         <div>

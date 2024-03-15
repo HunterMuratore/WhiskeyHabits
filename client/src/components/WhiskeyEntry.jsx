@@ -136,7 +136,7 @@ function WhiskeyEntry({ showModal, onClose, onAddToCollection, onUpdateReview, o
               </div>
             </div>
           </div>
-          {errorMessage && <ErrorMessage message={errorMessage} />}
+          {errorMessage && <ErrorMessage message={errorMessage} setErrorMessage={setErrorMessage} />}
         </Modal.Body>
         <Modal.Footer className='justify-end'>
           <Button className="my-btn" onClick={handleCollectionMutation}>{isUpdate ? "Update Review" : "Add to Collection"}</Button>

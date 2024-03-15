@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react"
 
-const SuccessMessage = ({ message }) => {
+const SuccessMessage = ({ message, setShowSuccess }) => {
     const [visible, setVisible] = useState(false)
 
     useEffect(() => {
@@ -8,11 +8,12 @@ const SuccessMessage = ({ message }) => {
             setVisible(true)
             const timer = setTimeout(() => {
                 setVisible(false)
+                setShowSuccess(false)
             }, 5000)
 
             return () => clearTimeout(timer)
         }
-    }, [message])
+    }, [setShowSuccess])
 
     return (
         <div>
