@@ -103,7 +103,7 @@ function WhiskeyDetails() {
                             showSuccess={showSuccess}
                             setShowSuccess={setShowSuccess}
                         />}
-                        {errorMessage && <ErrorMessage message={errorMessage} />}
+                        {errorMessage && <ErrorMessage message={errorMessage} setErrorMessage={setErrorMessage} />}
                     </div>
                 )}
             </div>

@@ -67,7 +67,7 @@ function Auth({ isLogin }) {
             <form className=" w-full p-8 border mt-36" onSubmit={handleSubmit}>
                 <h2 className="text-center text-2xl font-bold mb-3">{isLogin ? 'Log In' : 'Register'}</h2>
 
-                <ErrorMessage message={errorMessage} />
+                <ErrorMessage message={errorMessage} setErrorMessage={setErrorMessage} />
 
                 {isLogin ? (
                     <div className="mt-3 mb-4">
