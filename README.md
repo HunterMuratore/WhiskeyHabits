@@ -1,10 +1,10 @@
-# [WhiskeyHabits](https://whiskeyhabits.com/)
+# [WhiskeyHabits](https://whiskeyhabits.com/) 🥃
 
-## Introduction
+## Introduction 📜
 
 Welcome to WhiskeyHabits, a comprehensive whiskey tracking and discovery application developed by a passionate full-stack developer and whiskey enthusiast. WhiskeyHabits is designed to assist users in cataloging their whiskey experiences, providing detailed information, ratings, and reviews for over 2000 whiskeys in its extensive database. Whether you're a seasoned connoisseur or just embarking on your whiskey journey, WhiskeyHabits is your go-to platform for exploring the rich and diverse world of whiskey.
 
-## Table of Contents
+## Table of Contents 📚
 
 - [Introduction](#introduction)
 - [Features](#features)
@@ -13,7 +13,7 @@ Welcome to WhiskeyHabits, a comprehensive whiskey tracking and discovery applica
 - [Contact](#contact)
 - [License](#license)
 
-## Features
+## Features ✨
 
 - **Extensive Whiskey Database:** Access detailed descriptions, specifications, and ratings for over 2000 whiskeys.
 - **Personalized Collections:** Create and manage your own whiskey collection, complete with personal ratings and reviews.
@@ -21,7 +21,7 @@ Welcome to WhiskeyHabits, a comprehensive whiskey tracking and discovery applica
 - **User Interaction:** Engage with other users by sharing your reviews, ratings, and whiskey experiences.
 - **Continuous Development:** WhiskeyHabits is an ongoing project, with regular updates and enhancements being made to improve user experience and functionality.
 
-## Getting Started
+## Getting Started 🚀
 
 To get started with WhiskeyHabits, simply visit [whiskeyhabits.com](https://whiskeyhabits.com) and create an account. Once you've signed up, you can start exploring the vast world of whiskey and begin logging your collection!
 
@@ -49,7 +49,7 @@ To get started with WhiskeyHabits, simply visit [whiskeyhabits.com](https://whis
 
 ![User Collection](images/whiskey_profile.png)
 
-## Contributing
+## Contributing 🤝
 
 We welcome contributions from the community to help improve WhiskeyHabits. Whether it's fixing bugs, adding new features, or enhancing the user interface, every contribution is valuable. There is a running list of issues in the GitHub Issues tab. To contribute, please follow these guidelines:
 
@@ -59,16 +59,16 @@ We welcome contributions from the community to help improve WhiskeyHabits. Wheth
 4. Test your changes thoroughly.
 5. Submit a pull request, describing the changes you've made and why they are necessary.
 
-## Deployment
+## Deployment 🚢
 
 - **Dockerized Deployment:** WhiskeyHabits is Dockerized, allowing for easy deployment across various environments. The Docker image is available on Docker Hub under the account `outfortheseason` with the tag `whiskeyhabits:latest`.
 - **Live Hosting:** The application is hosted live on a personal Ubuntu server at [whiskeyhabits.com](https://whiskeyhabits.com).
 - **CI/CD with GitHub Actions:** Continuous Integration and Continuous Deployment (CI/CD) processes are fully automated using GitHub Actions, ensuring smooth development and deployment workflows.
 
-## Contact
+## Contact 📧
 
 If you have any questions, suggestions, or feedback regarding WhiskeyHabits, please feel free to reach out to us. You can contact the project maintainer via email at [muratoreh@gmail.com](mailto:muratoreh@gmail.com) or through the [Contact Page](https://whiskeyhabits.com/contact) on the WhiskeyHabits website.
 
-## License
+## License 📝
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
