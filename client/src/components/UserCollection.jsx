@@ -18,7 +18,7 @@ function UserCollection({ user }) {
     const [showWhiskeyEntry, setShowWhiskeyEntry] = useState(false)
     const [showSuccess, setShowSuccess] = useState(false)
 
-    const { loading, error, data } = useQuery(GET_USER_COLLECTION_WHISKEYS, {
+    const { loading, error, data, refetch } = useQuery(GET_USER_COLLECTION_WHISKEYS, {
         variables: { userId: user._id },
     })
 
@@ -29,6 +29,11 @@ function UserCollection({ user }) {
     const [updateReview] = useMutation(UPDATE_REVIEW, {
         refetchQueries: [{ query: GET_USER_COLLECTION_WHISKEYS, variables: { userId: user._id } }],
     })
+
+    useEffect(() => {
+        // Fetch the user's collection every time the component mounts
+        refetch()
+    }, [refetch])
 
     useEffect(() => {
         if (!loading && data) {
