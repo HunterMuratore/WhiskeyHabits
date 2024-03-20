@@ -97,19 +97,19 @@ function WhiskeyEntry({ showModal, onClose, onAddToCollection, onUpdateReview, o
       <Modal className='modal' dismissible show={openModal} onClose={handleCloseModal}>
         <Modal.Header>{isUpdate ? "Update Review" : "Add Whiskey to Collection"}</Modal.Header>
         <Modal.Body>
-          <div className="modal-content my-4">
-            <div className='flex gap-2 justify-around'>
+          <div className="modal-content sm:text-md text-sm my-3">
+            <div className='flex sm:flex-row flex-col gap-2 justify-around'>
               <label>
                 Nose:
-                <textarea className="rounded" value={nose} onChange={(e) => setNose(e.target.value)} />
+                <textarea className="rounded ml-2" value={nose} onChange={(e) => setNose(e.target.value)} />
               </label>
               <label>
                 Taste:
-                <textarea className="rounded" value={taste} onChange={(e) => setTaste(e.target.value)} />
+                <textarea className="rounded ml-2" value={taste} onChange={(e) => setTaste(e.target.value)} />
               </label>
               <label>
                 Finish:
-                <textarea className="rounded" value={finish} onChange={(e) => setFinish(e.target.value)} />
+                <textarea className="rounded ml-2" value={finish} onChange={(e) => setFinish(e.target.value)} />
               </label>
             </div>
             <div className='flex flex-col gap-2 justify-center align-center mt-5'>

@@ -6,7 +6,7 @@ import { GET_USER_COLLECTION_WHISKEYS } from '../utils/queries'
 import { REMOVE_FROM_COLLECTION, UPDATE_REVIEW } from '../utils/mutations'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faCaretDown, faCaretUp, faX, faPencil } from '@fortawesome/free-solid-svg-icons'
+import { faCaretDown, faCaretUp, faX, faPencil, faArrowUpRightFromSquare } from '@fortawesome/free-solid-svg-icons'
 
 import LoadingSpinner from './LoadingSpinner'
 import WhiskeyEntry from './WhiskeyEntry'
@@ -96,32 +96,37 @@ function UserCollection({ user }) {
                         <div className="whiskey-header flex items-center cursor-pointer justify-between" onClick={() => toggleDropdown(index)}>
                             <div className='flex items-center gap-2'>
                                 <img src={whiskey.whiskey.image} alt={whiskey.whiskey.name} className="w-24 h-24 mx-2" />
-                                <h3 className="text-lg font-bold mr-6">{whiskey.whiskey.name}</h3>
+                                <div>
+                                    <h3 className="sm:text-lg text-sm font-bold mr-6">{whiskey.whiskey.name}</h3>
+                                    <NavLink to={`/whiskeys/${whiskey.whiskey._id}`}>
+                                        <FontAwesomeIcon icon={faArrowUpRightFromSquare} className='text-sm' />
+                                    </NavLink>
+                                </div>
                             </div>
                             <FontAwesomeIcon icon={openIndex === index ? faCaretUp : faCaretDown} className="text-gray-500" />
                         </div>
                         {openIndex === index && (
                             <div className="whiskey-details mt-4">
-                                <div className='flex gap-2 justify-around'>
+                                <div className='flex gap-3 text-xs sm:text-sm justify-around'>
                                     <div>
-                                        <p className="text-sm font-semibold">Type:</p>
-                                        <p className="text-sm ml-1">{whiskey.whiskey.type}</p>
+                                        <p className="font-semibold">Type:</p>
+                                        <p className="sm:ml-1">{whiskey.whiskey.type}</p>
                                     </div>
                                     <div>
-                                        <p className="text-sm font-semibold">Distiller:</p>
-                                        <p className="text-sm ml-1">{whiskey.whiskey.stats.distiller}</p>
+                                        <p className="font-semibold">Distiller:</p>
+                                        <p className="sm:ml-1">{whiskey.whiskey.stats.distiller}</p>
                                     </div>
                                     <div>
-                                        <p className="text-sm font-semibold">ABV:</p>
-                                        <p className="text-sm ml-1">{whiskey.whiskey.stats.abv}</p>
+                                        <p className="font-semibold">ABV:</p>
+                                        <p className="sm:ml-1">{whiskey.whiskey.stats.abv}</p>
                                     </div>
                                     <div>
-                                        <p className="text-sm font-semibold">{user.username}'s Rating:</p>
-                                        <p className="text-sm text-center">{whiskey.userRating}</p>
+                                        <p className="font-semibold">{user.username}'s Rating:</p>
+                                        <p className="text-center">{whiskey.userRating}</p>
                                     </div>
                                 </div>
                                 {/* Display user's whiskey details */}
-                                <div className='flex justify-between'>
+                                <div className='flex justify-between items-center'>
                                     <h4 className="text-md font-semibold mt-4 mb-2">{user.username}'s Review</h4>
                                     <div>
                                         <button className='mr-3' onClick={handleShowWhiskeyEntry}>
@@ -143,22 +148,22 @@ function UserCollection({ user }) {
                                         />
                                     )}
                                 </div>
-                                <div className="flex gap-3 justify-between flex-wrap">
-                                    <div className="note-box flex-1">
-                                        <p className="text-sm font-semibold">Nose:</p>
-                                        <p className="text-sm ml-1">{whiskey.userNotes.nose}</p>
+                                <div className="flex gap-3 text-xs sm:text-sm justify-between flex-col">
+                                    <div className="note-box ">
+                                        <p className="font-semibold">Nose:</p>
+                                        <p className="ml-1">{whiskey.userNotes.nose}</p>
                                     </div>
-                                    <div className="note-box flex-1">
-                                        <p className="text-sm font-semibold">Taste:</p>
-                                        <p className="text-sm ml-1">{whiskey.userNotes.taste}</p>
+                                    <div className="note-box ">
+                                        <p className="font-semibold">Taste:</p>
+                                        <p className="ml-1">{whiskey.userNotes.taste}</p>
                                     </div>
-                                    <div className="note-box flex-1">
-                                        <p className="text-sm font-semibold">Finish:</p>
-                                        <p className="text-sm ml-1">{whiskey.userNotes.finish}</p>
+                                    <div className="note-box ">
+                                        <p className="font-semibold">Finish:</p>
+                                        <p className="ml-1">{whiskey.userNotes.finish}</p>
                                     </div>
-                                    <div className="note-box flex-1">
-                                        <p className="text-sm font-semibold">Overall:</p>
-                                        <p className="text-sm ml-1">{whiskey.userNotes.overall}</p>
+                                    <div className="note-box ">
+                                        <p className="font-semibold">Overall:</p>
+                                        <p className="ml-1">{whiskey.userNotes.overall}</p>
                                     </div>
                                 </div>
                             </div>
