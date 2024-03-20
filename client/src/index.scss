@@ -124,6 +124,9 @@ header {
     fill: $theme-light;
 }
 
+.whiskey-link:hover {
+    text-decoration: underline;
+}
 
 .modal {
     overflow: hidden !important;
@@ -152,10 +155,6 @@ header {
         font-size: smaller;
         overflow-x: auto;
         display: block;
-    }
-
-    .whiskey-link:hover {
-        text-decoration: underline;
     }
 
     .reset {
