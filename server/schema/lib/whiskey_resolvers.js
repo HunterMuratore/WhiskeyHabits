@@ -79,6 +79,7 @@ const whiskey_resolvers = {
             }
         },
 
+        // Get the whiskeys in a user's collection
         async getUserCollectionWhiskeys(_, { userId }) {
             try {
                 // Find the user by userId
@@ -99,6 +100,37 @@ const whiskey_resolvers = {
                     const whiskey = userWhiskeys.find(whiskey => whiskey._id.equals(collectionItem.whiskeyId));
                     return {
                         ...collectionItem.toObject(),
+                        whiskey: whiskey.toObject()
+                    }
+                });
+
+                return combinedData;
+            } catch (err) {
+                throw new Error(err.message);
+            }
+        },
+
+        // Get the whiskeys in a user's wishlist
+        async getUserWishlistWhiskeys(_, { userId }) {
+            try {
+                // Find the user by userId
+                const user = await User.findById(userId);
+
+                if (!user) {
+                    throw new Error('User not found');
+                }
+
+                // Retrieve user's whiskey wishlist
+                const userWhiskeyIds = user.userWishlist.map(item => item.whiskeyId);
+
+                // Fetch whiskeys from the database using the IDs
+                const userWhiskeys = await Whiskey.find({ _id: { $in: userWhiskeyIds } });
+
+                // Combine user wishlist and whiskey data into a new array
+                const combinedData = user.userWishlist.map(wishlistItem => {
+                    const whiskey = userWhiskeys.find(whiskey => whiskey._id.equals(wishlistItem.whiskeyId));
+                    return {
+                        ...wishlistItem.toObject(),
                         whiskey: whiskey.toObject()
                     }
                 });

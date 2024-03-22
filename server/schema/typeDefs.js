@@ -8,6 +8,7 @@ const typeDefs = gql`
         createdAt: String
         updatedAt: String
         userCollection: [UserCollection]
+        userWishlist: [UserWishlist]
     }
 
     type Whiskey {
@@ -53,6 +54,15 @@ const typeDefs = gql`
         whiskey: Whiskey
     }
 
+    type UserWishlist {
+        whiskeyId: ID
+    }
+
+    type UserWishlistWhiskeys {
+        whiskeyId: ID
+        whiskey: Whiskey
+    }
+
     type WhiskeyNotes {
         nose: String
         taste: String
@@ -71,6 +81,7 @@ const typeDefs = gql`
         whiskeys(search: String, page: Int!, perPage: Int!, sortByName: String, sortByScore: String, selectedType: String, selectedDistiller: String): WhiskeysResult
         getWhiskeyById(whiskeyId: ID!): Whiskey
         getUserCollectionWhiskeys(userId: ID!): [UserCollectionWhiskeys]
+        getUserWishlistWhiskeys(userId: ID!): [UserWishlistWhiskeys]
     }
 
     type Mutation {
@@ -80,6 +91,8 @@ const typeDefs = gql`
         addToCollection(userId: ID!, whiskeyId: ID!, userRating: Float, userNotes: WhiskeyNotesInput): UserCollection
         updateReview(userId: ID!, whiskeyId: ID!, userRating: Float, userNotes: WhiskeyNotesInput): UserCollection
         removeFromCollection(userId: ID!, whiskeyId: ID!): UserCollection
+        addToWishlist(userId: ID!, whiskeyId: ID!): UserWishlist
+        removeFromWishlist(userId: ID!, whiskeyId: ID!): UserWishlist
     }
 
     input WhiskeyNotesInput {

@@ -17,6 +17,7 @@ function UserCollection({ user }) {
     const [whiskeys, setWhiskeys] = useState([])
     const [showWhiskeyEntry, setShowWhiskeyEntry] = useState(false)
     const [showSuccess, setShowSuccess] = useState(false)
+    const [successMessage, setSuccessMessage] = useState(false)
 
     const { loading, error, data, refetch } = useQuery(GET_USER_COLLECTION_WHISKEYS, {
         variables: { userId: user._id },
@@ -145,6 +146,7 @@ function UserCollection({ user }) {
                                             user={user}
                                             whiskey={whiskey}
                                             isUpdate={true}
+                                            setSuccessMessage={setSuccessMessage}
                                         />
                                     )}
                                 </div>

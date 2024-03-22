@@ -45,6 +45,12 @@ const userSchema = new Schema({
             overall: String,
         }
     }],
+    userWishlist: [{
+        whiskeyId: {
+            type: Schema.Types.ObjectId,
+            required: true,
+        },
+    }],
 }, {
     timestamps: true,
     methods: {
