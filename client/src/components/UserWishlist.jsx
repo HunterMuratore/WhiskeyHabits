@@ -2,80 +2,59 @@ import { useState, useEffect } from 'react'
 import { useQuery, useMutation } from '@apollo/client'
 import { NavLink } from "react-router-dom"
 
-import { GET_USER_COLLECTION_WHISKEYS } from '../utils/queries'
-import { REMOVE_FROM_COLLECTION, UPDATE_REVIEW } from '../utils/mutations'
+import { GET_USER_WISHLIST_WHISKEYS } from '../utils/queries'
+import { REMOVE_FROM_WISHLIST } from '../utils/mutations'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faCaretDown, faCaretUp, faX, faPencil, faArrowUpRightFromSquare } from '@fortawesome/free-solid-svg-icons'
+import { faCaretDown, faCaretUp, faX, faArrowUpRightFromSquare } from '@fortawesome/free-solid-svg-icons'
 
 import LoadingSpinner from './LoadingSpinner'
-import WhiskeyEntry from './WhiskeyEntry'
-import SuccessMessage from './SuccessMessage'
 
-function UserCollection({ user }) {
+function UserWishlist({ user }) {
     const [openIndex, setOpenIndex] = useState(null)
-    const [collectionWhiskeys, setCollectionWhiskeys] = useState([])
-    const [showWhiskeyEntry, setShowWhiskeyEntry] = useState(false)
-    const [showSuccess, setShowSuccess] = useState(false)
-    const [successMessage, setSuccessMessage] = useState(false)
+    const [wishlistWhiskeys, setWishlistWhiskeys] = useState([])
 
-    // Query to fetch user's collection of whiskeys
-    const { loading: collectionLoading, error: collectionError, data: collectionData, refetch: refetchCollection } = useQuery(GET_USER_COLLECTION_WHISKEYS, {
+    // Query to fetch user's wishlist of whiskeys
+    const { loading: wishlistLoading, error: wishlistError, data: wishlistData, refetch: refetchWishlist } = useQuery(GET_USER_WISHLIST_WHISKEYS, {
         variables: { userId: user._id },
     })
 
-    const [removeFromCollection] = useMutation(REMOVE_FROM_COLLECTION, {
-        refetchQueries: [{ query: GET_USER_COLLECTION_WHISKEYS, variables: { userId: user._id } }],
-    })
-
-    const [updateReview] = useMutation(UPDATE_REVIEW, {
-        refetchQueries: [{ query: GET_USER_COLLECTION_WHISKEYS, variables: { userId: user._id } }],
+    const [removeFromWishlist] = useMutation(REMOVE_FROM_WISHLIST, {
+        refetchQueries: [{ query: GET_USER_WISHLIST_WHISKEYS, variables: { userId: user._id } }],
     })
 
     useEffect(() => {
-        // Fetch the user's collection every time the component mounts
-        refetchCollection()
-    }, [refetchCollection])
+        // Fetch the user's wishlist every time the component mounts
+        refetchWishlist()
+    }, [refetchWishlist])
 
     useEffect(() => {
-        if (!collectionLoading && collectionData) {
-            setCollectionWhiskeys(collectionData.getUserCollectionWhiskeys)
+        if (!wishlistLoading && wishlistData) {
+            setWishlistWhiskeys(wishlistData.getUserWishlistWhiskeys)
         }
-    }, [collectionLoading, collectionData])
+    }, [wishlistLoading, wishlistData])
 
-    if (collectionLoading) return <LoadingSpinner />
+    if (wishlistLoading) return <LoadingSpinner />
 
     const toggleDropdown = (index) => {
         setOpenIndex(openIndex === index ? null : index)
     }
 
-    const handleShowWhiskeyEntry = () => {
-        setShowWhiskeyEntry(true)
-    }
-
-    const handleCloseWhiskeyEntry = () => {
-        setShowWhiskeyEntry(false)
-    }
-
-    const handleSuccess = () => {
-        setShowSuccess(true)
-    }
-
-    const handleRemoveFromCollection = async (whiskeyId) => {
+    const handleRemoveFromWishlist = async (whiskeyId) => {
         try {
-            await removeFromCollection({ variables: { userId: user._id, whiskeyId } })
+            await removeFromWishlist({ variables: { userId: user._id, whiskeyId } })
         } catch (error) {
-            console.error('Error removing whiskey from collection:', error.message)
+            console.error('Error removing whiskey from wishlist:', error.message)
         }
     }
 
     return (
-        <section className="user-collection flex flex-col justify-center">
-            <h2 className="font-bold text-lg my-4 text-center">{user.username}'s Whiskey Collection</h2>
+        <section className="user-wishlist flex flex-col justify-center">
+            <h2 className="font-bold text-lg my-4 text-center">{user.username}'s Whiskey Wishlist</h2>
             <div className="w-full grid grid-cols-1">
-                {collectionWhiskeys.length === 0 && (
+                {wishlistWhiskeys.length === 0 && (
                     <div className="text-center">
-                        <p>You have no whiskeys in your collection yet!</p>
+                        <p>You have no whiskeys in your wishlist yet!</p>
                         <div className="text-center my-8">
                             <NavLink
                                 to="/whiskeys"
@@ -87,14 +66,7 @@ function UserCollection({ user }) {
                     </div>
                 )}
 
-                {/* Success message for updating a whiskey */}
-                {showSuccess && <SuccessMessage
-                    message="Whiskey successfully updated"
-                    showSuccess={showSuccess}
-                    setShowSuccess={setShowSuccess}
-                />}
-
-                {collectionWhiskeys.map((whiskey, index) => (
+                {wishlistWhiskeys.map((whiskey, index) => (
                     <div key={index} className="whiskey-box my-2 bg-gray-100 w-full border border-gray-300 p-4 rounded-md">
                         <div className="whiskey-header flex items-center cursor-pointer justify-between" onClick={() => toggleDropdown(index)}>
                             <div className='flex items-center gap-2'>
@@ -125,49 +97,34 @@ function UserCollection({ user }) {
                                     </div>
                                     <div>
                                         <p className="font-semibold">{user.username}'s Rating:</p>
-                                        <p className="text-center">{whiskey.userRating}</p>
+                                        <p className="text-center">{whiskey.whiskey.rating}</p>
                                     </div>
                                 </div>
                                 {/* Display user's whiskey details */}
                                 <div className='flex justify-between items-center'>
-                                    <h4 className="text-md font-semibold mt-4 mb-2">{user.username}'s Review</h4>
+                                    <h4 className="text-md font-semibold mt-4 mb-2"><a href={whiskey.whiskey.link} target="_blank" rel="noopener noreferrer" className="whiskey-raiders">WhiskeyRaiders</a> Review</h4>
                                     <div>
-                                        <button className='mr-3' onClick={handleShowWhiskeyEntry}>
-                                            <FontAwesomeIcon icon={faPencil} className="text-gray-500" />
-                                        </button>
-                                        <button onClick={() => handleRemoveFromCollection(whiskey.whiskey._id)}>
+                                        <button onClick={() => handleRemoveFromWishlist(whiskey.whiskey._id)}>
                                             <FontAwesomeIcon icon={faX} className="text-gray-500" />
                                         </button>
                                     </div>
-                                    {showWhiskeyEntry && (
-                                        <WhiskeyEntry
-                                            showModal={showWhiskeyEntry}
-                                            onClose={handleCloseWhiskeyEntry}
-                                            onSuccess={handleSuccess}
-                                            onUpdateReview={updateReview}
-                                            user={user}
-                                            whiskey={whiskey}
-                                            isUpdate={true}
-                                            setSuccessMessage={setSuccessMessage}
-                                        />
-                                    )}
                                 </div>
                                 <div className="flex gap-3 text-xs sm:text-sm justify-between flex-col">
                                     <div className="note-box ">
                                         <p className="font-semibold">Nose:</p>
-                                        <p className="ml-1">{whiskey.userNotes.nose}</p>
+                                        <p className="ml-1">{whiskey.whiskey.houseReviews.nose.map((item, index) => <span key={index}>{item} </span>)}</p>
                                     </div>
                                     <div className="note-box ">
                                         <p className="font-semibold">Taste:</p>
-                                        <p className="ml-1">{whiskey.userNotes.taste}</p>
+                                        <p className="ml-1">{whiskey.whiskey.houseReviews.taste.map((item, index) => <span key={index}>{item} </span>)}</p>
                                     </div>
                                     <div className="note-box ">
                                         <p className="font-semibold">Finish:</p>
-                                        <p className="ml-1">{whiskey.userNotes.finish}</p>
+                                        <p className="ml-1">{whiskey.whiskey.houseReviews.finish.map((item, index) => <span key={index}>{item} </span>)}</p>
                                     </div>
                                     <div className="note-box ">
                                         <p className="font-semibold">Overall:</p>
-                                        <p className="ml-1">{whiskey.userNotes.overall}</p>
+                                        <p className="ml-1">{whiskey.whiskey.houseReviews.overall}</p>
                                     </div>
                                 </div>
                             </div>
@@ -179,4 +136,4 @@ function UserCollection({ user }) {
     )
 }
 
-export default UserCollection
+export default UserWishlist

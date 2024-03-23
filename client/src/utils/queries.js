@@ -110,3 +110,34 @@ export const GET_USER_COLLECTION_WHISKEYS = gql`
     }
   }
 `
+
+// Get user wishlist whiskeys
+export const GET_USER_WISHLIST_WHISKEYS = gql`
+  query GetUserWishlistWhiskeys($userId: ID!) {
+    getUserWishlistWhiskeys(userId: $userId) {
+      whiskey {
+        _id
+        name
+        image
+        type
+        rating
+        link
+        stats {
+          distiller
+          bottler
+          abv
+          age
+          price
+        }
+        houseReviews {
+          intro
+          nose
+          taste
+          finish
+          overall
+          score
+        }
+      }
+    }
+  }
+`

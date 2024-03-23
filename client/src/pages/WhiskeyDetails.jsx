@@ -4,8 +4,8 @@ import { useQuery, useMutation } from "@apollo/client"
 import { useStore } from '../store'
 import { useNavigate } from "react-router-dom"
 
-import { GET_SINGLE_WHISKEY, GET_USER_COLLECTION_WHISKEYS } from "../utils/queries"
-import { ADD_TO_COLLECTION } from "../utils/mutations"
+import { GET_SINGLE_WHISKEY, GET_USER_COLLECTION_WHISKEYS, GET_USER_WISHLIST_WHISKEYS } from "../utils/queries"
+import { ADD_TO_COLLECTION, ADD_TO_WISHLIST } from "../utils/mutations"
 
 import LoadingSpinner from "../components/LoadingSpinner"
 import SuccessMessage from "../components/SuccessMessage"
@@ -16,11 +16,14 @@ function WhiskeyDetails() {
     const { whiskeyId } = useParams()
     const { user } = useStore()
     const [addToCollection] = useMutation(ADD_TO_COLLECTION)
+    const [addToWishlist] = useMutation(ADD_TO_WISHLIST)
     const navigate = useNavigate()
     const [showSuccess, setShowSuccess] = useState(false)
     const [errorMessage, setErrorMessage] = useState(null)
+    const [successMessage, setSuccessMessage] = useState(null)
     const [showWhiskeyEntry, setShowWhiskeyEntry] = useState(false)
     const [whiskeyInCollection, setWhiskeyInCollection] = useState(false)
+    const [whiskeyInWishlist, setWhiskeyInWishlist] = useState(false)
 
     // Query to get details of the whiskey
     const { loading: whiskeyLoading, error: whiskeyError, data: whiskeyData } = useQuery(GET_SINGLE_WHISKEY, {
@@ -33,21 +36,32 @@ function WhiskeyDetails() {
         skip: !user,
     })
 
+    // Query to get user's collection of whiskeys
+    const { loading: userWishlistLoading, error: userWishlistError, data: userWishlistData } = useQuery(GET_USER_WISHLIST_WHISKEYS, {
+        variables: { userId: user ? user._id : null },
+        skip: !user,
+    })
+
+    // Check to see if whiskey is in user's collection or wishlist
     useEffect(() => {
-        if (!userCollectionLoading && userCollectionData) {
+        if (!userCollectionLoading && userCollectionData && !userWishlistLoading && userWishlistData) {
             const userCollectionWhiskeys = userCollectionData.getUserCollectionWhiskeys || []
+            const userWishlistWhiskeys = userWishlistData.getUserWishlistWhiskeys || []
 
-            // Extract _id values from userCollectionWhiskeys array
+            // Extract _id values from userCollectionWhiskeys and userWishlistWhiskeys arrays
             const userCollectionIds = userCollectionWhiskeys.map(entry => entry.whiskey._id)
+            const userWishlistIds = userWishlistWhiskeys.map(entry => entry.whiskey._id)
 
-            // Check if whiskeyId exists in the array of user collection _ids
+            // Check if whiskeyId exists in the arrays above
             const isInCollection = userCollectionIds.includes(whiskeyId)
+            const isInWishlist = userWishlistIds.includes(whiskeyId)
 
             setWhiskeyInCollection(isInCollection)
+            setWhiskeyInWishlist(isInWishlist)
         }
-    }, [userCollectionLoading, userCollectionData])
+    }, [userCollectionLoading, userCollectionData, userWishlistLoading, userWishlistData])
 
-    if (whiskeyLoading || userCollectionLoading) return <LoadingSpinner />
+    if (whiskeyLoading || userCollectionLoading || userWishlistLoading) return <LoadingSpinner />
     if (whiskeyError) return <ErrorMessage message={whiskeyError.message} />
 
     const { getWhiskeyById: whiskey } = whiskeyData
@@ -74,6 +88,29 @@ function WhiskeyDetails() {
         setErrorMessage(error)
     }
 
+    const handleAddToWishlist = async () => {
+        try {
+            const response = await addToWishlist({
+                variables: {
+                    userId: user._id,
+                    whiskeyId: whiskey._id,
+                }
+            })
+
+            // Check if the request was successful
+            if (response && response.data) {
+                setSuccessMessage("Whiskey successfully added to your wishlist!")
+                handleSuccess()
+            } else {
+                setErrorMessage('Failed to add whiskey to collection')
+                throw new Error('Failed to add whiskey to collection')
+            }
+        } catch (error) {
+            setErrorMessage(error.message)
+            onError(error.message)
+        }
+    }
+
     return (
         <section className="flex flex-col whiskey-details">
             <button className="mr-auto mt-6">
@@ -82,12 +119,23 @@ function WhiskeyDetails() {
                 </NavLink>
             </button>
             <h2 className="text-center font-bold text-xl sm:text-3xl mt-6 mb-6">{whiskey.name}</h2>
-            <div className="mx-auto text-center mb-4">
+
+            <div className="flex items-center justify-center gap-3 mx-auto text-center mb-4">
                 {whiskeyInCollection ? (
                     <h2 className="accent-text text-center text-lg mb-4 mb-4">Whiskey already in collection!</h2>
                 ) : (
-                    <div className="mx-auto text-center mb-1">
-                        <button className="my-btn mb-3" onClick={handleShowWhiskeyEntry}>Add to Collection</button>
+                    <div className="mx-auto text-center">
+                        {whiskeyInWishlist ? (
+                            <div className="flex flex-col justify-center items-center gap-3 mb-3">
+                                <button className="my-btn" onClick={handleShowWhiskeyEntry}>Add to Collection</button>
+                                <h4 className="accent-text text-center text-lg">Whiskey already in wishlist!</h4>
+                            </div>
+                        ) : (
+                            <div className="flex flex-wrap justify-center items-center gap-3 mb-3">
+                                <button className="my-btn" onClick={handleShowWhiskeyEntry}>Add to Collection</button>
+                                <button className="my-btn" onClick={handleAddToWishlist}>Add to Wishlist</button>
+                            </div>
+                        )}
                         <WhiskeyEntry
                             showModal={showWhiskeyEntry}
                             onClose={handleCloseWhiskeyEntry}
@@ -97,9 +145,10 @@ function WhiskeyDetails() {
                             user={user}
                             whiskey={whiskey}
                             isUpdate={false}
+                            setSuccessMessage={setSuccessMessage}
                         />
                         {showSuccess && <SuccessMessage
-                            message="Whiskey successfully added to collection"
+                            message={successMessage}
                             showSuccess={showSuccess}
                             setShowSuccess={setShowSuccess}
                         />}
@@ -107,6 +156,7 @@ function WhiskeyDetails() {
                     </div>
                 )}
             </div>
+
             <div className="flex justify-center">
                 <img src={whiskey.image} alt={whiskey.name} />
             </div>

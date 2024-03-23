@@ -2,7 +2,7 @@ import { Button, Modal } from 'flowbite-react'
 import { useState, useEffect } from 'react'
 import ErrorMessage from './ErrorMessage'
 
-function WhiskeyEntry({ showModal, onClose, onAddToCollection, onUpdateReview, onSuccess, onError, user, whiskey, isUpdate }) {
+function WhiskeyEntry({ showModal, onClose, onAddToCollection, onUpdateReview, onSuccess, onError, user, whiskey, isUpdate, setSuccessMessage }) {
   const [openModal, setOpenModal] = useState(false)
   const [errorMessage, setErrorMessage] = useState(null)
   const [rating, setRating] = useState('')
@@ -69,6 +69,7 @@ function WhiskeyEntry({ showModal, onClose, onAddToCollection, onUpdateReview, o
 
       // Check if the request was successful
       if (response && response.data) {
+        setSuccessMessage("Whiskey successfully added to your collection!")
         onSuccess()
         handleCloseModal()
       } else {

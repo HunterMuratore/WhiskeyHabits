@@ -67,3 +67,21 @@ mutation RemoveFromCollection($userId: ID!, $whiskeyId: ID!) {
   }
 }
 `
+
+// Add a whiskey to a user's wishlist
+export const ADD_TO_WISHLIST = gql`
+mutation AddToWishlist($userId: ID!, $whiskeyId: ID!,) {
+  addToWishlist(userId: $userId, whiskeyId: $whiskeyId) {
+    whiskeyId
+  }
+}
+`
+
+// Remove a whiskey from a user's wishlist
+export const REMOVE_FROM_WISHLIST = gql`
+mutation RemoveFromWishlist($userId: ID!, $whiskeyId: ID!) {
+  removeFromWishlist(userId: $userId, whiskeyId: $whiskeyId) {
+      whiskeyId
+  }
+}
+`
