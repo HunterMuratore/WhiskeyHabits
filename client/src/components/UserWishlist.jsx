@@ -50,7 +50,6 @@ function UserWishlist({ user }) {
 
     return (
         <section className="user-wishlist flex flex-col justify-center">
-            <h2 className="font-bold text-lg my-4 text-center">{user.username}'s Whiskey Wishlist</h2>
             <div className="w-full grid grid-cols-1">
                 {wishlistWhiskeys.length === 0 && (
                     <div className="text-center">
@@ -96,7 +95,7 @@ function UserWishlist({ user }) {
                                         <p className="sm:ml-1">{whiskey.whiskey.stats.abv}</p>
                                     </div>
                                     <div>
-                                        <p className="font-semibold">{user.username}'s Rating:</p>
+                                        <p className="font-semibold">Score:</p>
                                         <p className="text-center">{whiskey.whiskey.rating}</p>
                                     </div>
                                 </div>

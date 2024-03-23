@@ -71,7 +71,6 @@ function UserCollection({ user }) {
 
     return (
         <section className="user-collection flex flex-col justify-center">
-            <h2 className="font-bold text-lg my-4 text-center">{user.username}'s Whiskey Collection</h2>
             <div className="w-full grid grid-cols-1">
                 {collectionWhiskeys.length === 0 && (
                     <div className="text-center">
