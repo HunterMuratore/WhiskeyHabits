@@ -157,8 +157,6 @@ function WhiskeyDetails() {
                 )}
             </div>
 
-
-
             <div className="flex justify-center">
                 <img src={whiskey.image} alt={whiskey.name} />
             </div>
