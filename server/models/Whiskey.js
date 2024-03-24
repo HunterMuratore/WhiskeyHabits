@@ -55,7 +55,6 @@ const whiskeySchema = new Schema({
             type: String,
         },
     },
-
 });
 
 const Whiskey = model('Whiskey', whiskeySchema);

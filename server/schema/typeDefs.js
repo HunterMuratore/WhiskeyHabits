@@ -9,6 +9,7 @@ const typeDefs = gql`
         updatedAt: String
         userCollection: [UserCollection]
         userWishlist: [UserWishlist]
+        userWhiskeys: [UserWhiskey]
     }
 
     type Whiskey {
@@ -70,6 +71,16 @@ const typeDefs = gql`
         overall: String
     }
 
+    type UserWhiskey {
+        _id: ID
+        name: String
+        type: String
+        rating: Float
+        distiller: String
+        abv: String
+        review: WhiskeyNotes
+    }
+
     type WhiskeysResult {
         whiskeys: [Whiskey]
         count: Int
@@ -93,6 +104,18 @@ const typeDefs = gql`
         removeFromCollection(userId: ID!, whiskeyId: ID!): UserCollection
         addToWishlist(userId: ID!, whiskeyId: ID!): UserWishlist
         removeFromWishlist(userId: ID!, whiskeyId: ID!): UserWishlist
+        addUserWhiskey(userId: ID!, whiskeyInput: UserWhiskeyInput!): UserWhiskey
+        updateUserWhiskey(userId: ID!, whiskeyId: ID!, whiskeyInput: UserWhiskeyInput!): UserWhiskey
+        removeUserWhiskey(userId: ID!, whiskeyId: ID!): UserWhiskey
+    }
+
+    input UserWhiskeyInput {
+        name: String
+        type: String
+        rating: Float
+        distiller: String
+        abv: String
+        review: WhiskeyNotesInput
     }
 
     input WhiskeyNotesInput {

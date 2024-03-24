@@ -51,6 +51,41 @@ const userSchema = new Schema({
             required: true,
         },
     }],
+    userWhiskeys: [{
+        name: {
+            type: String,
+            unique: true,
+            required: true,
+        },
+        type: {
+            type: String,
+        },
+        rating: {
+            type: Number,
+            min: 0,
+            max: 10,
+        },
+        distiller: {
+            type: String,
+        },
+        abv: {
+            type: String,
+        },
+        review: {
+            nose: {
+                type: String,
+            },
+            taste: {
+                type: String,
+            },
+            finish: {
+                type: String,
+            },
+            overall: {
+                type: String,
+            },
+        },
+    }]
 }, {
     timestamps: true,
     methods: {
