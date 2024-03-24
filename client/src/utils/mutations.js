@@ -85,3 +85,52 @@ mutation RemoveFromWishlist($userId: ID!, $whiskeyId: ID!) {
   }
 }
 `
+
+// Add a custom user whiskey to the user model
+export const ADD_USER_WHISKEY = gql`
+  mutation AddUserWhiskey($userId: ID!, $whiskeyInput: UserWhiskeyInput!) {
+    addUserWhiskey(userId: $userId, whiskeyInput: $whiskeyInput) {
+      _id
+      name
+      type
+      rating
+      distiller
+      abv
+      review {
+        nose
+        taste
+        finish
+        overall
+      }
+    }
+  }
+`;
+
+// Update a custom user whiskey
+export const UPDATE_USER_WHISKEY = gql`
+  mutation UpdateUserWhiskey($userId: ID!, $whiskeyId: ID!, $whiskeyInput: UserWhiskeyInput!) {
+    updateUserWhiskey(userId: $userId, whiskeyId: $whiskeyId, whiskeyInput: $whiskeyInput) {
+      _id
+      name
+      type
+      rating
+      distiller
+      abv
+      review {
+        nose
+        taste
+        finish
+        overall
+      }
+    }
+  }
+`;
+
+// Remove a custom user whiskey
+export const REMOVE_USER_WHISKEY = gql`
+  mutation RemoveUserWhiskey($userId: ID!, $whiskeyId: ID!) {
+    removeUserWhiskey(userId: $userId, whiskeyId: $whiskeyId) {
+      _id
+    }
+  }
+`;

@@ -10,7 +10,7 @@ export const AUTHENTICATE = gql`
   }
 `
 
-// Get a single user as well as their whiskey collection
+// Get a single user as well as their whiskey collection and userWhiskeys
 export const GET_USER_BY_ID = gql`
   query GetUserById($userId: ID!) {
     getUserById(userId: $userId) {
@@ -27,9 +27,23 @@ export const GET_USER_BY_ID = gql`
           overall
         }
       }
+      userWhiskeys {
+        _id
+        name
+        type
+        rating
+        distiller
+        abv
+        review {
+          nose
+          taste
+          finish
+          overall
+        }
+      }
     }
   }
-`
+`;
 
 // Get whiskey based off search/filter criteria
 export const GET_WHISKEYS = gql`
