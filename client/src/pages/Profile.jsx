@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { useMediaQuery } from 'react-responsive'
 
 import { useStore } from '../store'
 
@@ -20,6 +21,7 @@ function Profile() {
     const [showSuccess, setShowSuccess] = useState(false)
     const [successMessage, setSuccessMessage] = useState(false)
     const [errorMessage, setErrorMessage] = useState(null)
+    const isSmallScreen = useMediaQuery({ maxWidth: 1400 })
 
     const toggleCollection = () => {
         setShowCollection(!showCollection)
@@ -46,7 +48,7 @@ function Profile() {
             <h1 className="font-bold my-4 text-center">{user.username}'s Profile</h1>
 
             <div className="text-center mb-4">
-                <h2>Can't find your favorite whiskey in our database? You can create a custom whiskey entry below and add it to your collection!</h2>
+                <h2>Can't find a whiskey in our database? Create a custom whiskey entry below to add it to your collection!</h2>
             </div>
 
             <div className="button-container flex justify-center items-center my-5">
@@ -73,7 +75,7 @@ function Profile() {
                 />
             )}
 
-            <div className='collection-wishlist flex gap-4 lg:flex-row flex-col my-5'>
+            <div className={`collection-wishlist flex gap-4 ${isSmallScreen ? 'flex-col' : 'flex-row'} my-5`}>
                 {/* User Collection Box */}
                 <div className="collection-box my-2 w-full rounded-md">
                     <div className="collection-header flex items-center cursor-pointer my-2 bg-gray-200 w-full border border-gray-300 p-2 rounded-md" onClick={toggleCollection}>
