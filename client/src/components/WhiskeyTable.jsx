@@ -1,4 +1,5 @@
 import { useMediaQuery } from 'react-responsive'
+import { NavLink } from 'react-router-dom'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCaretDown, faCaretUp } from '@fortawesome/free-solid-svg-icons'
@@ -44,13 +45,13 @@ const WhiskeyTable = ({ data, sortByName, sortByScore, handleSortByName, handleS
           <tbody className="bg-white divide-y divide-gray-200">
             {data.whiskeys.whiskeys.slice(0, perPage).map((whiskey, index) => (
               <tr key={whiskey._id}>
-                <td className="px-3 py-2 whitespace-wrap text-sm font-medium text-gray-900">
-                  {whiskey.name}
+                <td className="whiskey-link px-3 py-2 whitespace-wrap text-sm font-medium text-gray-900">
+                  <NavLink to={`/whiskeys/${whiskey._id}`}>{whiskey.name}</NavLink>
                 </td>
                 <td className="px-3 py-2 whitespace-wrap text-sm text-center text-gray-900">
                   {whiskey.type}
                 </td>
-                <td className="px-3 py-2 whitespace-wrap text-center text-sm text-gray-900">
+                <td className="whiskey-link px-3 py-2 whitespace-wrap text-center text-sm text-gray-900">
                   {whiskey.rating}
                 </td>
               </tr>

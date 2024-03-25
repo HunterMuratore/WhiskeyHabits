@@ -12,7 +12,7 @@ const WhiskeyItem = ({ whiskey }) => {
       <td className="px-6 py-4 whitespace-no-wrap">{whiskey.type}</td>
       <td className="px-6 py-4 whitespace-no-wrap">{whiskey.stats.distiller}</td>
       <td className="px-6 py-4 whitespace-no-wrap">{whiskey.stats.abv}</td>
-      <td className="px-6 py-4 whitespace-no-wrap">{whiskey.rating}</td>
+      <td className="px-6 py-4 text-center whitespace-no-wrap">{whiskey.rating}</td>
     </tr>
   )
 }

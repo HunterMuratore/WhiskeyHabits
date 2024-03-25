@@ -10,7 +10,7 @@ import WhiskeyTable from '../components/WhiskeyTable'
 import FiltersModal from '../components/FiltersModal'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faMagnifyingGlass, faX } from '@fortawesome/free-solid-svg-icons'
+import { faMagnifyingGlass, faX, faFilter, faCaretDown, faCaretUp } from '@fortawesome/free-solid-svg-icons'
 
 const whiskeyTypes = [
     { value: '', label: 'All Types' },
@@ -54,8 +54,9 @@ function Whiskeys() {
     const [selectedDistiller, setSelectedDistiller] = useState('')
     const [searchActive, setSearchActive] = useState(false)
     const [showFiltersModal, setShowFiltersModal] = useState(false)
+    const [perPageDropdownOpen, setPerPageDropdownOpen] = useState(false)
     const inputRef = useRef(null)
-    const isSmallScreen = useMediaQuery({ maxWidth: 400 })
+    const isSmallScreen = useMediaQuery({ maxWidth: 410 })
 
 
     const { loading, error, data, fetchMore, refetch } = useQuery(GET_WHISKEYS, {
@@ -85,9 +86,8 @@ function Whiskeys() {
         setCurrentPage(newPage)
     }
 
-    const handlePerPageChange = (e) => {
-        const newPerPage = parseInt(e.target.value)
-        setPerPage(newPerPage)
+    const handlePerPageChange = (value) => {
+        setPerPage(value)
         setCurrentPage(1)
     }
 
@@ -146,21 +146,21 @@ function Whiskeys() {
 
     return (
         <section className="whiskeys mt-8 mb-4">
-            <div className="whiskeys-filters flex flex-no-wrap gap-2 items-center justify-between mb-2">
+            <div className="whiskeys-filters flex flex-nowrap gap-1 items-center justify-between mb-2">
 
                 {/* Search input */}
-                <div className='search-input'>
+                <div className='search-input flex flex-nowrap'>
                     <input
                         type="text"
                         placeholder="Search by name..."
                         ref={inputRef}
-                        className="p-1 border border-gray-300 rounded"
+                        className="p-1 whitespace-nowrap border border-gray-300 rounded"
                         style={isSmallScreen ? { width: '100px', fontSize: 'x-small' } : { width: '150px' }}
                     />
-                    <button className="ml-2" onClick={handleSearch}>
+                    <button className={`${isSmallScreen ? 'text-xs ml-1' : 'ml-2'}`} onClick={handleSearch}>
                         <FontAwesomeIcon icon={faMagnifyingGlass} />
                     </button>
-                    <button className="ml-2" onClick={handleClearSearch}>
+                    <button className={`${isSmallScreen ? 'text-xs ml-1' : 'ml-2'}`} onClick={handleClearSearch}>
                         <FontAwesomeIcon icon={faX} />
                     </button>
                     {searchActive && (
@@ -172,7 +172,7 @@ function Whiskeys() {
 
                 {/* Filters modal */}
                 <div>
-                    <button className="p-2 border border-gray-300 rounded" onClick={handleShowFiltersModal}>Filters</button>
+                    <button className="p-1 whitespace-nowrap" onClick={handleShowFiltersModal}>Filters <span className={`${isSmallScreen ? '' : 'ml-1'} text-gray-500 text-xs`}><FontAwesomeIcon icon={faFilter} /></span></button>
 
                     <FiltersModal
                         isOpen={showFiltersModal}
@@ -186,18 +186,26 @@ function Whiskeys() {
                     />
                 </div>
 
-                {/* Dropdown to select whiskeys per page */}
-                <div>
-                    <select
-                        id="perPage"
-                        className="p-1 border border-gray-300 rounded"
-                        value={perPage}
-                        onChange={handlePerPageChange}
-                    >
-                        <option value={20}>20</option>
-                        <option value={50}>50</option>
-                        <option value={100}>100</option>
-                    </select>
+                {/* Per page dropdown */}
+                <div className="relative">
+                    <div className="flex w-16 items-center">
+                        <button
+                            className={`py-1 border border-gray-300 rounded ${isSmallScreen ? 'text-xs' : ''}`}
+                            style={isSmallScreen ? { width: '55px' } : { width: '70px' }}
+                            onClick={() => setPerPageDropdownOpen(!perPageDropdownOpen)}
+                        >
+                            {perPage} <FontAwesomeIcon icon={perPageDropdownOpen ? faCaretUp : faCaretDown} className="ml-1" />
+                        </button>
+                    </div>
+                    {perPageDropdownOpen && (
+                        <div className="absolute right-0 left-auto mt-1 w-12 bg-white border border-gray-300 rounded">
+                            <ul>
+                                <li className="cursor-pointer p-2 hover:bg-gray-100" onClick={() => { handlePerPageChange(20); setPerPageDropdownOpen(false); }}>20</li>
+                                <li className="cursor-pointer p-2 hover:bg-gray-100" onClick={() => { handlePerPageChange(50); setPerPageDropdownOpen(false); }}>50</li>
+                                <li className="cursor-pointer p-2 hover:bg-gray-100" onClick={() => { handlePerPageChange(100); setPerPageDropdownOpen(false); }}>100</li>
+                            </ul>
+                        </div>
+                    )}
                 </div>
             </div>
 
