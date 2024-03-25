@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from 'react'
+import { useMediaQuery } from 'react-responsive'
 
 import { useQuery } from '@apollo/client'
 import { GET_WHISKEYS } from '../utils/queries'
@@ -6,6 +7,7 @@ import { GET_WHISKEYS } from '../utils/queries'
 import LoadingSpinner from '../components/LoadingSpinner'
 import Pagination from '../components/Pagination'
 import WhiskeyTable from '../components/WhiskeyTable'
+import FiltersModal from '../components/FiltersModal'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faMagnifyingGlass, faX } from '@fortawesome/free-solid-svg-icons'
@@ -51,7 +53,10 @@ function Whiskeys() {
     const [selectedType, setSelectedType] = useState('')
     const [selectedDistiller, setSelectedDistiller] = useState('')
     const [searchActive, setSearchActive] = useState(false)
+    const [showFiltersModal, setShowFiltersModal] = useState(false)
     const inputRef = useRef(null)
+    const isSmallScreen = useMediaQuery({ maxWidth: 400 })
+
 
     const { loading, error, data, fetchMore, refetch } = useQuery(GET_WHISKEYS, {
         variables: { search: searchTerm, page: currentPage, perPage, sortByName, sortByScore, selectedType, selectedDistiller },
@@ -123,6 +128,10 @@ function Whiskeys() {
         setCurrentPage(1)
     }
 
+    const handleShowFiltersModal = () => {
+        setShowFiltersModal(true)
+    }
+
     const handleResetFilters = () => {
         setSearchTerm('')
         setSelectedType('')
@@ -137,7 +146,8 @@ function Whiskeys() {
 
     return (
         <section className="whiskeys mt-8 mb-4">
-            <div className="whiskeys-filters flex justify-between mb-2">
+            <div className="whiskeys-filters flex flex-no-wrap gap-2 items-center justify-between mb-2">
+
                 {/* Search input */}
                 <div className='search-input'>
                     <input
@@ -145,6 +155,7 @@ function Whiskeys() {
                         placeholder="Search by name..."
                         ref={inputRef}
                         className="p-1 border border-gray-300 rounded"
+                        style={isSmallScreen ? { width: '100px', fontSize: 'x-small' } : { width: '150px' }}
                     />
                     <button className="ml-2" onClick={handleSearch}>
                         <FontAwesomeIcon icon={faMagnifyingGlass} />
@@ -158,36 +169,25 @@ function Whiskeys() {
                         </div>
                     )}
                 </div>
-                <div className='dropdown'>
-                    {/* Dropdown type filters */}
-                    <select
-                        className="p-1 border border-gray-300 rounded"
-                        value={selectedType}
-                        onChange={handleTypeChange}
-                    >
-                        {whiskeyTypes.map((option) => (
-                            <option key={option.value} value={option.value}>
-                                {option.label}
-                            </option>
-                        ))}
-                    </select>
-                </div>
+
+                {/* Filters modal */}
                 <div>
-                    {/* Dropdown distiller filters */}
-                    <select
-                        className="p-1 border border-gray-300 rounded"
-                        value={selectedDistiller}
-                        onChange={handleDistillerChange}
-                    >
-                        {whiskeyDistillers.map((option) => (
-                            <option key={option.value} value={option.value}>
-                                {option.label}
-                            </option>
-                        ))}
-                    </select>
+                    <button className="p-2 border border-gray-300 rounded" onClick={handleShowFiltersModal}>Filters</button>
+
+                    <FiltersModal
+                        isOpen={showFiltersModal}
+                        onClose={() => setShowFiltersModal(false)}
+                        types={whiskeyTypes}
+                        distillers={whiskeyDistillers}
+                        selectedType={selectedType}
+                        selectedDistiller={selectedDistiller}
+                        onTypeChange={handleTypeChange}
+                        onDistillerChange={handleDistillerChange}
+                    />
                 </div>
+
+                {/* Dropdown to select whiskeys per page */}
                 <div>
-                    {/* Dropdown to select whiskeys per page */}
                     <select
                         id="perPage"
                         className="p-1 border border-gray-300 rounded"
@@ -200,12 +200,14 @@ function Whiskeys() {
                     </select>
                 </div>
             </div>
+
+            {/* Reset filters */}
             <div>
-                {/* Reset filters */}
-                <button className="reset text-sm mb-2 mx-3" onClick={handleResetFilters}>
+                <button className="reset text-xs sm:text-sm mb-2 mx-3" onClick={handleResetFilters}>
                     Reset Filters
                 </button>
             </div>
+
             {/* Table to display whiskeys */}
             <WhiskeyTable
                 data={data}
@@ -216,9 +218,11 @@ function Whiskeys() {
                 perPage={perPage}
                 currentPage={currentPage}
             />
+
             <div className='mt-1'>
                 <p className='text-sm'>Currently viewing {data?.whiskeys?.count} whiskeys</p>
             </div>
+
             {/* Pagination controls */}
             <Pagination
                 currentPage={currentPage}
