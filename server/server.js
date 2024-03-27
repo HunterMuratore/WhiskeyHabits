@@ -4,6 +4,7 @@ const path = require('path');
 
 const { ApolloServer } = require('@apollo/server');
 const { expressMiddleware } = require('@apollo/server/express4');
+const { graphqlUploadExpress } = require('graphql-express');
 
 // Create an Express application
 const app = express();
@@ -47,9 +48,15 @@ async function startServer() {
     app.use(express.static('public'));
 
     // Configure GraphQL authentication middleware
-    app.use('/graphql', expressMiddleware(server, {
-        context: authenticate
-    }));
+    app.use(
+        '/graphql',
+        graphqlUploadExpress({
+            maxFileSize: 15 * 100 * 1000 // 15 MB file size
+        }),
+        expressMiddleware(server, {
+            context: authenticate
+        })
+    );
 
     // In production, serve the client's build folder for all routes
     if (is_prod) {

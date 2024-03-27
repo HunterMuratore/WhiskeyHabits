@@ -111,6 +111,7 @@ const typeDefs = gql`
 
     input UserWhiskeyInput {
         name: String
+        image: Upload
         type: String
         rating: Float
         distiller: String

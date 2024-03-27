@@ -11,6 +11,8 @@ import UserWhiskeyEntry from './UserWhiskeyEntry'
 import LoadingSpinner from './LoadingSpinner'
 import SuccessMessage from './SuccessMessage'
 
+// const imageUrl = `http://www.whiskeyhabits.com/user_whiskey_images/${whiskey.image}`
+
 function UserWhiskeys({ user }) {
     const [userWhiskeys, setUserWhiskeys] = useState([])
     const [openIndex, setOpenIndex] = useState(null)
