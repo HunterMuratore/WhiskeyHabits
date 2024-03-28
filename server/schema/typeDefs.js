@@ -1,6 +1,8 @@
 const gql = String.raw;
 
 const typeDefs = gql`
+    scalar Upload
+
     type User {
         _id: ID
         email: String
@@ -74,6 +76,7 @@ const typeDefs = gql`
     type UserWhiskey {
         _id: ID
         name: String
+        image: String
         type: String
         rating: Float
         distiller: String
@@ -111,6 +114,7 @@ const typeDefs = gql`
 
     input UserWhiskeyInput {
         name: String
+        image: Upload
         type: String
         rating: Float
         distiller: String

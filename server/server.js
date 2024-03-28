@@ -4,6 +4,7 @@ const path = require('path');
 
 const { ApolloServer } = require('@apollo/server');
 const { expressMiddleware } = require('@apollo/server/express4');
+const { graphqlUploadExpress } = require('graphql-upload');
 
 // Create an Express application
 const app = express();
@@ -33,6 +34,7 @@ async function startServer() {
     await server.start();
 
     // Set up middleware for parsing JSON requests
+    app.use(express.urlencoded({ extended: true }));
     app.use(express.json());
 
     // Serve static files from the client's build folder in production
@@ -46,10 +48,26 @@ async function startServer() {
     // Serve static files from the 'public' directory
     app.use(express.static('public'));
 
+    // Middleware to check for CSRF prevention
+    const csrfMiddleware = (req, res, next) => {
+        // Check if the request method is OPTIONS and the Apollo-Require-Preflight header is missing
+        if (req.method === 'OPTIONS' && !req.headers['apollo-require-preflight']) {
+            return res.status(400).json({ message: 'Missing Apollo-Require-Preflight header' });
+        }
+        next();
+    };
+
     // Configure GraphQL authentication middleware
-    app.use('/graphql', expressMiddleware(server, {
-        context: authenticate
-    }));
+    app.use(
+        '/graphql',
+        csrfMiddleware,
+        graphqlUploadExpress({
+            maxFileSize: 15 * 1024 * 1024 // 15 MB file size
+        }),
+        expressMiddleware(server, {
+            context: authenticate
+        })
+    );
 
     // In production, serve the client's build folder for all routes
     if (is_prod) {

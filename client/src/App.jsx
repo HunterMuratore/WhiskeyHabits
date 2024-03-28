@@ -13,6 +13,7 @@ import Profile from './pages/Profile'
 import Contact from './pages/Contact'  
 import Whiskeys from './pages/Whiskeys'
 import WhiskeyDetails from './pages/WhiskeyDetails'
+import NotFound from './pages/NotFound'
 
 import { AUTHENTICATE } from './utils/queries'
 
@@ -44,6 +45,8 @@ function App() {
           </Protect>}></Route>
           <Route path='/whiskeys' element={<Whiskeys />}></Route>
           <Route path='/whiskeys/:whiskeyId' element={<WhiskeyDetails />} />
+
+          <Route path='*' element={<NotFound />}></Route>
         </Routes>
       </main>
 

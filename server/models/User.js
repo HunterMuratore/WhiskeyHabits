@@ -57,6 +57,9 @@ const userSchema = new Schema({
             unique: true,
             required: true,
         },
+        image: {
+            type: String, 
+        },
         type: {
             type: String,
         },

@@ -18,6 +18,8 @@ function UserWhiskeyEntry({ showModal, onClose, onUpdateUserWhiskey, onSuccess, 
     const [taste, setTaste] = useState('')
     const [finish, setFinish] = useState('')
     const [overall, setOverall] = useState('')
+    const [imageFile, setImageFile] = useState(null)
+    const [imagePreview, setImagePreview] = useState(null)
 
     const [createUserWhiskey] = useMutation(ADD_USER_WHISKEY, {
         variables: { userId: user._id }
@@ -40,8 +42,24 @@ function UserWhiskeyEntry({ showModal, onClose, onUpdateUserWhiskey, onSuccess, 
             setWhiskeyName(whiskey.name)
             setDistiller(whiskey.distiller)
             setAbv(whiskey.abv)
+            setImagePreview(whiskey.image ? whiskey.image : null)
         }
     }, [isUpdate, whiskey])
+
+    // Function to revoke the object URL when component unmounts
+    useEffect(() => {
+        return () => {
+            if (imagePreview) {
+                URL.revokeObjectURL(imagePreview)
+            }
+        }
+    }, [imagePreview])
+
+    const handleImageChange = (e) => {
+        const file = e.target.files[0]
+        setImageFile(file)
+        setImagePreview(URL.createObjectURL(file))
+    }
 
     const handleUserWhiskeysMutation = async () => {
         try {
@@ -54,43 +72,41 @@ function UserWhiskeyEntry({ showModal, onClose, onUpdateUserWhiskey, onSuccess, 
                 return
             }
 
+            const whiskeyInput = {
+                name: whiskeyName,
+                type: type,
+                distiller: distiller,
+                abv: abv,
+                rating: ratingFloat,
+                review: {
+                    nose: nose,
+                    taste: taste,
+                    finish: finish,
+                    overall: overall
+                }
+            }
+
+            // Conditionally include the image property if a new image is selected
+            if (imageFile) {
+                whiskeyInput.image = imageFile
+            } else {
+                // If no new image is selected, set a placeholder value
+                whiskeyInput.image = "sameFile"
+            }
+
             // Execute the appropriate mutation based on whether it's an update or add
             const response = isUpdate
                 ? await onUpdateUserWhiskey({
                     variables: {
                         userId: user._id,
                         whiskeyId: whiskey._id,
-                        whiskeyInput: {
-                            name: whiskeyName,
-                            type: type,
-                            distiller: distiller,
-                            abv: abv,
-                            rating: ratingFloat,
-                            review: {
-                                nose: nose,
-                                taste: taste,
-                                finish: finish,
-                                overall: overall
-                            }
-                        }
+                        whiskeyInput
                     }
                 })
                 : await createUserWhiskey({
                     variables: {
                         userId: user._id,
-                        whiskeyInput: {
-                            name: whiskeyName,
-                            type: type,
-                            distiller: distiller,
-                            abv: abv,
-                            rating: ratingFloat,
-                            review: {
-                                nose: nose,
-                                taste: taste,
-                                finish: finish,
-                                overall: overall
-                            }
-                        }
+                        whiskeyInput
                     }
                 })
 
@@ -105,7 +121,6 @@ function UserWhiskeyEntry({ showModal, onClose, onUpdateUserWhiskey, onSuccess, 
             }
         } catch (error) {
             setErrorMessage(error.message)
-            onError(error.message)
         }
     }
 
@@ -120,6 +135,8 @@ function UserWhiskeyEntry({ showModal, onClose, onUpdateUserWhiskey, onSuccess, 
         setWhiskeyName('')
         setDistiller('')
         setAbv('')
+        setImageFile(null)
+        setImagePreview(null)
         onClose()
         setOpenModal(false)
     }
@@ -130,9 +147,25 @@ function UserWhiskeyEntry({ showModal, onClose, onUpdateUserWhiskey, onSuccess, 
             <Modal.Body>
                 <div className="modal-content sm:text-md text-sm">
                     <div className='grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs sm:text-sm justify-center mt-3'>
+                        <div className='flex flex-wrap gap-3 justify-center mx-auto'>
+                            <input
+                                type="file"
+                                accept="image/*"
+                                onChange={handleImageChange}
+                            />
+                            {imagePreview && (
+                                <div className='image-preview'>
+                                    <img
+                                        src={imagePreview}
+                                        alt="User Whiskey"
+                                        style={{ width: '75px', height: '75px' }}
+                                    />
+                                </div>
+                            )}
+                        </div>
                         <label className="flex flex-col">
                             <span>Name:</span>
-                            <textarea className="rounded mt-1" value={whiskeyName} onChange={(e) => setWhiskeyName(e.target.value)} />
+                            <textarea className="rounded mt-1" value={whiskeyName} onChange={(e) => setWhiskeyName(e.target.value)} required />
                         </label>
                         <label className="flex flex-col">
                             <span>Type:</span>
@@ -150,8 +183,8 @@ function UserWhiskeyEntry({ showModal, onClose, onUpdateUserWhiskey, onSuccess, 
                                 value={abv}
                                 onChange={(e) => setAbv(e.target.value)}
                                 step="0.1"
-                                min="0"   
-                                max="100" 
+                                min="0"
+                                max="100"
                             />
                         </label>
                     </div>
@@ -183,8 +216,8 @@ function UserWhiskeyEntry({ showModal, onClose, onUpdateUserWhiskey, onSuccess, 
                                 type="number"
                                 value={rating}
                                 onChange={(e) => {
-                                    const inputValue = Math.min(Math.max(e.target.value, 0), 10);
-                                    setRating(inputValue);
+                                    const inputValue = Math.min(Math.max(e.target.value, 0), 10)
+                                    setRating(inputValue)
                                 }}
                                 min="0"
                                 max="10"
