@@ -32,7 +32,7 @@ const userWhiskeyResolvers = {
                 }
 
                 // Check if a new image is being uploaded
-                if (whiskeyInput.image) {
+                if (whiskeyInput.image && whiskeyInput.image !== 'sameFile') {
                     const { createReadStream, filename } = await whiskeyInput.image.file;
 
                     // Generate a unique filename for the uploaded image
