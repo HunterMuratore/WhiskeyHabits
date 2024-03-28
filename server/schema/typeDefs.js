@@ -45,14 +45,14 @@ const typeDefs = gql`
     type UserCollection {
         userId: ID
         whiskeyId: ID
-        userRating: Float
+        userRating: Int
         userNotes: WhiskeyNotes
     }
 
     type UserCollectionWhiskeys {
         userNotes: WhiskeyNotes
         whiskeyId: ID
-        userRating: Float
+        userRating: Int
         _id: ID
         whiskey: Whiskey
     }
@@ -78,7 +78,7 @@ const typeDefs = gql`
         name: String
         image: String
         type: String
-        rating: Float
+        rating: Int
         distiller: String
         abv: String
         review: WhiskeyNotes
@@ -102,8 +102,8 @@ const typeDefs = gql`
         register(email: String!, username: String!, password: String!): User
         login(identifier: String!, password: String!): User
         logout: String
-        addToCollection(userId: ID!, whiskeyId: ID!, userRating: Float, userNotes: WhiskeyNotesInput): UserCollection
-        updateReview(userId: ID!, whiskeyId: ID!, userRating: Float, userNotes: WhiskeyNotesInput): UserCollection
+        addToCollection(userId: ID!, whiskeyId: ID!, userRating: Int, userNotes: WhiskeyNotesInput): UserCollection
+        updateReview(userId: ID!, whiskeyId: ID!, userRating: Int, userNotes: WhiskeyNotesInput): UserCollection
         removeFromCollection(userId: ID!, whiskeyId: ID!): UserCollection
         addToWishlist(userId: ID!, whiskeyId: ID!): UserWishlist
         removeFromWishlist(userId: ID!, whiskeyId: ID!): UserWishlist
@@ -116,7 +116,7 @@ const typeDefs = gql`
         name: String
         image: Upload
         type: String
-        rating: Float
+        rating: Int
         distiller: String
         abv: String
         review: WhiskeyNotesInput

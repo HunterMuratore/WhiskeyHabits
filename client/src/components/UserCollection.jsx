@@ -123,7 +123,7 @@ function UserCollection({ user }) {
                                         <p className="sm:ml-1">{whiskey.whiskey.stats.abv}</p>
                                     </div>
                                     <div>
-                                        <p className="font-semibold">{user.username}'s Rating:</p>
+                                        <p className="font-semibold">Your Rating:</p>
                                         <p className="text-center">{whiskey.userRating}</p>
                                     </div>
                                 </div>

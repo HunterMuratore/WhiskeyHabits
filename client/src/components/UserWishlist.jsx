@@ -95,7 +95,7 @@ function UserWishlist({ user }) {
                                         <p className="sm:ml-1">{whiskey.whiskey.stats.abv}</p>
                                     </div>
                                     <div>
-                                        <p className="font-semibold">Score:</p>
+                                        <p className="font-semibold">Rating:</p>
                                         <p className="text-center">{whiskey.whiskey.rating}</p>
                                     </div>
                                 </div>

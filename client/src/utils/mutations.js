@@ -22,7 +22,7 @@ export const LOGIN = gql`
 
 // Add a whiskey to a user's collection
 export const ADD_TO_COLLECTION = gql`
-mutation AddToCollection($userId: ID!, $whiskeyId: ID!, $userRating: Float, $userNotes: WhiskeyNotesInput) {
+mutation AddToCollection($userId: ID!, $whiskeyId: ID!, $userRating: Int, $userNotes: WhiskeyNotesInput) {
   addToCollection(userId: $userId, whiskeyId: $whiskeyId, userRating: $userRating, userNotes: $userNotes) {
     whiskeyId
     userRating
@@ -38,7 +38,7 @@ mutation AddToCollection($userId: ID!, $whiskeyId: ID!, $userRating: Float, $use
 
 // Update a whiskey in a user's collection
 export const UPDATE_REVIEW = gql`
-mutation UpdateReview($userId: ID!, $whiskeyId: ID!, $userRating: Float, $userNotes: WhiskeyNotesInput) {
+mutation UpdateReview($userId: ID!, $whiskeyId: ID!, $userRating: Int, $userNotes: WhiskeyNotesInput) {
   updateReview(userId: $userId, whiskeyId: $whiskeyId, userRating: $userRating, userNotes: $userNotes) {
     whiskeyId
     userRating

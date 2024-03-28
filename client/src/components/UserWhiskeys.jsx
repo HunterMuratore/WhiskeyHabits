@@ -110,7 +110,7 @@ function UserWhiskeys({ user }) {
                                         <p className="sm:ml-1">{whiskey.abv}%</p>
                                     </div>
                                     <div>
-                                        <p className="font-semibold">{user.username}'s Rating:</p>
+                                        <p className="font-semibold">Your Rating:</p>
                                         <p className="text-center">{whiskey.rating}</p>
                                     </div>
                                 </div>

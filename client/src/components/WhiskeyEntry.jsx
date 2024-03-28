@@ -29,12 +29,12 @@ function WhiskeyEntry({ showModal, onClose, onAddToCollection, onUpdateReview, o
 
   const handleCollectionMutation = async () => {
     try {
-      // Convert the rating from string to float
-      const ratingFloat = parseFloat(rating)
+      // Convert the rating from string to int
+      const ratingInt = parseInt(rating)
 
       // Check if the rating is a valid number
-      if (isNaN(ratingFloat)) {
-        setErrorMessage("Rating must be a number between 0 and 10")
+      if (isNaN(ratingInt)) {
+        setErrorMessage("Rating must be a number between 0 and 100")
         return
       }
 
@@ -44,7 +44,7 @@ function WhiskeyEntry({ showModal, onClose, onAddToCollection, onUpdateReview, o
             variables: {
               userId: user._id,
               whiskeyId: whiskey.whiskey._id,
-              userRating: ratingFloat,
+              userRating: ratingInt,
               userNotes: {
                 nose: nose,
                 taste: taste,
@@ -57,7 +57,7 @@ function WhiskeyEntry({ showModal, onClose, onAddToCollection, onUpdateReview, o
             variables: {
               userId: user._id,
               whiskeyId: whiskey._id,
-              userRating: ratingFloat,
+              userRating: ratingInt,
               userNotes: {
                 nose: nose,
                 taste: taste,
@@ -120,18 +120,18 @@ function WhiskeyEntry({ showModal, onClose, onAddToCollection, onUpdateReview, o
               <textarea className="rounded w-full" value={overall} onChange={(e) => setOverall(e.target.value)} />
               <div className='mt-5'>
                 <label>
-                  Rating &#40;0-10&#41;:
+                  Rating &#40;0-100&#41;:
                   <input
                     className="rounded ml-2"
                     type="number"
                     value={rating}
                     onChange={(e) => {
-                      // Limit the input value to be between 0 and 10
-                      const inputValue = Math.min(Math.max(e.target.value, 0), 10);
+                      // Limit the input value to be between 0 and 100
+                      const inputValue = Math.min(Math.max(e.target.value, 0), 100);
                       setRating(inputValue);
                     }}
                     min="0"
-                    max="10"
+                    max="100"
                   />
                 </label>
               </div>

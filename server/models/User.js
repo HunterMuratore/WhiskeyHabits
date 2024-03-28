@@ -36,7 +36,7 @@ const userSchema = new Schema({
         userRating: {
             type: Number,
             min: 0,
-            max: 10,
+            max: 100,
         },
         userNotes: {
             nose: String,
@@ -66,7 +66,7 @@ const userSchema = new Schema({
         rating: {
             type: Number,
             min: 0,
-            max: 10,
+            max: 100,
         },
         distiller: {
             type: String,
