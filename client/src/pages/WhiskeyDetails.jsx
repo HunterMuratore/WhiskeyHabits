@@ -66,13 +66,18 @@ function WhiskeyDetails() {
 
     const { getWhiskeyById: whiskey } = whiskeyData
 
-    const handleShowWhiskeyEntry = () => {
-        // Check if there is an active user
+    // Check if there is an active user
+    const checkUser = () => {
         if (!user) {
+            // Store the current URL before redirecting to login
+            localStorage.setItem('redirectUrl', window.location.pathname)
             navigate("/login")
             return
         }
+    }
 
+    const handleShowWhiskeyEntry = () => {
+        checkUser()
         setShowWhiskeyEntry(true)
     }
 
@@ -90,6 +95,8 @@ function WhiskeyDetails() {
 
     const handleAddToWishlist = async () => {
         try {
+            checkUser()
+
             const response = await addToWishlist({
                 variables: {
                     userId: user._id,
