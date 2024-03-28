@@ -34,6 +34,7 @@ async function startServer() {
     await server.start();
 
     // Set up middleware for parsing JSON requests
+    app.use(express.urlencoded({ extended: true }));
     app.use(express.json());
 
     // Serve static files from the client's build folder in production
@@ -61,7 +62,7 @@ async function startServer() {
         '/graphql',
         csrfMiddleware,
         graphqlUploadExpress({
-            maxFileSize: 15 * 100 * 1000 // 15 MB file size
+            maxFileSize: 15 * 1024 * 1024 // 15 MB file size
         }),
         expressMiddleware(server, {
             context: authenticate

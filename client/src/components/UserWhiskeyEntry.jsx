@@ -42,7 +42,7 @@ function UserWhiskeyEntry({ showModal, onClose, onUpdateUserWhiskey, onSuccess, 
             setWhiskeyName(whiskey.name)
             setDistiller(whiskey.distiller)
             setAbv(whiskey.abv)
-            setImagePreview(whiskey.image ? `http://www.whiskeyhabits.com/${whiskey.image}` : null)
+            setImagePreview(whiskey.image ? whiskey.image : null)
         }
     }, [isUpdate, whiskey])
 
@@ -74,7 +74,6 @@ function UserWhiskeyEntry({ showModal, onClose, onUpdateUserWhiskey, onSuccess, 
 
             const whiskeyInput = {
                 name: whiskeyName,
-                image: imageFile,
                 type: type,
                 distiller: distiller,
                 abv: abv,
@@ -87,7 +86,13 @@ function UserWhiskeyEntry({ showModal, onClose, onUpdateUserWhiskey, onSuccess, 
                 }
             }
 
-            console.log('whiskeyInput', whiskeyInput)
+            // Conditionally include the image property if a new image is selected
+            if (imageFile) {
+                whiskeyInput.image = imageFile
+            } else {
+                // If no new image is selected, set a placeholder value
+                whiskeyInput.image = "sameFile"
+            }
 
             // Execute the appropriate mutation based on whether it's an update or add
             const response = isUpdate
@@ -160,7 +165,7 @@ function UserWhiskeyEntry({ showModal, onClose, onUpdateUserWhiskey, onSuccess, 
                         </div>
                         <label className="flex flex-col">
                             <span>Name:</span>
-                            <textarea className="rounded mt-1" value={whiskeyName} onChange={(e) => setWhiskeyName(e.target.value)} />
+                            <textarea className="rounded mt-1" value={whiskeyName} onChange={(e) => setWhiskeyName(e.target.value)} required />
                         </label>
                         <label className="flex flex-col">
                             <span>Type:</span>

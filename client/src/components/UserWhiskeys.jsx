@@ -13,8 +13,6 @@ import SuccessMessage from './SuccessMessage'
 
 import emptyBottle from '../assets/images/empty_bottle.jpg'
 
-// const imageUrl = `http://www.whiskeyhabits.com/user_whiskey_images/${whiskey.image}`
-
 function UserWhiskeys({ user }) {
     const [userWhiskeys, setUserWhiskeys] = useState([])
     const [openIndex, setOpenIndex] = useState(null)
@@ -36,14 +34,12 @@ function UserWhiskeys({ user }) {
     })
 
     useEffect(() => {
-        // Fetch the user every time the component mounts
         refetch()
     }, [refetch])
 
     useEffect(() => {
         if (!loading && data) {
             setUserWhiskeys(data.getUserById.userWhiskeys)
-            console.log(userWhiskeys)
         }
     }, [loading, data])
 
