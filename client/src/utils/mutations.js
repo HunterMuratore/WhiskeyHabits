@@ -92,6 +92,7 @@ export const ADD_USER_WHISKEY = gql`
     addUserWhiskey(userId: $userId, whiskeyInput: $whiskeyInput) {
       _id
       name
+      image
       type
       rating
       distiller
@@ -112,6 +113,7 @@ export const UPDATE_USER_WHISKEY = gql`
     updateUserWhiskey(userId: $userId, whiskeyId: $whiskeyId, whiskeyInput: $whiskeyInput) {
       _id
       name
+      image
       type
       rating
       distiller

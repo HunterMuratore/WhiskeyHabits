@@ -31,6 +31,7 @@ export const GET_USER_BY_ID = gql`
         _id
         name
         type
+        image
         rating
         distiller
         abv

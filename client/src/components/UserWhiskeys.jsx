@@ -11,6 +11,8 @@ import UserWhiskeyEntry from './UserWhiskeyEntry'
 import LoadingSpinner from './LoadingSpinner'
 import SuccessMessage from './SuccessMessage'
 
+import emptyBottle from '../assets/images/empty_bottle.jpg'
+
 // const imageUrl = `http://www.whiskeyhabits.com/user_whiskey_images/${whiskey.image}`
 
 function UserWhiskeys({ user }) {
@@ -41,6 +43,7 @@ function UserWhiskeys({ user }) {
     useEffect(() => {
         if (!loading && data) {
             setUserWhiskeys(data.getUserById.userWhiskeys)
+            console.log(userWhiskeys)
         }
     }, [loading, data])
 
@@ -84,7 +87,11 @@ function UserWhiskeys({ user }) {
                     <div key={index} className="whiskey-box my-2 bg-gray-100 w-full border border-gray-300 p-4 rounded-md">
                         <div className="whiskey-header flex items-center cursor-pointer justify-between" onClick={() => toggleDropdown(index)}>
                             <div className='flex items-center gap-2'>
-                                {/* <img src={""} alt={whiskey.name} className="w-24 h-24 mx-2" /> */}
+                                <img
+                                    src={whiskey.image || emptyBottle}
+                                    alt={whiskey.name}
+                                    className="w-24 h-24 mx-2"
+                                />
                                 <div>
                                     <h3 className="sm:text-lg text-sm font-bold mr-6">{whiskey.name}</h3>
                                 </div>

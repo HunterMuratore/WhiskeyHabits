@@ -101,7 +101,7 @@ const userWhiskeyResolvers = {
 
                 // Check if a new image is being uploaded
                 if (whiskeyInput.image) {
-                    const { createReadStream, filename } = await whiskeyInput.image;
+                    const { createReadStream, filename } = await whiskeyInput.image.file;
 
                     // Generate a unique filename for the uploaded image
                     const uniqueFilename = v4() + path.extname(filename);
@@ -124,7 +124,7 @@ const userWhiskeyResolvers = {
                     }
 
                     // Set the image path in the whiskey input
-                    whiskeyInput.image = filePath;
+                    whiskeyInput.image = `/user_whiskey_images/${uniqueFilename}`;
                 }
 
                 // Update the whiskey entry with the provided whiskeyInput
