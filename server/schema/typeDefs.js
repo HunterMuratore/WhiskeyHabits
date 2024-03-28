@@ -45,14 +45,14 @@ const typeDefs = gql`
     type UserCollection {
         userId: ID
         whiskeyId: ID
-        userRating: Float
+        userRating: Int
         userNotes: WhiskeyNotes
     }
 
     type UserCollectionWhiskeys {
         userNotes: WhiskeyNotes
         whiskeyId: ID
-        userRating: Float
+        userRating: Int
         _id: ID
         whiskey: Whiskey
     }
@@ -78,7 +78,7 @@ const typeDefs = gql`
         name: String
         image: String
         type: String
-        rating: Float
+        rating: Int
         distiller: String
         abv: String
         review: WhiskeyNotes
@@ -116,7 +116,7 @@ const typeDefs = gql`
         name: String
         image: Upload
         type: String
-        rating: Float
+        rating: Int
         distiller: String
         abv: String
         review: WhiskeyNotesInput

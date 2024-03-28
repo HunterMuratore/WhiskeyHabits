@@ -63,12 +63,12 @@ function UserWhiskeyEntry({ showModal, onClose, onUpdateUserWhiskey, onSuccess, 
 
     const handleUserWhiskeysMutation = async () => {
         try {
-            // Convert the rating from string to float
-            const ratingFloat = parseFloat(rating)
+            // Convert the rating from string to int
+            const ratingInt = parseInt(rating)
 
             // Check if the rating is a valid number
-            if (isNaN(ratingFloat)) {
-                setErrorMessage("Rating must be a number between 0 and 10")
+            if (isNaN(ratingInt)) {
+                setErrorMessage("Rating must be a number between 0 and 100")
                 return
             }
 
@@ -77,7 +77,7 @@ function UserWhiskeyEntry({ showModal, onClose, onUpdateUserWhiskey, onSuccess, 
                 type: type,
                 distiller: distiller,
                 abv: abv,
-                rating: ratingFloat,
+                rating: ratingInt,
                 review: {
                     nose: nose,
                     taste: taste,
@@ -210,17 +210,17 @@ function UserWhiskeyEntry({ showModal, onClose, onUpdateUserWhiskey, onSuccess, 
                     </div>
                     <div className='grid grid-cols-3 gap-3 text-xs sm:text-sm justify-center mt-3'>
                         <label className="flex flex-col">
-                            <span>Rating (0-10):</span>
+                            <span>Rating (0-100):</span>
                             <input
                                 className="rounded mt-1"
                                 type="number"
                                 value={rating}
                                 onChange={(e) => {
-                                    const inputValue = Math.min(Math.max(e.target.value, 0), 10)
+                                    const inputValue = Math.min(Math.max(e.target.value, 0), 100)
                                     setRating(inputValue)
                                 }}
                                 min="0"
-                                max="10"
+                                max="100"
                             />
                         </label>
                     </div>
