@@ -49,7 +49,15 @@ function Auth({ isLogin }) {
             setFormData(initialFormData)
             setErrorMessage('')
 
-            navigate('/')
+            // After successful login
+            const redirectUrl = localStorage.getItem('redirectUrl')
+            if (redirectUrl) {
+                localStorage.removeItem('redirectUrl')
+                navigate(redirectUrl)
+            } else {
+                // If there's no stored URL, navigate to home page
+                navigate('/')
+            }
         } catch (err) {
             setErrorMessage(err.message)
         }
