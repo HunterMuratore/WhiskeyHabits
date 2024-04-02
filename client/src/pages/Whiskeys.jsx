@@ -62,10 +62,12 @@ function Whiskeys() {
     const inputRef = useRef(null)
     const isSmallScreen = useMediaQuery({ maxWidth: 410 })
 
+    // Query to get all the whiskeys for the table depending on user's search/filter criteria
     const { loading, error, data, fetchMore, refetch } = useQuery(GET_WHISKEYS, {
         variables: { search: searchTerm, page: currentPage, perPage, sortByName, sortByScore, selectedType, selectedDistiller },
     })
 
+    // Query to get only the top 5 whiskeys matching the user's search
     const { debounceLoading, debounceError, data: debounceData, refetch: debounceRefetch } = useQuery(GET_WHISKEYS_DEBOUNCED, {
         variables: { search: debouncedSearchTerm },
     })
