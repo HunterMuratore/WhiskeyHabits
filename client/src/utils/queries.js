@@ -67,6 +67,15 @@ export const GET_WHISKEYS = gql`
   }
 `
 
+// Get top 5 whiskeys based off search
+export const GET_WHISKEYS_DEBOUNCED = gql`
+  query GetWhiskeysDebounced($search: String) {
+    whiskeysDebounced(search: $search) {
+      whiskeys
+    }
+  }
+`
+
 // Get single whiskey by id
 export const GET_SINGLE_WHISKEY = gql`
   query GetWhiskeyById($whiskeyId: ID!) {

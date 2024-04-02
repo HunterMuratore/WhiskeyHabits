@@ -66,13 +66,51 @@ const whiskey_resolvers = {
             }
         },
 
+        // Get top 5 whiskeys of user's search
+        async whiskeysDebounced(_, { search }) {
+            try {
+                let query = Whiskey.find();
+        
+                // Apply search filter
+                if (search) {
+                    query = query.find({
+                        $or: [
+                            // Case-insensitive search
+                            { name: { $regex: new RegExp(search, 'i') } },
+                        ],
+                    });
+                }
+        
+                // Sort by name alphabetically ascending
+                query = query.collation({ locale: 'en', strength: 2 }).sort({ name: 1 });
+        
+                // Limit to top 5 results
+                query = query.limit(5);
+        
+                // Project only the name field
+                query = query.select('name');
+
+                // Execute the query
+                const whiskeys = await query.exec();
+
+                // Map the whiskeys into an array to return to the client
+                const whiskeyArray = whiskeys.map(whiskey => whiskey.name)
+                
+                return { whiskeys: whiskeyArray };
+            } catch (err) {
+                throw new Error(err.message);
+            }
+        },
+
         // Get single whiskey by id
         async getWhiskeyById(_, { whiskeyId }) {
             try {
                 const whiskey = await Whiskey.findById(whiskeyId);
+
                 if (!whiskey) {
                     throw new Error('Whiskey not found');
                 }
+
                 return whiskey;
             } catch (err) {
                 throw new Error(err.message);

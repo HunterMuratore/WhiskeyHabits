@@ -89,10 +89,15 @@ const typeDefs = gql`
         count: Int
     }
 
+    type WhiskeysDebouncedResult {
+        whiskeys: [String]
+    }
+
     type Query {
         authenticate: User
         getUserById(userId: ID!): User
         whiskeys(search: String, page: Int!, perPage: Int!, sortByName: String, sortByScore: String, selectedType: String, selectedDistiller: String): WhiskeysResult
+        whiskeysDebounced(search: String): WhiskeysDebouncedResult
         getWhiskeyById(whiskeyId: ID!): Whiskey
         getUserCollectionWhiskeys(userId: ID!): [UserCollectionWhiskeys]
         getUserWishlistWhiskeys(userId: ID!): [UserWishlistWhiskeys]
