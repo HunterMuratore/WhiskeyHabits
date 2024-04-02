@@ -12,6 +12,9 @@ import SuccessMessage from "../components/SuccessMessage"
 import ErrorMessage from "../components/ErrorMessage"
 import WhiskeyEntry from "../components/WhiskeyEntry"
 
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faTag } from '@fortawesome/free-solid-svg-icons'
+
 function WhiskeyDetails() {
     const { whiskeyId } = useParams()
     const { user } = useStore()
@@ -65,6 +68,8 @@ function WhiskeyDetails() {
     if (whiskeyError) return <ErrorMessage message={whiskeyError.message} />
 
     const { getWhiskeyById: whiskey } = whiskeyData
+
+    const googleShopSearchURL = `https://www.google.com/search?q=${encodeURIComponent(whiskey.name)}&tbm=shop`
 
     // Check if there is an active user
     const checkUser = () => {
@@ -125,7 +130,13 @@ function WhiskeyDetails() {
                     <span className="mr-2">&larr;</span> Back to Whiskeys
                 </NavLink>
             </button>
-            <h2 className="text-center font-bold text-xl sm:text-3xl mt-6 mb-6">{whiskey.name}</h2>
+            <h2 className="text-center font-bold text-xl sm:text-3xl mt-6 mb-6">{whiskey.name}
+                <span className="shop-icon ml-2 text-sm sm:text-xl">
+                    <a href={googleShopSearchURL} target="_blank" rel="noopener noreferrer">
+                        <FontAwesomeIcon icon={faTag} />
+                    </a>
+                </span>
+            </h2>
 
             <div className="flex items-center justify-center gap-3 mx-auto text-center mb-4">
                 {whiskeyInCollection ? (

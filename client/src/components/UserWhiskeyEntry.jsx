@@ -143,7 +143,12 @@ function UserWhiskeyEntry({ showModal, onClose, onUpdateUserWhiskey, onSuccess, 
 
     return (
         <Modal className='modal' dismissible show={openModal} onClose={handleCloseModal}>
-            <Modal.Header>{isUpdate ? "Update Whiskey" : "Create Whiskey"}</Modal.Header>
+            <Modal.Header>
+                <div className='flex flex-col text-center'>
+                    <h1>{isUpdate ? "Update Whiskey" : "Create Whiskey"}</h1>
+                    <p className='text-sm px-4'>Enter all of the details and your review of this whiskey here, you can come back and update this at anytime! The only required entries are the name and rating.</p>
+                </div>
+            </Modal.Header>
             <Modal.Body>
                 <div className="modal-content sm:text-md text-sm">
                     <div className='grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs sm:text-sm justify-center mt-3'>

@@ -41,31 +41,31 @@ function WhiskeyEntry({ showModal, onClose, onAddToCollection, onUpdateReview, o
       // Execute the appropriate mutation based on whether it's an update or add
       const response = isUpdate
         ? await onUpdateReview({
-            variables: {
-              userId: user._id,
-              whiskeyId: whiskey.whiskey._id,
-              userRating: ratingInt,
-              userNotes: {
-                nose: nose,
-                taste: taste,
-                finish: finish,
-                overall: overall
-              }
+          variables: {
+            userId: user._id,
+            whiskeyId: whiskey.whiskey._id,
+            userRating: ratingInt,
+            userNotes: {
+              nose: nose,
+              taste: taste,
+              finish: finish,
+              overall: overall
             }
-          })
+          }
+        })
         : await onAddToCollection({
-            variables: {
-              userId: user._id,
-              whiskeyId: whiskey._id,
-              userRating: ratingInt,
-              userNotes: {
-                nose: nose,
-                taste: taste,
-                finish: finish,
-                overall: overall
-              }
+          variables: {
+            userId: user._id,
+            whiskeyId: whiskey._id,
+            userRating: ratingInt,
+            userNotes: {
+              nose: nose,
+              taste: taste,
+              finish: finish,
+              overall: overall
             }
-          })
+          }
+        })
 
       // Check if the request was successful
       if (response && response.data) {
@@ -94,57 +94,61 @@ function WhiskeyEntry({ showModal, onClose, onAddToCollection, onUpdateReview, o
   }
 
   return (
-    <>
-      <Modal className='modal' dismissible show={openModal} onClose={handleCloseModal}>
-        <Modal.Header>{isUpdate ? "Update Review" : "Add Whiskey to Collection"}</Modal.Header>
-        <Modal.Body>
-          <div className="modal-content sm:text-md text-sm my-3">
-            <div className='flex sm:flex-row flex-col gap-2 justify-around'>
+    <Modal className='modal' dismissible show={openModal} onClose={handleCloseModal}>
+      <Modal.Header>
+        <div className='flex flex-col text-center'>
+          <h1>{isUpdate ? "Update Review" : "Add Whiskey to Collection"}</h1>
+          <p className='text-sm px-4'>Enter your review of this whiskey here, you can come back and update this at anytime! The only required entry is the rating.</p>
+        </div>
+      </Modal.Header>
+      <Modal.Body>
+        <div className="modal-content sm:text-md text-sm my-3">
+          <div className='flex sm:flex-row flex-col gap-2 justify-around'>
+            <label className="flex flex-col">
+              Nose:
+              <textarea className="rounded" value={nose} onChange={(e) => setNose(e.target.value)} />
+            </label>
+            <label className="flex flex-col">
+              Taste:
+              <textarea className="rounded" value={taste} onChange={(e) => setTaste(e.target.value)} />
+            </label>
+            <label className="flex flex-col">
+              Finish:
+              <textarea className="rounded" value={finish} onChange={(e) => setFinish(e.target.value)} />
+            </label>
+          </div>
+          <div className='flex flex-col gap-2 justify-center align-center mt-5'>
+            <label>
+              Overall:
+            </label>
+            <textarea className="rounded w-full" value={overall} onChange={(e) => setOverall(e.target.value)} />
+            <div className='mt-5'>
               <label>
-                Nose:
-                <textarea className="rounded ml-2" value={nose} onChange={(e) => setNose(e.target.value)} />
+                Rating &#40;0-100&#41;:
+                <input
+                  className="rounded ml-2"
+                  type="number"
+                  value={rating}
+                  onChange={(e) => {
+                    // Limit the input value to be between 0 and 100
+                    const inputValue = Math.min(Math.max(e.target.value, 0), 100);
+                    setRating(inputValue);
+                  }}
+                  min="0"
+                  max="100"
+                  required
+                />
               </label>
-              <label>
-                Taste:
-                <textarea className="rounded ml-2" value={taste} onChange={(e) => setTaste(e.target.value)} />
-              </label>
-              <label>
-                Finish:
-                <textarea className="rounded ml-2" value={finish} onChange={(e) => setFinish(e.target.value)} />
-              </label>
-            </div>
-            <div className='flex flex-col gap-2 justify-center align-center mt-5'>
-              <label>
-                Overall:
-              </label>
-              <textarea className="rounded w-full" value={overall} onChange={(e) => setOverall(e.target.value)} />
-              <div className='mt-5'>
-                <label>
-                  Rating &#40;0-100&#41;:
-                  <input
-                    className="rounded ml-2"
-                    type="number"
-                    value={rating}
-                    onChange={(e) => {
-                      // Limit the input value to be between 0 and 100
-                      const inputValue = Math.min(Math.max(e.target.value, 0), 100);
-                      setRating(inputValue);
-                    }}
-                    min="0"
-                    max="100"
-                  />
-                </label>
-              </div>
             </div>
           </div>
-          {errorMessage && <ErrorMessage message={errorMessage} setErrorMessage={setErrorMessage} />}
-        </Modal.Body>
-        <Modal.Footer className='justify-end'>
-          <Button className="my-btn" onClick={handleCollectionMutation}>{isUpdate ? "Update Review" : "Add to Collection"}</Button>
-          <Button color="gray" onClick={handleCloseModal}>Cancel</Button>
-        </Modal.Footer>
-      </Modal>
-    </>
+        </div>
+        {errorMessage && <ErrorMessage message={errorMessage} setErrorMessage={setErrorMessage} />}
+      </Modal.Body>
+      <Modal.Footer className='justify-end'>
+        <Button className="my-btn" onClick={handleCollectionMutation}>{isUpdate ? "Update Review" : "Add to Collection"}</Button>
+        <Button color="gray" onClick={handleCloseModal}>Cancel</Button>
+      </Modal.Footer>
+    </Modal>
   )
 }
 
