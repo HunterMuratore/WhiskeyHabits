@@ -14,17 +14,21 @@ const Pagination = ({ currentPage, totalPages, onPageChange }) => {
             >
                 Previous
             </button>
-            <button
-                className="mx-2"
-                onClick={() => onPageChange(1)}
-                disabled={currentPage === 1}
-            >
-                &lt;&lt;&lt;
-            </button>
+            {currentPage > 1 && (
+                <>
+                    <button
+                        className="mx-2"
+                        onClick={() => onPageChange(1)}
+                    >
+                        1
+                    </button>
+                    <button className="mx-2 inactive">...</button>
+                </>
+            )}
             {pageNumbers.slice(currentPage - 1, currentPage + 2).map((pageNumber) => (
                 <button
                     key={pageNumber}
-                    className={`mx-1 px-3 py-2 ${
+                    className={`mx-1 px-2 py-2 ${
                         pageNumber === currentPage ? 'font-bold' : ''
                     }`}
                     onClick={() => onPageChange(pageNumber)}
