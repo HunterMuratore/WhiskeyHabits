@@ -11,6 +11,7 @@ import { faCaretDown, faCaretUp, faX, faPencil, faArrowUpRightFromSquare, faTag 
 import LoadingSpinner from './LoadingSpinner'
 import WhiskeyEntry from './WhiskeyEntry'
 import SuccessMessage from './SuccessMessage'
+import ConfirmationModal from './ConfirmationModal'
 
 function UserCollection({ user }) {
     const [openIndex, setOpenIndex] = useState(null)
@@ -18,6 +19,8 @@ function UserCollection({ user }) {
     const [showWhiskeyEntry, setShowWhiskeyEntry] = useState(false)
     const [showSuccess, setShowSuccess] = useState(false)
     const [successMessage, setSuccessMessage] = useState(false)
+    const [showConfirmationModal, setShowConfirmationModal] = useState(false)
+    const [whiskeyToDelete, setWhiskeyToDelete] = useState(null)
 
     // Query to fetch user's collection of whiskeys
     const { loading: collectionLoading, error: collectionError, data: collectionData, refetch: refetchCollection } = useQuery(GET_USER_COLLECTION_WHISKEYS, {
@@ -61,12 +64,25 @@ function UserCollection({ user }) {
         setShowSuccess(true)
     }
 
-    const handleRemoveFromCollection = async (whiskeyId) => {
+    const handleRemoveFromCollection = (whiskeyId) => {
+        setWhiskeyToDelete(whiskeyId)
+        setShowConfirmationModal(true)
+    }
+
+    const handleConfirmDelete = async () => {
         try {
-            await removeFromCollection({ variables: { userId: user._id, whiskeyId } })
+            await removeFromCollection({ variables: { userId: user._id, whiskeyId: whiskeyToDelete } })
+            setWhiskeyToDelete(null)
+            setShowSuccess(true)
+            setShowConfirmationModal(false)
         } catch (error) {
             console.error('Error removing whiskey from collection:', error.message)
         }
+    }
+
+    const handleCancelDelete = () => {
+        setWhiskeyToDelete(null)
+        setShowConfirmationModal(false)
     }
 
     return (
@@ -92,6 +108,17 @@ function UserCollection({ user }) {
                     showSuccess={showSuccess}
                     setShowSuccess={setShowSuccess}
                 />}
+
+                {/* Confirmation Modal for deleting a whiskey */}
+                {showConfirmationModal && (
+                    <ConfirmationModal
+                        showModal={showConfirmationModal}
+                        onClose={() => setShowConfirmationModal(false)}
+                        message="Are you sure you want to delete this whiskey?"
+                        onConfirm={handleConfirmDelete}
+                        onCancel={handleCancelDelete}
+                    />
+                )}
 
                 {collectionWhiskeys.map((whiskey, index) => (
                     <div key={index} className="whiskey-box my-2 bg-gray-100 w-full border border-gray-300 p-4 rounded-md">
