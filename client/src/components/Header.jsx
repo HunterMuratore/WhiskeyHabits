@@ -117,8 +117,8 @@ function Header() {
                     <>
                         <NavLink to="/">Home</NavLink>
                         <NavLink to="/whiskeys">Whiskeys</NavLink>
-                        <NavLink to="/register">Register</NavLink>
                         <NavLink to="/login">Login</NavLink>
+                        <NavLink to="/register">Register</NavLink>
                     </>
                 )}
             </nav>
