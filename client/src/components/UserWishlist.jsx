@@ -6,7 +6,7 @@ import { GET_USER_WISHLIST_WHISKEYS } from '../utils/queries'
 import { REMOVE_FROM_WISHLIST } from '../utils/mutations'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faCaretDown, faCaretUp, faX, faArrowUpRightFromSquare } from '@fortawesome/free-solid-svg-icons'
+import { faCaretDown, faCaretUp, faX, faArrowUpRightFromSquare, faTag } from '@fortawesome/free-solid-svg-icons'
 
 import LoadingSpinner from './LoadingSpinner'
 
@@ -71,10 +71,18 @@ function UserWishlist({ user }) {
                             <div className='flex items-center gap-2'>
                                 <img src={whiskey.whiskey.image} alt={whiskey.whiskey.name} className="w-24 h-24 mx-2" />
                                 <div>
-                                    <h3 className="sm:text-lg text-sm font-bold mr-6">{whiskey.whiskey.name}</h3>
-                                    <NavLink to={`/whiskeys/${whiskey.whiskey._id}`}>
-                                        <FontAwesomeIcon icon={faArrowUpRightFromSquare} className='text-sm' />
-                                    </NavLink>
+                                    <h3 className="sm:text-lg text-sm font-bold">{whiskey.whiskey.name}</h3>
+                                    <div className='flex items-center'>
+                                        <NavLink to={`/whiskeys/${whiskey.whiskey._id}`}>
+                                            <FontAwesomeIcon icon={faArrowUpRightFromSquare} />
+                                        </NavLink>
+                                        <span className="sm:text-lg text-sm font-bold ml-2">
+                                            <a href={`https://www.google.com/search?q=${encodeURIComponent(whiskey.whiskey.name)}&tbm=shop`} target="_blank" rel="noopener noreferrer">
+                                                <FontAwesomeIcon icon={faTag} />
+                                            </a>
+                                        </span>
+                                    </div>
+
                                 </div>
                             </div>
                             <FontAwesomeIcon icon={openIndex === index ? faCaretUp : faCaretDown} className="text-gray-500" />

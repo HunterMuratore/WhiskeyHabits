@@ -5,7 +5,7 @@ import { GET_USER_BY_ID } from '../utils/queries'
 import { UPDATE_USER_WHISKEY, REMOVE_USER_WHISKEY } from '../utils/mutations'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faCaretDown, faCaretUp, faX, faPencil } from '@fortawesome/free-solid-svg-icons'
+import { faCaretDown, faCaretUp, faX, faPencil, faTag } from '@fortawesome/free-solid-svg-icons'
 
 import UserWhiskeyEntry from './UserWhiskeyEntry'
 import LoadingSpinner from './LoadingSpinner'
@@ -98,6 +98,11 @@ function UserWhiskeys({ user }) {
                                 )}
                                 <div>
                                     <h3 className="sm:text-lg text-sm font-bold mr-6">{whiskey.name}</h3>
+                                    <span className="sm:text-lg text-sm font-bold">
+                                        <a href={`https://www.google.com/search?q=${encodeURIComponent(whiskey.name)}&tbm=shop`} target="_blank" rel="noopener noreferrer">
+                                            <FontAwesomeIcon icon={faTag} />
+                                        </a>
+                                    </span>
                                 </div>
                             </div>
                             <FontAwesomeIcon icon={openIndex === index ? faCaretUp : faCaretDown} className="text-gray-500" />
