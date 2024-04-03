@@ -6,9 +6,7 @@ import { faCaretDown, faCaretUp } from '@fortawesome/free-solid-svg-icons'
 
 function PerPage({ perPage, handlePerPageChange, page1, page2, page3 }) {
     const [perPageDropdownOpen, setPerPageDropdownOpen] = useState(false)
-    const isSmallScreen = useMediaQuery({ maxWidth: 410 })
     const isMedScreen = useMediaQuery({ maxWidth: 600 })
-
 
     return (
         <div className="relative">

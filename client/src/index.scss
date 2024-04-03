@@ -75,7 +75,7 @@ a {
 
 .custom-tooltip-content {
     position: absolute;
-    bottom: calc(100% + 8px);
+    bottom: calc(100% + 6px);
     left: 50%;
     transform: translateX(-48%);
     background-color: #333;
@@ -85,11 +85,9 @@ a {
     font-size: 13px;
     opacity: 0.9;
     z-index: 999;
-    white-space: normal; 
+    white-space: normal;
     word-wrap: break-word;
     text-align: center;
-    pointer-events: none;
-    visibility: visible;
 
     &::after {
         content: '';
@@ -100,7 +98,7 @@ a {
         border-width: 6px;
         border-top-color: #333;
         transform: translateX(-50%);
-      }
+    }
 }
 
 .custom-tooltip-trigger {
