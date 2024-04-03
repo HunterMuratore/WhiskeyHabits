@@ -35,8 +35,15 @@ const userSchema = new Schema({
         },
         userRating: {
             type: Number,
-            min: 0,
-            max: 100,
+            min: [0, 'User rating must be between 0 and 100'],
+            max: [100, 'User rating must be between 0 and 100'],
+            validate: {
+                validator(value) {
+                    // Check if value is null or undefined, or if it's within the valid range
+                    return value === null || value === undefined || (value >= 0 && value <= 100);
+                },
+                message: 'User rating must be between 0 and 100'
+            }
         },
         userNotes: {
             nose: String,
@@ -58,15 +65,22 @@ const userSchema = new Schema({
             required: true,
         },
         image: {
-            type: String, 
+            type: String,
         },
         type: {
             type: String,
         },
         rating: {
             type: Number,
-            min: 0,
-            max: 100,
+            min: [0, 'Rating must be between 0 and 100'],
+            max: [100, 'Rating must be between 0 and 100'],
+            validate: {
+                validator(value) {
+                    // Check if value is null or undefined, or if it's within the valid range
+                    return value === null || value === undefined || (value >= 0 && value <= 100);
+                },
+                message: 'Rating must be between 0 and 100'
+            }
         },
         distiller: {
             type: String,
