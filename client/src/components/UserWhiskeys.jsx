@@ -11,6 +11,7 @@ import UserWhiskeyEntry from './UserWhiskeyEntry'
 import LoadingSpinner from './LoadingSpinner'
 import SuccessMessage from './SuccessMessage'
 import ConfirmationModal from './ConfirmationModal'
+import Tooltip from './Tooltip'
 
 import emptyBottle from '../assets/images/empty_bottle.jpg'
 
@@ -123,11 +124,13 @@ function UserWhiskeys({ user }) {
                                 )}
                                 <div>
                                     <h3 className="sm:text-lg text-sm font-bold mr-6">{whiskey.name}</h3>
-                                    <span className="sm:text-lg text-sm font-bold">
-                                        <a href={`https://www.google.com/search?q=${encodeURIComponent(whiskey.name)}&tbm=shop`} target="_blank" rel="noopener noreferrer">
-                                            <FontAwesomeIcon icon={faTag} />
-                                        </a>
-                                    </span>
+                                    <Tooltip content="Google Shop">
+                                        <span className="sm:text-lg text-sm font-bold">
+                                            <a href={`https://www.google.com/search?q=${encodeURIComponent(whiskey.name)}&tbm=shop`} target="_blank" rel="noopener noreferrer">
+                                                <FontAwesomeIcon icon={faTag} />
+                                            </a>
+                                        </span>
+                                    </Tooltip>
                                 </div>
                             </div>
                             <FontAwesomeIcon icon={openIndex === index ? faCaretUp : faCaretDown} className="text-gray-500" />

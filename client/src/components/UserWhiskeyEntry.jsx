@@ -158,11 +158,10 @@ function UserWhiskeyEntry({ showModal, onClose, onUpdateUserWhiskey, onSuccess, 
                                 accept="image/*"
                                 onChange={handleImageChange}
                             />
-                            {imagePreview && (
+                            {imagePreview && imagePreview !== "sameFile" && (
                                 <div className='image-preview'>
                                     <img
                                         src={imagePreview}
-                                        alt="User Whiskey"
                                         style={{ width: '75px', height: '75px' }}
                                     />
                                 </div>
