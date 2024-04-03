@@ -13,6 +13,8 @@ import WhiskeyEntry from './WhiskeyEntry'
 import SuccessMessage from './SuccessMessage'
 import ConfirmationModal from './ConfirmationModal'
 import Tooltip from './Tooltip'
+import Pagination from './Pagination'
+import PerPage from './PerPage'
 
 function UserCollection({ user }) {
     const [openIndex, setOpenIndex] = useState(null)
@@ -22,6 +24,8 @@ function UserCollection({ user }) {
     const [successMessage, setSuccessMessage] = useState(false)
     const [showConfirmationModal, setShowConfirmationModal] = useState(false)
     const [whiskeyToDelete, setWhiskeyToDelete] = useState(null)
+    const [perPage, setPerPage] = useState(5)
+    const [currentPage, setCurrentPage] = useState(1)
 
     // Query to fetch user's collection of whiskeys
     const { loading: collectionLoading, error: collectionError, data: collectionData, refetch: refetchCollection } = useQuery(GET_USER_COLLECTION_WHISKEYS, {
@@ -48,6 +52,11 @@ function UserCollection({ user }) {
     }, [collectionLoading, collectionData])
 
     if (collectionLoading) return <LoadingSpinner />
+
+    // Pagination logic
+    const indexOfFirstWhiskey = (currentPage - 1) * perPage
+    const indexOfLastWhiskey = Math.min(indexOfFirstWhiskey + perPage, collectionWhiskeys.length)
+    const currentWhiskeys = collectionWhiskeys.slice(indexOfFirstWhiskey, indexOfLastWhiskey)
 
     const toggleDropdown = (index) => {
         setOpenIndex(openIndex === index ? null : index)
@@ -86,6 +95,11 @@ function UserCollection({ user }) {
         setShowConfirmationModal(false)
     }
 
+    const handlePerPageChange = (value) => {
+        setPerPage(value)
+        setCurrentPage(1)
+    }
+
     return (
         <section className="user-collection flex flex-col justify-center">
             <div className="w-full grid grid-cols-1">
@@ -121,7 +135,16 @@ function UserCollection({ user }) {
                     />
                 )}
 
-                {collectionWhiskeys.map((whiskey, index) => (
+                <div className="flex justify-between mb-2">
+                    {/* Search bar */}
+                    <div>
+
+                    </div>
+                    {/* Per page dropdown */}
+                    <PerPage perPage={perPage} handlePerPageChange={handlePerPageChange} page1={5} page2={10} page3={20} />
+                </div>
+
+                {currentWhiskeys.slice(0, perPage).map((whiskey, index) => (
                     <div key={index} className="whiskey-box my-2 bg-gray-100 w-full border border-gray-300 p-4 rounded-md">
                         <div className="whiskey-header flex items-center cursor-pointer justify-between" onClick={() => toggleDropdown(index)}>
                             <div className='flex items-center gap-2'>
@@ -212,6 +235,15 @@ function UserCollection({ user }) {
                         )}
                     </div>
                 ))}
+
+                {/* Pagination */}
+                {collectionWhiskeys.length > perPage && (
+                    <Pagination
+                        currentPage={currentPage}
+                        totalPages={Math.ceil(collectionWhiskeys.length / perPage)}
+                        onPageChange={setCurrentPage}
+                    />
+                )}
             </div>
         </section>
     )
