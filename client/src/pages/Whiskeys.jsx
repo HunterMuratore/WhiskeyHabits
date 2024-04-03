@@ -60,10 +60,10 @@ function Whiskeys() {
     const [selectedDistiller, setSelectedDistiller] = useState('')
     const [searchActive, setSearchActive] = useState(false)
     const [showFiltersModal, setShowFiltersModal] = useState(false)
-    const [perPageDropdownOpen, setPerPageDropdownOpen] = useState(false)
     const inputRef = useRef(null)
     const isSmallScreen = useMediaQuery({ maxWidth: 410 })
     const isMedScreen = useMediaQuery({ maxWidth: 600 })
+    const isLgScreen = useMediaQuery({ maxWidth: 700 })
 
     // Query to get all the whiskeys for the table depending on user's search/filter criteria
     const { loading, error, data, fetchMore, refetch } = useQuery(GET_WHISKEYS, {
@@ -206,56 +206,66 @@ function Whiskeys() {
 
     return (
         <section className="whiskeys mt-8 mb-4">
-            <div className="whiskeys-filters flex flex-nowrap gap-1 items-top justify-between mb-2">
+            <div className="whiskeys-filters flex flex-nowrap items-center gap-1 justify-between mb-2">
 
                 {/* Search input */}
                 <div className='flex flex-col gap-2'>
-                    <div className='relative'>
-                        <div className='search-input flex flex-nowrap items-center'>
-                            <input
-                                type="text"
-                                placeholder="Search by name..."
-                                ref={inputRef}
-                                className="p-1 whitespace-nowrap border border-gray-300 rounded"
-                                style={isSmallScreen ? { width: '100px', fontSize: 'x-small' } : { width: '150px' }}
-                                onKeyDown={handleEnterKeyPress}
-                                onChange={handleDebouncedSearch}
-                            />
-                            <Tooltip content="Search">
-                                <button className={`${isSmallScreen ? 'text-xs ml-1' : 'ml-2'}`} onClick={handleSearch}>
+                    <div className='flex flex-nowrap items-center'>
+                        <input
+                            type="text"
+                            placeholder="Search by name..."
+                            ref={inputRef}
+                            className="p-1 whitespace-nowrap border border-gray-300 rounded"
+                            style={isSmallScreen ? { width: '100px', fontSize: 'x-small' } : { width: '150px' }}
+                            onKeyDown={handleEnterKeyPress}
+                            onChange={handleDebouncedSearch}
+                        />
+                        {!isLgScreen ? (
+                                <>
+                                    <Tooltip content="Search">
+                                        <button className={`${isSmallScreen ? 'ml-1' : 'ml-2'}`} onClick={handleSearch}>
+                                            <FontAwesomeIcon icon={faMagnifyingGlass} />
+                                        </button>
+                                    </Tooltip>
+                                    <Tooltip content="Clear">
+                                        <button className={`${isSmallScreen ? 'ml-1' : 'ml-2'}`} onClick={handleClearSearch}>
+                                            <FontAwesomeIcon icon={faX} />
+                                        </button>
+                                    </Tooltip>
+                                </>
+                            ) : (
+                            <>
+                                <button className={`${isSmallScreen ? 'ml-1' : 'ml-2'}`} onClick={handleSearch}>
                                     <FontAwesomeIcon icon={faMagnifyingGlass} />
                                 </button>
-                            </Tooltip>
-                            <Tooltip content="Clear">
-                                <button className={`${isSmallScreen ? 'text-xs ml-1' : 'ml-2'}`} onClick={handleClearSearch}>
+                                <button className={`${isSmallScreen ? 'ml-1' : 'ml-2'}`} onClick={handleClearSearch}>
                                     <FontAwesomeIcon icon={faX} />
                                 </button>
-                            </Tooltip>
-                        </div>
-                        {showAutocompleteResults && (
-                            <div className={`absolute right-auto left-0 mt-1 ${isSmallScreen ? 'text-xs w-48' : 'w-96'} bg-white border border-gray-300 rounded`}>
-                                <ul>
-                                    {autocompleteResults.map((result, index) => (
-                                        <li key={index} className="cursor-pointer p-2 hover:bg-gray-100 p-1" onClick={() => {
-                                            setSearchTerm(result)
-                                            setSearchActive(true)
-                                            setCurrentPage(1)
-                                            setAutocompleteResults([])
-                                            setShowAutocompleteResults(false)
-                                        }}>
-                                            {result}
-                                        </li>
-                                    ))}
-                                </ul>
-                            </div>
-                        )}
+                            </>
+                            )}
                     </div>
+                    {showAutocompleteResults && (
+                        <div className={`absolute right-auto left-0 mt-1 ${isSmallScreen ? 'text-xs w-48' : 'w-96'} bg-white border border-gray-300 rounded`}>
+                            <ul>
+                                {autocompleteResults.map((result, index) => (
+                                    <li key={index} className="cursor-pointer p-2 hover:bg-gray-100 p-1" onClick={() => {
+                                        setSearchTerm(result)
+                                        setSearchActive(true)
+                                        setCurrentPage(1)
+                                        setAutocompleteResults([])
+                                        setShowAutocompleteResults(false)
+                                    }}>
+                                        {result}
+                                    </li>
+                                ))}
+                            </ul>
+                        </div>
+                    )}
                 </div>
 
                 {/* Filters modal */}
                 <div>
-                    <button className="p-1 whitespace-nowrap" onClick={handleShowFiltersModal}>Filters <span className={`${isSmallScreen ? '' : 'ml-1'} text-gray-500 text-xs`}><FontAwesomeIcon icon={faFilter} /></span></button>
-
+                    <button className="p-1 whitespace-nowrap" onClick={handleShowFiltersModal}>Filters <span className="ml-1 text-gray-500 text-xs"><FontAwesomeIcon icon={faFilter} /></span></button>
                     <FiltersModal
                         isOpen={showFiltersModal}
                         onClose={() => setShowFiltersModal(false)}
@@ -274,7 +284,7 @@ function Whiskeys() {
 
             {/* Reset filters */}
             <div className='flex items-center justify-between my-3'>
-                <button className={`reset ${isSmallScreen ? 'text-xs mx-2' : 'text-sm mx-3'}`} onClick={() => {
+                <button className={`${isSmallScreen ? 'text-xs mx-2' : 'text-sm mx-3'}`} onClick={() => {
                     handleResetFilters()
                     handleClearSearch()
                 }}>
