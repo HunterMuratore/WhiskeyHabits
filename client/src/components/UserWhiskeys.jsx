@@ -152,7 +152,7 @@ function UserWhiskeys({ user }) {
                                     </div>
                                     <div>
                                         <p className="font-semibold">Your Rating:</p>
-                                        <p className="text-center">{whiskey.rating}</p>
+                                        <p className="text-center">{whiskey.rating ? whiskey.rating : "N/A"}</p>
                                     </div>
                                 </div>
                                 {/* Display user's whiskey details */}

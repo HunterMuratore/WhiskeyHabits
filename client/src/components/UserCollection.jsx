@@ -163,7 +163,7 @@ function UserCollection({ user }) {
                                     </div>
                                     <div>
                                         <p className="font-semibold">Your Rating:</p>
-                                        <p className="text-center">{whiskey.userRating}</p>
+                                        <p className="text-center">{whiskey.userRating ? whiskey.userRating : "N/A"}</p>
                                     </div>
                                 </div>
                                 {/* Display user's whiskey details */}

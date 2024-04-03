@@ -32,12 +32,6 @@ function WhiskeyEntry({ showModal, onClose, onAddToCollection, onUpdateReview, o
       // Convert the rating from string to int
       const ratingInt = parseInt(rating)
 
-      // Check if the rating is a valid number
-      if (isNaN(ratingInt)) {
-        setErrorMessage("Rating must be a number between 0 and 100")
-        return
-      }
-
       // Execute the appropriate mutation based on whether it's an update or add
       const response = isUpdate
         ? await onUpdateReview({
@@ -98,7 +92,7 @@ function WhiskeyEntry({ showModal, onClose, onAddToCollection, onUpdateReview, o
       <Modal.Header>
         <div className='flex flex-col text-center'>
           <h1>{isUpdate ? "Update Review" : "Add Whiskey to Collection"}</h1>
-          <p className='text-sm px-4'>Enter your review of this whiskey here, you can come back and update this at anytime! The only required entry is the rating.</p>
+          <p className='text-sm px-4'>Enter your review of this whiskey here, you can come back and update this at anytime!</p>
         </div>
       </Modal.Header>
       <Modal.Body>
@@ -136,7 +130,6 @@ function WhiskeyEntry({ showModal, onClose, onAddToCollection, onUpdateReview, o
                   }}
                   min="0"
                   max="100"
-                  required
                 />
               </label>
             </div>

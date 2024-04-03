@@ -66,12 +66,6 @@ function UserWhiskeyEntry({ showModal, onClose, onUpdateUserWhiskey, onSuccess, 
             // Convert the rating from string to int
             const ratingInt = parseInt(rating)
 
-            // Check if the rating is a valid number
-            if (isNaN(ratingInt)) {
-                setErrorMessage("Rating must be a number between 0 and 100")
-                return
-            }
-
             const whiskeyInput = {
                 name: whiskeyName,
                 type: type,
@@ -146,7 +140,7 @@ function UserWhiskeyEntry({ showModal, onClose, onUpdateUserWhiskey, onSuccess, 
             <Modal.Header>
                 <div className='flex flex-col text-center'>
                     <h1>{isUpdate ? "Update Whiskey" : "Create Whiskey"}</h1>
-                    <p className='text-sm px-4'>Enter all of the details and your review of this whiskey here, you can come back and update this at anytime! The only required entries are the name and rating.</p>
+                    <p className='text-sm px-4'>Enter all of the details and your review of this whiskey here, you can come back and update this at anytime! The only required entry is the name.</p>
                 </div>
             </Modal.Header>
             <Modal.Body>
