@@ -68,6 +68,46 @@ a {
 }
 
 /* CUSTOM CLASSES */
+.custom-tooltip-container {
+    position: relative;
+    display: inline-block;
+}
+
+.custom-tooltip-content {
+    position: absolute;
+    bottom: calc(100% + 8px);
+    left: 50%;
+    transform: translateX(-48%);
+    background-color: #333;
+    color: #fff;
+    padding: 6px;
+    border-radius: 4px;
+    font-size: 13px;
+    opacity: 0.9;
+    z-index: 999;
+    white-space: normal; 
+    word-wrap: break-word;
+    text-align: center;
+    pointer-events: none;
+    visibility: visible;
+
+    &::after {
+        content: '';
+        position: absolute;
+        top: 100%;
+        left: 50%;
+        border: solid transparent;
+        border-width: 6px;
+        border-top-color: #333;
+        transform: translateX(-50%);
+      }
+}
+
+.custom-tooltip-trigger {
+    display: inline-block;
+    cursor: pointer;
+}
+
 header {
     background-color: $theme-dark;
     width: 100% !important;

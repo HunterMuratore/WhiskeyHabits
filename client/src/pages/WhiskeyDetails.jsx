@@ -11,9 +11,10 @@ import LoadingSpinner from "../components/LoadingSpinner"
 import SuccessMessage from "../components/SuccessMessage"
 import ErrorMessage from "../components/ErrorMessage"
 import WhiskeyEntry from "../components/WhiskeyEntry"
+import Tooltip from "../components/Tooltip"
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faTag } from '@fortawesome/free-solid-svg-icons'
+import { faTag, faCircleArrowLeft } from '@fortawesome/free-solid-svg-icons'
 
 function WhiskeyDetails() {
     const { whiskeyId } = useParams()
@@ -126,16 +127,20 @@ function WhiskeyDetails() {
     return (
         <section className="flex flex-col whiskey-details">
             <button className="mr-auto mt-6">
-                <NavLink to="/whiskeys" className="flex text-xs sm:text-sm items-center">
-                    <span className="mr-2">&larr;</span> Back to Whiskeys
-                </NavLink>
+                <Tooltip content="Whiskeys">
+                    <NavLink to="/whiskeys" className="text-lg sm:text-xl">
+                        <FontAwesomeIcon icon={faCircleArrowLeft} size="lg" />
+                    </NavLink>
+                </Tooltip>
             </button>
-            <h2 className="text-center font-bold text-xl sm:text-3xl mt-6 mb-6">{whiskey.name}
-                <span className="shop-icon ml-2 text-sm sm:text-xl">
-                    <a href={googleShopSearchURL} target="_blank" rel="noopener noreferrer">
-                        <FontAwesomeIcon icon={faTag} />
-                    </a>
-                </span>
+            <h2 className="text-center font-bold text-xl sm:text-3xl mt-3 mb-6">{whiskey.name}
+                <Tooltip content="Google Shop">
+                    <span className="shop-icon font-normal ml-2 text-sm sm:text-xl">
+                        <a href={googleShopSearchURL} target="_blank" rel="noopener noreferrer">
+                            <FontAwesomeIcon icon={faTag} />
+                        </a>
+                    </span>
+                </Tooltip>
             </h2>
 
             <div className="flex items-center justify-center gap-3 mx-auto text-center mb-4">
@@ -207,7 +212,11 @@ function WhiskeyDetails() {
                 </div>
             </div>
 
-            <h3 className="text-xl sm:text-3xl font-bold"><a href={whiskey.link} target="_blank" rel="noopener noreferrer" className="whiskey-raiders">WhiskeyRaiders</a> House Review:</h3>
+            <h3 className="text-xl sm:text-3xl font-bold">
+                <Tooltip content="whiskeyraiders.com">
+                    <a href={whiskey.link} target="_blank" rel="noopener noreferrer" className="whiskey-raiders mr-2">WhiskeyRaiders</a>
+                </Tooltip>
+                House Review:</h3>
             <div className="my-4 text-sm sm:text-xl">
                 <p className="font-semibold">Intro:</p>
                 <p className="ml-2">{whiskey.houseReviews.intro}</p>

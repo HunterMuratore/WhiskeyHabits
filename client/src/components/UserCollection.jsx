@@ -12,6 +12,7 @@ import LoadingSpinner from './LoadingSpinner'
 import WhiskeyEntry from './WhiskeyEntry'
 import SuccessMessage from './SuccessMessage'
 import ConfirmationModal from './ConfirmationModal'
+import Tooltip from './Tooltip'
 
 function UserCollection({ user }) {
     const [openIndex, setOpenIndex] = useState(null)
@@ -128,14 +129,18 @@ function UserCollection({ user }) {
                                 <div>
                                     <h3 className="sm:text-lg text-sm font-bold">{whiskey.whiskey.name}</h3>
                                     <div className='flex items-center'>
-                                        <NavLink to={`/whiskeys/${whiskey.whiskey._id}`}>
-                                            <FontAwesomeIcon icon={faArrowUpRightFromSquare} />
-                                        </NavLink>
-                                        <span className="sm:text-lg text-sm font-bold ml-2">
-                                            <a href={`https://www.google.com/search?q=${encodeURIComponent(whiskey.whiskey.name)}&tbm=shop`} target="_blank" rel="noopener noreferrer">
-                                                <FontAwesomeIcon icon={faTag} />
-                                            </a>
-                                        </span>
+                                        <Tooltip content="Whiskey Details">
+                                            <NavLink to={`/whiskeys/${whiskey.whiskey._id}`}>
+                                                <FontAwesomeIcon icon={faArrowUpRightFromSquare} />
+                                            </NavLink>
+                                        </Tooltip>
+                                        <Tooltip content="Google Shop">
+                                            <span className="sm:text-lg text-sm font-bold ml-2">
+                                                <a href={`https://www.google.com/search?q=${encodeURIComponent(whiskey.whiskey.name)}&tbm=shop`} target="_blank" rel="noopener noreferrer">
+                                                    <FontAwesomeIcon icon={faTag} />
+                                                </a>
+                                            </span>
+                                        </Tooltip>
                                     </div>
                                 </div>
                             </div>

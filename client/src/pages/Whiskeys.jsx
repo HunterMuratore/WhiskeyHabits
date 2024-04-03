@@ -8,6 +8,7 @@ import LoadingSpinner from '../components/LoadingSpinner'
 import Pagination from '../components/Pagination'
 import WhiskeyTable from '../components/WhiskeyTable'
 import FiltersModal from '../components/FiltersModal'
+import Tooltip from '../components/Tooltip'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faMagnifyingGlass, faX, faFilter, faCaretDown, faCaretUp } from '@fortawesome/free-solid-svg-icons'
@@ -61,6 +62,7 @@ function Whiskeys() {
     const [perPageDropdownOpen, setPerPageDropdownOpen] = useState(false)
     const inputRef = useRef(null)
     const isSmallScreen = useMediaQuery({ maxWidth: 410 })
+    const isMedScreen = useMediaQuery({ maxWidth: 600 })
 
     // Query to get all the whiskeys for the table depending on user's search/filter criteria
     const { loading, error, data, fetchMore, refetch } = useQuery(GET_WHISKEYS, {
@@ -136,11 +138,13 @@ function Whiskeys() {
 
     const handleSearch = () => {
         const value = inputRef.current.value
-        setSearchTerm(value)
-        setSearchActive(true)
-        setCurrentPage(1)
-        setAutocompleteResults([])
-        setShowAutocompleteResults(false)
+        if (value) {
+            setSearchTerm(value)
+            setSearchActive(true)
+            setCurrentPage(1)
+            setAutocompleteResults([])
+            setShowAutocompleteResults(false)
+        }
     }
 
     const handleDebouncedSearch = () => {
@@ -201,7 +205,7 @@ function Whiskeys() {
 
     return (
         <section className="whiskeys mt-8 mb-4">
-            <div className="whiskeys-filters flex flex-nowrap gap-1 items-center justify-between mb-2">
+            <div className="whiskeys-filters flex flex-nowrap gap-1 items-top justify-between mb-2">
 
                 {/* Search input */}
                 <div className='flex flex-col gap-2'>
@@ -216,12 +220,16 @@ function Whiskeys() {
                                 onKeyDown={handleEnterKeyPress}
                                 onChange={handleDebouncedSearch}
                             />
-                            <button className={`${isSmallScreen ? 'text-xs ml-1' : 'ml-2'}`} onClick={handleSearch}>
-                                <FontAwesomeIcon icon={faMagnifyingGlass} />
-                            </button>
-                            <button className={`${isSmallScreen ? 'text-xs ml-1' : 'ml-2'}`} onClick={handleClearSearch}>
-                                <FontAwesomeIcon icon={faX} />
-                            </button>
+                            <Tooltip content="Search">
+                                <button className={`${isSmallScreen ? 'text-xs ml-1' : 'ml-2'}`} onClick={handleSearch}>
+                                    <FontAwesomeIcon icon={faMagnifyingGlass} />
+                                </button>
+                            </Tooltip>
+                            <Tooltip content="Clear">
+                                <button className={`${isSmallScreen ? 'text-xs ml-1' : 'ml-2'}`} onClick={handleClearSearch}>
+                                    <FontAwesomeIcon icon={faX} />
+                                </button>
+                            </Tooltip>
                         </div>
                         {showAutocompleteResults && (
                             <div className={`absolute right-auto left-0 mt-1 ${isSmallScreen ? 'text-xs w-48' : 'w-96'} bg-white border border-gray-300 rounded`}>
@@ -242,11 +250,6 @@ function Whiskeys() {
                         )}
 
                     </div>
-                    {searchActive && (
-                        <div className={`${isSmallScreen ? 'text-xs ml-1' : 'text-sm ml-2'}`}>
-                            <p>Searching for: <span className='font-semibold'>{searchTerm}</span></p>
-                        </div>
-                    )}
                 </div>
 
                 {/* Filters modal */}
@@ -298,13 +301,27 @@ function Whiskeys() {
             </div>
 
             {/* Reset filters */}
-            <div>
-                <button className="reset text-xs sm:text-sm mb-2 mx-3" onClick={() => {
+            <div className='flex items-center justify-between my-3'>
+                <button className={`reset ${isSmallScreen ? 'text-xs mx-2' : 'text-sm mx-3'}`} onClick={() => {
                     handleResetFilters()
                     handleClearSearch()
                 }}>
                     Reset Filters
                 </button>
+                <div className={`${isSmallScreen ? 'text-xs mx-2' : 'text-sm mx-3'} `}>
+                    {searchActive && (
+                        <p>
+                            Searching for:{" "}
+                            <span className='font-semibold'>
+                                {isMedScreen ? (
+                                    searchTerm.length > 20 ? searchTerm.substring(0, 20) + "..." : searchTerm
+                                ) : (
+                                    searchTerm
+                                )}
+                            </span>
+                        </p>
+                    )}
+                </div>
             </div>
 
             {/* Table to display whiskeys */}
