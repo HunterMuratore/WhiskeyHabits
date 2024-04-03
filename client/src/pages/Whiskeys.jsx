@@ -9,9 +9,10 @@ import Pagination from '../components/Pagination'
 import WhiskeyTable from '../components/WhiskeyTable'
 import FiltersModal from '../components/FiltersModal'
 import Tooltip from '../components/Tooltip'
+import PerPage from '../components/PerPage'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faMagnifyingGlass, faX, faFilter, faCaretDown, faCaretUp } from '@fortawesome/free-solid-svg-icons'
+import { faMagnifyingGlass, faX, faFilter } from '@fortawesome/free-solid-svg-icons'
 
 const whiskeyTypes = [
     { value: '', label: 'All Types' },
@@ -248,7 +249,6 @@ function Whiskeys() {
                                 </ul>
                             </div>
                         )}
-
                     </div>
                 </div>
 
@@ -269,35 +269,7 @@ function Whiskeys() {
                 </div>
 
                 {/* Per page dropdown */}
-                <div className="relative">
-                    <div className="flex w-16 items-center">
-                        <button
-                            className={`py-1 border border-gray-300 rounded ${isSmallScreen ? 'text-xs' : ''}`}
-                            style={isSmallScreen ? { width: '55px' } : { width: '70px' }}
-                            onClick={() => setPerPageDropdownOpen(!perPageDropdownOpen)}
-                        >
-                            {perPage} <FontAwesomeIcon icon={perPageDropdownOpen ? faCaretUp : faCaretDown} className="ml-1" />
-                        </button>
-                    </div>
-                    {perPageDropdownOpen && (
-                        <div className="absolute right-0 left-auto mt-1 w-12 bg-white border border-gray-300 rounded">
-                            <ul>
-                                <li className="cursor-pointer p-2 hover:bg-gray-100" onClick={() => {
-                                    handlePerPageChange(20)
-                                    setPerPageDropdownOpen(false)
-                                }}>20</li>
-                                <li className="cursor-pointer p-2 hover:bg-gray-100" onClick={() => {
-                                    handlePerPageChange(50)
-                                    setPerPageDropdownOpen(false)
-                                }}>50</li>
-                                <li className="cursor-pointer p-2 hover:bg-gray-100" onClick={() => {
-                                    handlePerPageChange(100)
-                                    setPerPageDropdownOpen(false)
-                                }}>100</li>
-                            </ul>
-                        </div>
-                    )}
-                </div>
+                <PerPage perPage={perPage} handlePerPageChange={handlePerPageChange} page1={20} page2={50} page3={100} />
             </div>
 
             {/* Reset filters */}

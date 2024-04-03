@@ -26,7 +26,9 @@ const Pagination = ({ currentPage, totalPages, onPageChange }) => {
                     >
                         1
                     </button>
-                    <button className="mx-2 inactive">...</button>
+                    {currentPage != 3 && (
+                        <button className="mx-2 inactive">...</button>
+                    )}
                 </>
             )}
 
@@ -47,13 +49,17 @@ const Pagination = ({ currentPage, totalPages, onPageChange }) => {
             {/* Render ellipsis and last page button if currentPage is less than totalPages */}
             {currentPage < totalPages - 1 && (
                 <>
-                    <button className="mx-2 inactive">...</button>
-                    <button
-                        className="mx-2"
-                        onClick={() => onPageChange(totalPages)}
-                    >
-                        {totalPages}
-                    </button>
+                    {currentPage != totalPages - 2 && (
+                        <button className="mx-2 inactive">...</button>
+                    )}
+                    {totalPages > 3 && (
+                        <button
+                            className="mx-2"
+                            onClick={() => onPageChange(totalPages)}
+                        >
+                            {totalPages}
+                        </button>
+                    )}
                 </>
             )}
 
