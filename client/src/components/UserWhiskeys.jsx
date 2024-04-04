@@ -27,6 +27,8 @@ function UserWhiskeys({ user }) {
     const [whiskeyToDelete, setWhiskeyToDelete] = useState(null)
     const [perPage, setPerPage] = useState(5)
     const [currentPage, setCurrentPage] = useState(1)
+    const [searchTerm, setSearchTerm] = useState('')
+    const [filteredWhiskeys, setFilteredWhiskeys] = useState([])
 
     // Query to fetch user by id
     const { loading, error, data, refetch } = useQuery(GET_USER_BY_ID, {
@@ -51,12 +53,25 @@ function UserWhiskeys({ user }) {
         }
     }, [loading, data])
 
+    useEffect(() => {
+        // Perform filtering when searchTerm changes
+        if (searchTerm) {
+            const filteredWhiskeys = userWhiskeys.filter(whiskey =>
+                whiskey.name.toLowerCase().includes(searchTerm.toLowerCase())
+            )
+            setFilteredWhiskeys(filteredWhiskeys)
+        } else {
+            // If searchTerm is empty, set filteredWhiskeys to the entire collection
+            setFilteredWhiskeys(userWhiskeys)
+        }
+    }, [searchTerm, userWhiskeys])
+
     if (loading) return <LoadingSpinner />
 
     // Pagination logic
     const indexOfFirstWhiskey = (currentPage - 1) * perPage
-    const indexOfLastWhiskey = Math.min(indexOfFirstWhiskey + perPage, userWhiskeys.length)
-    const currentWhiskeys = userWhiskeys.slice(indexOfFirstWhiskey, indexOfLastWhiskey)
+    const indexOfLastWhiskey = Math.min(indexOfFirstWhiskey + perPage, filteredWhiskeys.length)
+    const currentWhiskeys = filteredWhiskeys.slice(indexOfFirstWhiskey, indexOfLastWhiskey)
 
     const toggleDropdown = (index) => {
         setOpenIndex(openIndex === index ? null : index)
@@ -100,6 +115,15 @@ function UserWhiskeys({ user }) {
         setCurrentPage(1)
     }
 
+    const handleSearchChange = (e) => {
+        const { value } = e.target
+        setSearchTerm(value)
+    }
+
+    const handleClearSearch = () => {
+        setSearchTerm("")
+    }
+
     return (
         <section className="user-whiskeys flex flex-col justify-center">
             <div className="w-full grid grid-cols-1">
@@ -122,7 +146,19 @@ function UserWhiskeys({ user }) {
                 <div className="flex justify-between mb-2">
                     {/* Search bar */}
                     <div>
-
+                        <input
+                            type="text"
+                            placeholder="Search Whiskey..."
+                            value={searchTerm}
+                            onChange={handleSearchChange}
+                            className="border border-gray-300 rounded-md px-2 py-1"
+                            style={{ width: '200px' }}
+                        />
+                        <Tooltip content="Clear">
+                            <button className="ml-2" onClick={handleClearSearch}>
+                                <FontAwesomeIcon icon={faX} />
+                            </button>
+                        </Tooltip>
                     </div>
                     {/* Per page dropdown */}
                     <PerPage perPage={perPage} handlePerPageChange={handlePerPageChange} page1={5} page2={10} page3={20} />
@@ -225,10 +261,10 @@ function UserWhiskeys({ user }) {
                     </div>
                 ))}
                 {/* Pagination */}
-                {userWhiskeys.length > perPage && (
+                {filteredWhiskeys.length > perPage && (
                     <Pagination
                         currentPage={currentPage}
-                        totalPages={Math.ceil(userWhiskeys.length / perPage)}
+                        totalPages={Math.ceil(filteredWhiskeys.length / perPage)}
                         onPageChange={setCurrentPage}
                     />
                 )}
