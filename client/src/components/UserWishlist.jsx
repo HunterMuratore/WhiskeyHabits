@@ -18,6 +18,8 @@ function UserWishlist({ user }) {
     const [wishlistWhiskeys, setWishlistWhiskeys] = useState([])
     const [perPage, setPerPage] = useState(5)
     const [currentPage, setCurrentPage] = useState(1)
+    const [searchTerm, setSearchTerm] = useState('')
+    const [filteredWhiskeys, setFilteredWhiskeys] = useState([])
 
     // Query to fetch user's wishlist of whiskeys
     const { loading: wishlistLoading, error: wishlistError, data: wishlistData, refetch: refetchWishlist } = useQuery(GET_USER_WISHLIST_WHISKEYS, {
@@ -39,12 +41,25 @@ function UserWishlist({ user }) {
         }
     }, [wishlistLoading, wishlistData])
 
+    useEffect(() => {
+        // Perform filtering when searchTerm changes
+        if (searchTerm) {
+            const filteredWhiskeys = wishlistWhiskeys.filter(whiskey =>
+                whiskey.whiskey.name.toLowerCase().includes(searchTerm.toLowerCase())
+            )
+            setFilteredWhiskeys(filteredWhiskeys)
+        } else {
+            // If searchTerm is empty, set filteredWhiskeys to the entire collection
+            setFilteredWhiskeys(wishlistWhiskeys)
+        }
+    }, [searchTerm, wishlistWhiskeys])
+
     if (wishlistLoading) return <LoadingSpinner />
 
     // Pagination logic
     const indexOfFirstWhiskey = (currentPage - 1) * perPage
-    const indexOfLastWhiskey = Math.min(indexOfFirstWhiskey + perPage, wishlistWhiskeys.length)
-    const currentWhiskeys = wishlistWhiskeys.slice(indexOfFirstWhiskey, indexOfLastWhiskey)
+    const indexOfLastWhiskey = Math.min(indexOfFirstWhiskey + perPage, filteredWhiskeys.length)
+    const currentWhiskeys = filteredWhiskeys.slice(indexOfFirstWhiskey, indexOfLastWhiskey)
 
     const toggleDropdown = (index) => {
         setOpenIndex(openIndex === index ? null : index)
@@ -61,6 +76,15 @@ function UserWishlist({ user }) {
     const handlePerPageChange = (value) => {
         setPerPage(value)
         setCurrentPage(1)
+    }
+
+    const handleSearchChange = (e) => {
+        const { value } = e.target
+        setSearchTerm(value)
+    }
+
+    const handleClearSearch = () => {
+        setSearchTerm("")
     }
 
     return (
@@ -83,7 +107,19 @@ function UserWishlist({ user }) {
                 <div className="flex justify-between mb-2">
                     {/* Search bar */}
                     <div>
-
+                        <input
+                            type="text"
+                            placeholder="Search Whiskey..."
+                            value={searchTerm}
+                            onChange={handleSearchChange}
+                            className="border border-gray-300 rounded-md px-2 py-1"
+                            style={{ width: '200px' }}
+                        />
+                        <Tooltip content="Clear">
+                            <button className="ml-2" onClick={handleClearSearch}>
+                                <FontAwesomeIcon icon={faX} />
+                            </button>
+                        </Tooltip>
                     </div>
                     {/* Per page dropdown */}
                     <PerPage perPage={perPage} handlePerPageChange={handlePerPageChange} page1={5} page2={10} page3={20} />
@@ -167,10 +203,10 @@ function UserWishlist({ user }) {
                     </div>
                 ))}
                 {/* Pagination */}
-                {wishlistWhiskeys.length > perPage && (
+                {filteredWhiskeys.length > perPage && (
                     <Pagination
                         currentPage={currentPage}
-                        totalPages={Math.ceil(wishlistWhiskeys.length / perPage)}
+                        totalPages={Math.ceil(filteredWhiskeys.length / perPage)}
                         onPageChange={setCurrentPage}
                     />
                 )}
