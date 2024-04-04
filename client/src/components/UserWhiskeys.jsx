@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useQuery, useMutation } from '@apollo/client'
+import { useMediaQuery } from 'react-responsive'
 
 import { GET_USER_BY_ID } from '../utils/queries'
 import { UPDATE_USER_WHISKEY, REMOVE_USER_WHISKEY } from '../utils/mutations'
@@ -29,6 +30,7 @@ function UserWhiskeys({ user }) {
     const [currentPage, setCurrentPage] = useState(1)
     const [searchTerm, setSearchTerm] = useState('')
     const [filteredWhiskeys, setFilteredWhiskeys] = useState([])
+    const isSmallScreen = useMediaQuery({ maxWidth: 410 })
 
     // Query to fetch user by id
     const { loading, error, data, refetch } = useQuery(GET_USER_BY_ID, {
@@ -143,19 +145,19 @@ function UserWhiskeys({ user }) {
                     />
                 )}
 
-                <div className="flex justify-between mb-2">
+                <div className="flex flex-nowrap items-center justify-between mb-2">
                     {/* Search bar */}
-                    <div>
+                    <div className='flex flex-nowrap items-center'>
                         <input
                             type="text"
                             placeholder="Search Whiskey..."
                             value={searchTerm}
                             onChange={handleSearchChange}
                             className="border border-gray-300 rounded-md px-2 py-1"
-                            style={{ width: '200px' }}
+                            style={isSmallScreen ? { width: '150px' } : { width: '200px' }}
                         />
                         <Tooltip content="Clear">
-                            <button className="ml-2" onClick={handleClearSearch}>
+                            <button className="mx-2" onClick={handleClearSearch}>
                                 <FontAwesomeIcon icon={faX} />
                             </button>
                         </Tooltip>
