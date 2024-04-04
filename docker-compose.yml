@@ -13,6 +13,8 @@ services:
     depends_on:
       - mongo
     restart: unless-stopped
+    volumes:
+      - ./user_whiskey_images:/app/public/user_whiskey_images
 
   mongo:
     image: mongo:latest
