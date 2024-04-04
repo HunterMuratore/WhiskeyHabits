@@ -45,9 +45,13 @@ To get started with WhiskeyHabits, simply visit [whiskeyhabits.com](https://whis
 
 ![Whiskey Entry](images/Whiskey_entry.png)
 
-- To view the whiskeys in your collection go to the profile page. Here you will see all of the whiskeys in your collection listed out. Click on a whiskey to open the dropdown to see your review of the whiskey. You can edit your review or remove the whiskey from your collection if you need to.
+- To view the whiskeys in your collections go to the profile page. Here you will see all of the whiskeys in your collections listed out. Click on a whiskey to open the dropdown to see your review of the whiskey. You can edit your review or remove the whiskey from your collection if you need to.
 
-![User Collection](images/whiskey_profile.png)
+![User Collection](images/whiskey_profile_full.png)
+
+- Additionally you can even create your own custom whiskey if you cannot find your specific bottle in our database! Just click the "Create Custom Whiskey" button on your profile page and fill out the whiskey's details. You can edit this at any time, and don't forget to upload a picture of your bottle!
+
+![Custom Whiskey](images/whiskey_custom.png)
 
 ## Contributing
 
