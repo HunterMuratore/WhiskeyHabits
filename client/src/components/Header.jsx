@@ -49,7 +49,7 @@ function Header() {
 
                 {/* Hamburger menu icon for medium screens and below */}
                 <div className="lg:hidden py-3">
-                    <button onClick={toggleMenu}>
+                    <button className="hamburger" onClick={toggleMenu}>
                         {isOpen ? (
                             <svg
                                 className="w-6 h-6 transition-transform duration-500 transform rotate-90"
